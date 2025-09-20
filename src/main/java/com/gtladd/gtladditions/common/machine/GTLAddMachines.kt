@@ -52,13 +52,17 @@ object GTLAddMachines {
         MultiBlockModify.init()
     }
 
-    val GTLAdd_TOOLTIP: BiConsumer<ItemStack?, MutableList<Component?>?> =
+    val GTLAdd_ADD: BiConsumer<ItemStack?, MutableList<Component?>?> =
         BiConsumer { stack: ItemStack?, components: MutableList<Component?>? ->
             components!!.add(
-                Component.literal(TextUtil.full_color("由GTLAdditions添加"))
+                Component.literal(TextUtil.full_color(Component.translatable("gui.gtladditions.add").string))
                     .withStyle { style: Style? -> style!!.withColor(TooltipHelper.RAINBOW.current) }
             )
         }
+
+    val GTLAdd_MODIFY : Component =
+        Component.literal(TextUtil.full_color(Component.translatable("gui.gtladditions.modify").string))
+            .withStyle { style: Style? -> style!!.withColor(TooltipHelper.RAINBOW.current) }
 
     init {
         LASER_INPUT_HATCH_16777216A = GTMachines.registerLaserHatch(IO.IN, 16777216, PartAbility.INPUT_LASER)
@@ -116,7 +120,7 @@ object GTLAddMachines {
                 Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", Int.Companion.MAX_VALUE),
                 Component.translatable("gtceu.machine.steam.steam_hatch.tooltip")
             )
-            .tooltipBuilder(GTLAdd_TOOLTIP).compassSections(GTCompassSections.STEAM).compassNode("steam_hatch")
+            .tooltipBuilder(GTLAdd_ADD).compassSections(GTCompassSections.STEAM).compassNode("steam_hatch")
             .renderer {
                 OverlaySteamMachineRenderer(ResourceLocation("gtceu", "block/machine/part/steam_hatch"))
             }.register()
@@ -128,6 +132,6 @@ object GTLAddMachines {
             .tooltips(Component.translatable("gtceu.universal.tooltip.item_storage_capacity", 37))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", 24,
                     FormattingUtil.formatNumbers(Long.Companion.MAX_VALUE shr 12)))
-            .tooltipBuilder(GTLAdd_TOOLTIP).tier(14).register()
+            .tooltipBuilder(GTLAdd_ADD).tier(14).register()
     }
 }

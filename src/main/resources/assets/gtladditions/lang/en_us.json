@@ -50,5 +50,7 @@
   "item.gtladditions.primary_soc": "Primary Soc",
   "item.gtladditions.spacetime_lens": "Spacetime Lens",
   "material.gtladditions.gallium_oxide": "Gallium Oxide",
-  "material.gtladditions.ammonium_gallium_sulfate": "Ammonium Gallium Sulfate"
+  "material.gtladditions.ammonium_gallium_sulfate": "Ammonium Gallium Sulfate",
+  "gui.gtladditions.add": "Added by GTLAdditions",
+  "gui.gtladditions.modify": "Modified by GTLAdditions"
 }
