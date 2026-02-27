@@ -1,0 +1,9 @@
+{
+  "flip_v": true,
+  "loader": "forge:obj",
+  "model": "gtladditions:models/obj/emoji.obj",
+  "textures": {
+    "texture0": "gtladditions:block/obj/emoji",
+    "particle":"gtladditions:block/obj/emoji"
+  }
+}

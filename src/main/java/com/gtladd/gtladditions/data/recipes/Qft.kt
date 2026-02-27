@@ -1,28 +1,33 @@
 package com.gtladd.gtladditions.data.recipes
 
-import com.gregtechceu.gtceu.api.GTValues.*
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
-import com.gregtechceu.gtceu.common.data.GTMaterials.*
-import com.gtladd.gtladditions.GTLAdditions.id
-import net.minecraft.data.recipes.FinishedRecipe
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.QFT_RECIPES
-import org.gtlcore.gtlcore.utils.Registries.*
+
+import com.gregtechceu.gtceu.api.GTValues.MAX
+import com.gregtechceu.gtceu.api.GTValues.VA
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust
+import com.gregtechceu.gtceu.common.data.GTMaterials.*
+
+import net.minecraft.data.recipes.FinishedRecipe
+
+import com.gtladd.gtladditions.GTLAdditions.id
+import com.gtladd.gtladditions.utils.Registries.getItemStack
+
 import java.util.function.Consumer
 
 object Qft {
     @JvmStatic
-    fun init(provider : Consumer<FinishedRecipe?>) {
+    fun init(provider: Consumer<FinishedRecipe>) {
         QFT_RECIPES.recipeBuilder(id("resonating_gem"))
-            .notConsumable(getItemStack("kubejs:eternity_catalyst"))
+            .notConsumable("kubejs:eternity_catalyst".getItemStack())
             .inputItems(dust, Sapphire, 64)
-            .outputItems(getItemStack("kubejs:resonating_gem", 64))
+            .outputItems("kubejs:resonating_gem".getItemStack(64))
             .inputFluids(Mana.getFluid(10000))
             .inputFluids(Starlight.getFluid(10000))
             .inputFluids(Water.getFluid(10000000))
             .EUt(VA[14].toLong()).duration(1200).save(provider)
         QFT_RECIPES.recipeBuilder(id("gamma_rays_photoresist"))
-            .notConsumable(getItemStack("kubejs:spacetime_catalyst"))
+            .notConsumable("kubejs:spacetime_catalyst".getItemStack())
             .inputItems(dust, Flerovium, 16)
             .inputItems(dust, Lanthanum, 16)
             .inputItems(dust, UnfoldedFullerene, 16)
@@ -63,10 +68,10 @@ object Qft {
             .outputFluids(Radox.getFluid(10800))
             .EUt(VA[MAX] * 256L).duration(2560).save(provider)
         QFT_RECIPES.recipeBuilder(id("super_mutated_living_solder"))
-            .notConsumable(getItemStack("kubejs:spacetime_catalyst"))
-            .inputItems(getItemStack("kubejs:essence_seed", 256))
-            .inputItems(getItemStack("kubejs:draconium_dust", 256))
-            .inputItems(getItemStack("ae2:sky_dust", 256))
+            .notConsumable("kubejs:spacetime_catalyst".getItemStack())
+            .inputItems("kubejs:essence_seed".getItemStack(256))
+            .inputItems("kubejs:draconium_dust".getItemStack(256))
+            .inputItems("ae2:sky_dust".getItemStack(256))
             .inputItems(dust, NetherStar, 4)
             .inputFluids(MutatedLivingSolder.getFluid(100000))
             .inputFluids(Biomass.getFluid(1000000))

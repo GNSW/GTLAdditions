@@ -1,116 +1,165 @@
 package com.gtladd.gtladditions.common.machine.muiltblock.controller
 
-import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper
+import org.gtlcore.gtlcore.api.machine.multiblock.IModularMachineModule
+import org.gtlcore.gtlcore.common.data.GTLBlocks
+import org.gtlcore.gtlcore.common.machine.multiblock.electric.SpaceElevatorMachine
+import org.gtlcore.gtlcore.utils.MachineUtil
+
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine
-import com.gregtechceu.gtceu.utils.FormattingUtil
-import com.gtladd.gtladditions.api.machine.GTLAddWorkableElectricMultipleRecipesMachine
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
+import com.gregtechceu.gtceu.api.recipe.GTRecipe
+
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import net.minecraft.ChatFormatting
+
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
-import org.gtlcore.gtlcore.common.data.GTLBlocks
-import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine
-import org.gtlcore.gtlcore.common.machine.multiblock.electric.SpaceElevatorMachine
+import net.minecraft.server.level.ServerLevel
+
+import com.gtladd.gtladditions.api.machine.GTLAddWorkableElectricMultipleRecipesMachine
+import com.gtladd.gtladditions.api.machine.logic.GTLAddMultipleRecipesLogic
+import com.gtladd.gtladditions.api.recipe.FastRecipeModify
+import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
+import com.gtladd.gtladditions.utils.MathUtil.format
+import com.gtladd.gtladditions.utils.MathUtil.pow
+
 import kotlin.math.pow
 
 class AdvancedSpaceElevatorModuleMachine(holder: IMachineBlockEntity) :
-    GTLAddWorkableElectricMultipleRecipesMachine(holder) {
-        companion object {
-            val MANAGED_FIELD_HOLDER: ManagedFieldHolder =
-                ManagedFieldHolder(AdvancedSpaceElevatorModuleMachine::class.java, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER)
-        }
+    GTLAddWorkableElectricMultipleRecipesMachine(holder),
+    IModularMachineModule<SpaceElevatorMachine, AdvancedSpaceElevatorModuleMachine>,
+    IMachineLife {
+
+    @DescSynced
     private var spaceElevatorTier = 0
     private var moduleTier = 0
-    private var controller : BlockPos? = null
 
-    override fun getFieldHolder(): ManagedFieldHolder {
-        return MANAGED_FIELD_HOLDER
+    @Persisted
+    private var hostPosition: BlockPos? = null
+    private var host: SpaceElevatorMachine? = null
+
+    companion object {
+        val MANAGED_FIELD_HOLDER = ManagedFieldHolder(
+            AdvancedSpaceElevatorModuleMachine::class.java,
+            GTLAddWorkableElectricMultipleRecipesMachine.MANAGED_FIELD_HOLDER
+        )
     }
 
-    private fun getSpaceElevatorTier() {
-        if (controller != null) {
-            val logic = GTCapabilityHelper.getRecipeLogic(level!!, controller, null)
-            if (logic != null && logic.getMachine().definition === AdvancedMultiBlockMachine.SPACE_ELEVATOR) {
-                if (logic.isWorking && logic.getProgress() > 80) {
-                    spaceElevatorTier = (logic.machine as SpaceElevatorMachine).tier - 7
-                    moduleTier = (logic.machine as SpaceElevatorMachine).casingTier
-                } else if (!logic.isWorking) {
-                    spaceElevatorTier = 0
-                    moduleTier = 0
-                }
-            } else if (logic == null) {
-                spaceElevatorTier = 0
-                moduleTier = 0
-            }
-        } else {
-            val level = this.level
-            val pos = this.pos
-            val coordinates: Array<BlockPos?> = arrayOf<BlockPos>(
+    override fun createRecipeLogic(vararg args: Any) = AdvancedSpaceElevatorModuleMachineRecipeLogic(this)
+
+    override fun getHost(): SpaceElevatorMachine? = host
+
+    override fun setHost(host: SpaceElevatorMachine?) {
+        this.host = host
+    }
+
+    override fun getHostType(): Class<SpaceElevatorMachine> = SpaceElevatorMachine::class.java
+
+    override fun getHostPosition(): BlockPos? = hostPosition
+
+    override fun setHostPosition(pos: BlockPos?) {
+        this.hostPosition = pos
+    }
+
+    override fun getFieldHolder() = MANAGED_FIELD_HOLDER
+
+    override fun onConnected(host: SpaceElevatorMachine) {
+        getSpaceElevatorTier()
+        recipeLogic.updateTickSubscription()
+    }
+
+    override fun getHostScanPositions(): Array<out BlockPos> {
+        level.takeIf { it is ServerLevel }?.let {
+            val pos = getPos()
+            val coordinates = arrayOf(
                 pos.offset(8, -2, 3),
                 pos.offset(8, -2, -3),
                 pos.offset(-8, -2, 3),
                 pos.offset(-8, -2, -3),
                 pos.offset(3, -2, 8),
-                pos.offset(-3, -2, 8),
                 pos.offset(3, -2, -8),
+                pos.offset(-3, -2, 8),
                 pos.offset(-3, -2, -8)
-            ) as Array<BlockPos?>
+            )
+
             for (i in coordinates) {
-                if (level != null && level.getBlockState(i).block === GTLBlocks.POWER_CORE.get()) {
-                    val coordinatess: Array<BlockPos?> = arrayOf<BlockPos>(
-                        i!!.offset(3, 2, 0),
+                if (it.getBlockState(i).block == GTLBlocks.POWER_CORE.get()) {
+                    return arrayOf(
+                        i.offset(3, 2, 0),
                         i.offset(-3, 2, 0),
                         i.offset(0, 2, 3),
                         i.offset(0, 2, -3)
-                    ) as Array<BlockPos?>
-                    for (j in coordinatess) {
-                        val logic = GTCapabilityHelper.getRecipeLogic(level, j, null)
-                        if (logic != null && logic.getMachine().definition === AdvancedMultiBlockMachine.SPACE_ELEVATOR) {
-                            controller = j
-                            if (logic.isWorking && logic.getProgress() > 80) {
-                                this.spaceElevatorTier = (logic.machine as SpaceElevatorMachine).tier - 7
-                                this.moduleTier = (logic.machine as SpaceElevatorMachine).casingTier
-                            } else if (!logic.isWorking) {
-                                this.spaceElevatorTier = 0
-                                this.moduleTier = 0
-                            }
-                        }
-                    }
+                    )
                 }
             }
         }
+        return MachineUtil.EMPTY_POS_ARRAY
+    }
+
+    private fun getSpaceElevatorTier() {
+        host?.let {
+            val logic = it.recipeLogic
+            if (logic.isWorking && logic.progress > 80) {
+                spaceElevatorTier = it.tier - 7
+                moduleTier = it.casingTier
+            } else {
+                spaceElevatorTier = 0
+                moduleTier = 0
+            }
+            return
+        }
+        spaceElevatorTier = 0
+        moduleTier = 0
     }
 
     override fun onStructureFormed() {
         super.onStructureFormed()
-        getSpaceElevatorTier()
+        if (!findAndConnectToHost()) removeFromHost(this.host)
     }
+
+    override fun onStructureInvalid() {
+        super.onStructureInvalid()
+        removeFromHost(this.host)
+    }
+
+    override fun onPartUnload() {
+        super.onPartUnload()
+        removeFromHost(this.host)
+    }
+
+    override fun onMachineRemoved() = removeFromHost(this.host)
 
     override fun onWorking(): Boolean {
         val value = super.onWorking()
         if (this.offsetTimer % 10L == 0L) {
             this.getSpaceElevatorTier()
-            if (this.spaceElevatorTier < 1) getRecipeLogic().setProgress(0)
+            if (this.spaceElevatorTier < 1) recipeLogic.progress = recipeLogic.progress - 2
         }
         return value
     }
 
-    override fun addDisplayText(textList: MutableList<Component?>) {
+    override fun addDisplayText(textList: MutableList<Component>) {
         super.addDisplayText(textList)
-        if (this.isFormed) {
-            if (this.offsetTimer % 10L == 0L) this.getSpaceElevatorTier()
-            textList.add(
-                Component.translatable("gtceu.multiblock.parallel", Component.translatable(FormattingUtil.formatNumbers(maxParallel))
-                        .withStyle(ChatFormatting.DARK_PURPLE))
-                    .withStyle(ChatFormatting.GRAY)
-            )
-            textList.add(Component.translatable((if (this.spaceElevatorTier < 1) "未" else "已") + "连接正在运行的太空电梯"))
+        this.takeIf { it.isFormed }?.let {
+            offsetTimer.takeIf { it % 10L == 0L }?.let { this.getSpaceElevatorTier() }
+            textList.add(("tooltip.gtlcore.space_elevator" + (if (spaceElevatorTier < 1) "_not" else "") + "_connected").toComponent)
+            textList.add(Component.translatable("gtceu.machine.duration_multiplier.tooltip", .8.pow(spaceElevatorTier - 1).format(2)))
         }
     }
 
-    override fun getMaxParallel(): Int {
-        return 8.0.pow((this.moduleTier - 1).toDouble()).toInt()
-    }
+    override fun getOverClock(): FastRecipeModify.OverClockFactor = FastRecipeModify.OverClockFactor(0.5, 4.0)
 
+    override fun modifyRecipe(recipe: GTRecipe): FastRecipeModify.ReduceResult = FastRecipeModify.ReduceResult(1.0, .8.pow(spaceElevatorTier - 1))
+
+    override fun getMaxParallel(): Int = 8.pow(this.moduleTier - 1)
+
+    class AdvancedSpaceElevatorModuleMachineRecipeLogic(val asemMachine: AdvancedSpaceElevatorModuleMachine) :
+        GTLAddMultipleRecipesLogic(asemMachine) {
+
+        override fun checkRecipe(recipe: GTRecipe): Boolean {
+            if (asemMachine.spaceElevatorTier < 1) asemMachine.getSpaceElevatorTier()
+            return asemMachine.spaceElevatorTier >= 1 && super.checkRecipe(recipe)
+        }
+    }
 }

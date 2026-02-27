@@ -1,61 +1,52 @@
-package com.gtladd.gtladditions;
+package com.gtladd.gtladditions
 
-import com.gregtechceu.gtceu.api.addon.GTAddon;
-import com.gregtechceu.gtceu.api.addon.IGTAddon;
-import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.gregtechceu.gtceu.api.addon.GTAddon
+import com.gregtechceu.gtceu.api.addon.IGTAddon
+import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate
 
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.FinishedRecipe
 
-import com.gtladd.gtladditions.api.registry.GTLAddRegistration;
-import com.gtladd.gtladditions.common.items.GTLAddItems;
-import com.gtladd.gtladditions.common.machine.GTLAddMachines;
-import com.gtladd.gtladditions.data.recipes.*;
-import com.gtladd.gtladditions.data.recipes.newmachinerecipe.*;
-import com.gtladd.gtladditions.data.recipes.process.SocProcess;
+import com.gtladd.gtladditions.api.registry.GTLAddRegistration
+import com.gtladd.gtladditions.common.machine.GTLAddMachines
+import com.gtladd.gtladditions.common.register.GTLAddItems
+import com.gtladd.gtladditions.data.recipes.*
+import com.gtladd.gtladditions.data.recipes.newmachinerecipe.*
+import com.gtladd.gtladditions.data.recipes.process.SocProcess
 
-import java.util.function.Consumer;
+import java.util.function.Consumer
 
 @GTAddon
-public class GTLAdditionsGTAddon implements IGTAddon {
+class GTLAdditionsGTAddon : IGTAddon {
 
-    public GTLAdditionsGTAddon() {}
+    override fun getRegistrate(): GTRegistrate = GTLAddRegistration.REGISTRATE
 
-    @Override
-    public GTRegistrate getRegistrate() {
-        return GTLAddRegistration.REGISTRATE;
+    override fun addonModId(): String = GTLAdditions.MOD_ID
+
+    override fun initializeAddon() {
+        GTLAddItems.init()
+        GTLAddMachines.init()
     }
 
-    @Override
-    public void initializeAddon() {
-        GTLAddItems.init();
-        GTLAddMachines.init();
-    }
-
-    @Override
-    public String addonModId() {
-        return GTLAdditions.MOD_ID;
-    }
-
-    @Override
-    public void addRecipes(Consumer<FinishedRecipe> provider) {
-        AntientropyCondensation.init(provider);
-        ChaoticAlchemy.init(provider);
-        PhotonMatrixEtch.init(provider);
-        EMResonanceConversionField.init(provider);
-        TitansCripEarthbore.init(provider);
-        BiologicalSimulation.init(provider);
-        VoidfluxReaction.init(provider);
-        StellarLgnition.init(provider);
-        ChaosWeave.init(provider);
-        AE2.init(provider);
-        Assembler.init(provider);
-        AssemblyLine.init(provider);
-        Distort.init(provider);
-        ElectricBlastFurnace.init(provider);
-        IntegratedtedOreProcessor.init(provider);
-        NewMultiBlockMachineController.init(provider);
-        Qft.init(provider);
-        SocProcess.init(provider);
-        Misc.init(provider);
+    override fun addRecipes(provider: Consumer<FinishedRecipe>) {
+        ChaoticAlchemy.init(provider)
+        PhotonMatrixEtch.init(provider)
+        EMResonanceConversionField.init(provider)
+        TitansCripEarthbore.init(provider)
+        BiologicalSimulation.init(provider)
+        VoidfluxReaction.init(provider)
+        StellarLgnition.init(provider)
+        ChaosWeave.init(provider)
+        FractalReconstruction.init(provider)
+        AE2.init(provider)
+        Assembler.init(provider)
+        AssemblyLine.init(provider)
+        Distort.init(provider)
+        ElectricBlastFurnace.init(provider)
+        IntegratedtedOreProcessor.init(provider)
+        NewMachineRecipe1.init(provider)
+        NewMachineRecipe2.init(provider)
+        Qft.init(provider)
+        SocProcess.init(provider)
+        Misc.init(provider)
     }
 }

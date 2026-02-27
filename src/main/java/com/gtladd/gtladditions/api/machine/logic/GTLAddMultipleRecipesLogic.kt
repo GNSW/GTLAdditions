@@ -1,162 +1,124 @@
-package com.gtladd.gtladditions.api.machine.logic;
+package com.gtladd.gtladditions.api.machine.logic
 
-import org.gtlcore.gtlcore.api.machine.multiblock.ParallelMachine;
-import org.gtlcore.gtlcore.api.recipe.*;
-import org.gtlcore.gtlcore.common.machine.trait.MultipleRecipesLogic;
+import org.gtlcore.gtlcore.api.machine.ISuspendableMachine
+import org.gtlcore.gtlcore.api.machine.trait.IRecipeStatus
+import org.gtlcore.gtlcore.api.recipe.RecipeRunnerHelper.*
+import org.gtlcore.gtlcore.common.machine.trait.MultipleRecipesLogic
 
-import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe
+import com.gregtechceu.gtceu.api.recipe.lookup.GTRecipeLookup
 
-import com.google.common.primitives.Ints;
-import com.gtladd.gtladditions.api.machine.IGTLAddMultiRecipe;
-import it.unimi.dsi.fastutil.objects.*;
-import org.jetbrains.annotations.NotNull;
+import com.gtladd.gtladditions.api.machine.GTLAddWorkableElectricMultipleRecipesMachine
+import com.gtladd.gtladditions.api.recipe.FastRecipeModify
+import com.gtladd.gtladditions.api.recipe.MultiGTRecipeLookup
+import com.gtladd.gtladditions.utils.GTRecipeUtils.euTier
+import com.gtladd.gtladditions.utils.GTRecipeUtils.getMultipleRecipe
+import com.gtladd.gtladditions.utils.GTRecipeUtils.getOverclockRecipe
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 
-import java.util.*;
-import java.util.function.BiPredicate;
+open class GTLAddMultipleRecipesLogic(private val gtlAddMachine: GTLAddWorkableElectricMultipleRecipesMachine) :
+    MultipleRecipesLogic(gtlAddMachine), IRecipeStatus {
 
-import javax.annotation.Nullable;
-
-import static org.gtlcore.gtlcore.api.recipe.RecipeRunnerHelper.*;
-
-public class GTLAddMultipleRecipesLogic extends MultipleRecipesLogic {
-
-    private final IGTLAddMultiRecipe limited;
-
-    private static final int MAX_THREADS = 128;
-
-    protected BiPredicate<GTRecipe, IRecipeLogicMachine> beforeWorking;
-
-    public GTLAddMultipleRecipesLogic(ParallelMachine parallel) {
-        super(parallel);
-        this.limited = (IGTLAddMultiRecipe) parallel;
-    }
-
-    public GTLAddMultipleRecipesLogic(ParallelMachine parallel, BiPredicate<GTRecipe, IRecipeLogicMachine> beforeWorking) {
-        super(parallel);
-        this.limited = (IGTLAddMultiRecipe) parallel;
-        this.beforeWorking = beforeWorking;
-    }
-
-    @Override
-    public void findAndHandleRecipe() {
-        lastRecipe = null;
-        var match = getGTRecipe();
-        if (match != null && matchRecipeOutput(machine, match)) {
-            setupRecipe(match);
+    override fun findAndHandleRecipe() {
+        lastRecipe = null
+        recipeStatus = null
+        (if (gtlAddMachine.isMultipleMode) this.getMultipleRecipe else this.getOverclockRecipe)?.let { recipe ->
+            if (matchRecipeOutput(machine, recipe)) setupRecipe(recipe)
         }
     }
 
-    @Nullable
-    protected GTRecipe getGTRecipe() {
-        if (!machine.hasProxies()) return null;
-        long maxEUt = getMachine().getOverclockVoltage();
-        if (maxEUt <= 0) return null;
-        var recipes = this.lookupRecipeIterator();
-        int length = recipes.size();
-        if (length == 0) return null;
-        long parallel = this.getParallel().getMaxParallel();
-        long[] parallels = new long[length];
-        int index = 0;
-        long remaining = parallel * MAX_THREADS;
-        var queue = new ObjectArrayFIFOQueue<RecipeData>(length);
-        var recipeList = new ObjectArrayList<GTRecipe>(length);
-        for (var r : recipes) {
-            if (r == null) continue;
-            long p = IParallelLogic.getMaxParallel(this.machine, r, parallel * MAX_THREADS);
-            if (p <= 0) continue;
-            recipeList.add(r);
-            parallels[index] = Math.min(p, parallel * MAX_THREADS / length);
-            if (p > parallels[index]) queue.enqueue(new RecipeData(index, p - parallels[index]));
-            remaining -= parallels[index++];
-        }
-        if (recipeList.isEmpty()) return null;
-        while (remaining > 0 && !queue.isEmpty()) {
-            var recipeData = queue.dequeue();
-            long canGive = remaining / (queue.size() + 1);
-            if (canGive > 0) {
-                long give = Math.min(recipeData.remainingWant, canGive);
-                parallels[recipeData.index] += give;
-                remaining -= give;
-                long newRemaining = recipeData.remainingWant - give;
-                if (newRemaining > 0) queue.enqueue(new RecipeData(recipeData.index, newRemaining));
-            } else break;
-        }
-        index = 0;
-        if (this.beforeWorking != null && !this.beforeWorking.test(null, machine)) return null;
-        GTRecipe recipe = GTRecipeBuilder.ofRaw().buildRawRecipe();
-        recipe.outputs.put(ItemRecipeCapability.CAP, new ObjectArrayList<>());
-        recipe.outputs.put(FluidRecipeCapability.CAP, new ObjectArrayList<>());
-        double euMultiplier = this.getEuMultiplier();
-        long totalEu = 0;
-        for (var r : recipeList) {
-            if (parallels[index] > 1) r = r.copy(ContentModifier.multiplier(parallels[index]), false);
-            r.parallels = Ints.saturatedCast(parallels[index++]);
-            r = IParallelLogic.getRecipeOutputChance(machine, r);
-            if (handleRecipeInput(machine, r)) {
-                totalEu += (long) (RecipeHelper.getInputEUt(r) * r.duration * euMultiplier);
-                var item = r.outputs.get(ItemRecipeCapability.CAP);
-                if (item != null) recipe.outputs.get(ItemRecipeCapability.CAP).addAll(item);
-                var fluid = r.outputs.get(FluidRecipeCapability.CAP);
-                if (fluid != null) recipe.outputs.get(FluidRecipeCapability.CAP).addAll(fluid);
-            }
-            if (totalEu / maxEUt > 20 * 500) break;
-        }
-        if (recipe.outputs.get(ItemRecipeCapability.CAP).isEmpty() && recipe.outputs.get(FluidRecipeCapability.CAP).isEmpty()) {
-            if (totalEu / maxEUt > 20 * 500) RecipeResult.of(machine, RecipeResult.FAIL_NO_ENOUGH_EU_IN);
-            return null;
-        }
-        int minDuration = limited.getLimitedDuration();
-        double d = (double) totalEu / maxEUt;
-        long eut = d > minDuration ? maxEUt : (long) (maxEUt * d / minDuration);
-        recipe.tickInputs.put(EURecipeCapability.CAP, List.of(
-                new Content(eut, 10000, 10000, 0, null, null)));
-        recipe.duration = (int) Math.max(d, minDuration);
-        IGTRecipe.of(recipe).setHasTick(true);
-        return recipe;
-    }
+    val getMultipleRecipe: GTRecipe?
+        get() = gtlAddMachine.getMultipleRecipe(
+            lookupRecipeIterator(),
+            ::testBefore,
+            gtlAddMachine::modifyRecipe,
+            128,
+            gtlAddMachine.limitedDuration
+        )
 
-    private @NotNull Set<GTRecipe> lookupRecipeIterator() {
-        if (this.isLock()) {
-            if (this.getLockRecipe() == null) this.setLockRecipe(machine.getRecipeType().getLookup()
-                    .find(machine, this::checkRecipe));
-            else if (!checkRecipe(this.getLockRecipe())) return Collections.emptySet();
-            return Collections.singleton(this.getLockRecipe());
+    val getOverclockRecipe: GTRecipe?
+        get() = gtlAddMachine.getOverclockRecipe(
+            ::findAndModifyRecipe,
+            ::testBefore,
+            128,
+            gtlAddMachine.limitedDuration
+        )
+
+    private fun lookupRecipeIterator(): MutableSet<GTRecipe> {
+        if (this.isLock) {
+            val recipe = when {
+                lockRecipe == null -> getLookup().find(machine, ::checkRecipe)
+                checkRecipe(lockRecipe) -> lockRecipe
+                else -> return mutableSetOf<GTRecipe>()
+            } ?: return mutableSetOf<GTRecipe>()
+            return mutableSetOf(recipe)
         } else {
-            var iterator = machine.getRecipeType().getLookup().getRecipeIterator(machine, this::checkRecipe);
-            var recipeSet = new ObjectOpenHashSet<GTRecipe>();
-            while (iterator.hasNext()) recipeSet.add(iterator.next());
-            recipeSet.remove(null);
-            return recipeSet;
+            val recipeSet = ObjectOpenHashSet<GTRecipe>()
+            val lookup = getLookup()
+            if (lookup is MultiGTRecipeLookup) {
+                recipeSet.addAll(lookup.getMultiRecipeIterator(machine, ::checkRecipe).multipleRecipes)
+            } else {
+                val iterator = lookup.getRecipeIterator(machine, ::checkRecipe)
+                while (iterator.hasNext()) recipeSet.add(iterator.next())
+            }
+            recipeSet.remove(null)
+            return recipeSet
         }
     }
 
-    @Override
-    public void onRecipeFinish() {
-        machine.afterWorking();
-        if (lastRecipe != null) {
-            handleRecipeOutput(machine, lastRecipe);
+    private fun findAndModifyRecipe(parallel: Long): GTRecipe? {
+        if (this.isLock) {
+            val recipe = when {
+                lockRecipe == null -> getLookup().find(machine, ::checkRecipe)
+                checkRecipe(lockRecipe) -> lockRecipe
+                else -> return null
+            } ?: return null
+            FastRecipeModify.modify(
+                gtlAddMachine,
+                recipe,
+                parallel,
+                ocResult = gtlAddMachine.getOverClock(),
+                reResult = gtlAddMachine::modifyRecipe
+            )?.let { if (checkRecipe(it)) return it }
+        } else {
+            getLookup().find(machine, ::checkRecipe)?.let { recipe ->
+                FastRecipeModify.modify(
+                    gtlAddMachine,
+                    recipe,
+                    parallel,
+                    ocResult = gtlAddMachine.getOverClock(),
+                    reResult = gtlAddMachine::modifyRecipe
+                )?.let { if (checkRecipe(it)) return it }
+            }
         }
-        var match = getGTRecipe();
-        if (match != null && matchRecipeOutput(machine, match)) {
-            setupRecipe(match);
-            return;
-        }
-        setStatus(Status.IDLE);
-        progress = 0;
-        duration = 0;
+        return null
     }
 
-    protected boolean checkRecipe(GTRecipe recipe) {
-        return matchRecipe(machine, recipe) &&
-                IGTRecipe.of(recipe).getEuTier() <= getMachine().getTier() &&
-                recipe.checkConditions(machine.getRecipeLogic()).isSuccess();
+    open fun getLookup(): GTRecipeLookup = machine.recipeType.lookup
+
+    open fun testBefore(obj: Object) = true
+
+    override fun onRecipeFinish() {
+        lastRecipe?.let { handleRecipeOutput(machine, it) }
+        if (machine is ISuspendableMachine) {
+            val ism = machine as ISuspendableMachine
+            if (ism.`gtlcore$isSuspendAfterFinish`()) {
+                this.status = Status.SUSPEND
+                ism.`gtlcore$setSuspendAfterFinish`(false)
+            } else {
+                (if (gtlAddMachine.isMultipleMode) this.getMultipleRecipe else this.getOverclockRecipe)?.let { recipe ->
+                    if (matchRecipeOutput(machine, recipe)) {
+                        setupRecipe(recipe)
+                        return
+                    }
+                }
+                status = Status.IDLE
+            }
+        }
+        progress = 0
+        duration = 0
     }
 
-    record RecipeData(int index, long remainingWant) {}
+    open fun checkRecipe(recipe: GTRecipe) = matchRecipe(machine, recipe) &&
+        recipe.euTier <= getMachine().getTier() && recipe.checkConditions(machine.recipeLogic).isSuccess
 }

@@ -1,9 +1,17 @@
 package com.gtladd.gtladditions.common.machine.muiltblock.controller
 
+import org.gtlcore.gtlcore.api.data.tag.GTLTagPrefix.nanoswarm
+import org.gtlcore.gtlcore.api.pattern.util.IValueContainer
+import org.gtlcore.gtlcore.api.recipe.IParallelLogic
+import org.gtlcore.gtlcore.common.data.GTLMaterials.*
+import org.gtlcore.gtlcore.common.machine.multiblock.electric.TierCasingMachine
+
 import com.gregtechceu.gtceu.api.GTCEuAPI
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.block.ICoilType
-import com.gregtechceu.gtceu.api.capability.recipe.*
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability
+import com.gregtechceu.gtceu.api.capability.recipe.IO
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.MetaMachine
@@ -11,109 +19,112 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier
 import com.gregtechceu.gtceu.api.recipe.logic.OCParams
 import com.gregtechceu.gtceu.api.recipe.logic.OCResult
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic
 import com.gregtechceu.gtceu.common.block.CoilBlock
 import com.gregtechceu.gtceu.common.data.GTMaterials
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder
-import com.gregtechceu.gtceu.utils.GTUtil
-import com.gtladd.gtladditions.GTLAdditions
-import com.hepdd.gtmthings.data.CreativeMachines
+
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
-import it.unimi.dsi.fastutil.ints.IntArrayList
-import it.unimi.dsi.fastutil.objects.ObjectArrayList
+
+import net.minecraft.ChatFormatting
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraftforge.common.util.Lazy
-import org.gtlcore.gtlcore.api.pattern.util.IValueContainer
-import org.gtlcore.gtlcore.common.data.GTLMaterials
-import org.gtlcore.gtlcore.common.machine.multiblock.electric.TierCasingMachine
-import org.gtlcore.gtlcore.utils.Registries
+
+import com.gtladd.gtladditions.api.recipe.ContentList
+import com.gtladd.gtladditions.utils.ComponentUtil.literal
+import com.gtladd.gtladditions.utils.GTRecipeUtils.copy
+import com.gtladd.gtladditions.utils.GTRecipeUtils.setEU
+import com.gtladd.gtladditions.utils.MathUtil.cbrt
+import com.gtladd.gtladditions.utils.MathUtil.ln
+import com.gtladd.gtladditions.utils.MathUtil.minToLong
+import com.gtladd.gtladditions.utils.MathUtil.pow
+import com.gtladd.gtladditions.utils.MathUtil.random
+import com.gtladd.gtladditions.utils.MathUtil.sqrt
+import com.hepdd.gtmthings.data.CreativeMachines
+import it.unimi.dsi.fastutil.ints.IntArrayList
+
 import java.text.DecimalFormat
 import javax.annotation.ParametersAreNonnullByDefault
-import kotlin.math.*
+import kotlin.math.exp
+import kotlin.math.pow
+import kotlin.math.sqrt
+import kotlin.math.tanh
+import kotlin.streams.toList
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 open class TaixuTurbidArray(holder: IMachineBlockEntity) : TierCasingMachine(holder, "SCTier"), IMachineModifyDrops {
     @Persisted
-    val machineStorage: NotifiableItemStackHandler
-    private var coilType: ICoilType
+    val machineStorage: NotifiableItemStackHandler = NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH) { object : ItemStackTransfer(1) {} }.setFilter(::filter)
+    private var coilType: ICoilType = CoilBlock.CoilType.CUPRONICKEL
     private var height = 0
-    protected fun createMachineStorage(): NotifiableItemStackHandler {
-        val handler = NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH) { slots: Int? ->
-            object : ItemStackTransfer(1) {}
-        }
-        handler.setFilter { itemStack: ItemStack? -> this.filter(itemStack!!) }
-        return handler
+    private var frameA = .0
+    private var frameB = .0
+
+    override fun createUIWidget(): Widget = (super.createUIWidget() as WidgetGroup).let {
+        return it.addWidget(
+            (
+                SlotWidget(
+                    this.machineStorage.storage,
+                    0,
+                    it.sizeWidth - 30,
+                    it.sizeHeight - 30,
+                    true,
+                    true
+                )
+                )
+                .setBackground(GuiTextures.SLOT)
+        )
     }
 
-    override fun createUIWidget(): Widget {
-        val widget = super.createUIWidget()
-        if (widget is WidgetGroup) {
-            val size = widget.size
-            widget.addWidget(
-                (SlotWidget(this.machineStorage.storage, 0, size.width - 30, size.height - 30, true, true))
-                    .setBackground(GuiTextures.SLOT).setHoverTooltips(this.slotTooltips())
-            )
-        }
-        return widget
-    }
+    protected fun filter(itemStack: ItemStack) = itemStack.`is`(EnderiumNano) || itemStack.`is`(DraconiumNano) ||
+        itemStack.`is`(SpacetimeNano) || itemStack.`is`(EternityNano) || itemStack.`is`(CREATE)
 
-    protected fun filter(itemStack: ItemStack): Boolean {
-        val item = itemStack.item
-        return ENDERIUM.`is`(item) || DRACONIUM.`is`(item) || SPACETIME.`is`(item) || ETERNITY.`is`(item) || CREATE.`is`(item)
-    }
-
-    override fun onDrops(drops: MutableList<ItemStack?>) {
-        this.clearInventory(this.machineStorage.storage)
-    }
-
-    private fun slotTooltips(): MutableList<Component?> {
-        val tooltip: MutableList<Component?> = ArrayList()
-        tooltip.add(Component.translatable("gtceu.machine.taixu.storage.tooltip.0"))
-        tooltip.add(Component.translatable("gtceu.machine.taixu.storage.tooltip.1"))
-        tooltip.add(Component.translatable("gtceu.machine.taixu.storage.tooltip.2"))
-        tooltip.add(Component.translatable("gtceu.machine.taixu.storage.tooltip.3"))
-        tooltip.add(Component.translatable("gtceu.machine.taixu.storage.tooltip.4"))
-        tooltip.add(Component.translatable("gtceu.machine.taixu.storage.tooltip.5"))
-        tooltip.add(Component.translatable("gtceu.machine.taixu.storage.tooltip.6"))
-        return tooltip
-    }
+    override fun onDrops(drops: MutableList<ItemStack>) = this.clearInventory(this.machineStorage.storage)
 
     override fun onStructureFormed() {
         super.onStructureFormed()
         val context = this.multiblockState.matchContext
-        val type = context.get<Any?>("CoilType")
-        if (type is ICoilType) this.coilType = type
-        val speedPipe = context.getOrCreate("SpeedPipeValue") { IValueContainer.noop() }.getValue()
-        if (speedPipe is Int) this.height = speedPipe - 2
+        this.coilType = context.get("CoilType")
+        (context.getOrCreate("SpeedPipeValue") { IValueContainer.noop() }.getValue() as Int).let { this.height = it - 2 }
+        this.frameA = 8.0 * (2.pow(this.casingTier) - 1) * sqrt(this.tier + 1)
+        this.frameB = 3.8 * 1.3.pow(coil.indexOf(this.coilType.coilTemperature) + 1) * (this.coilType.coilTemperature / 36000).pow(0.7)
     }
 
-    override fun beforeWorking(recipe: GTRecipe?): Boolean {
-        return true
+    override fun onStructureInvalid() {
+        super.onStructureInvalid()
+        this.coilType = CoilBlock.CoilType.CUPRONICKEL
+        this.height = 0
+        this.frameA = .0
+        this.frameB = .0
     }
 
-    override fun addDisplayText(textList: MutableList<Component?>) {
+    override fun beforeWorking(recipe: GTRecipe?): Boolean = true
+
+    override fun addDisplayText(textList: MutableList<Component>) {
         super.addDisplayText(textList)
         if (this.isFormed) {
             textList.add(Component.translatable("gtceu.machine.taixu.gui.tooltip.0", this.height))
             textList.add(Component.translatable("gtceu.machine.taixu.gui.tooltip.1", this.getMaxParallel()))
-            if (this.energyTier > GTValues.UIV) {
+            textList.add(
+                Component.translatable(
+                    "gtceu.multiblock.blast_furnace.max_temperature",
+                    "${coilType.coilTemperature}K".literal.setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
+                )
+            )
+            if (this.tier > GTValues.UIV) {
                 val df = DecimalFormat(".00'%'")
                 textList.add(Component.translatable("gtceu.machine.taixu.gui.tooltip.2", df.format(this.successRateA())))
                 textList.add(Component.translatable("gtceu.machine.taixu.gui.tooltip.3", this.baseOutputFluid1()))
-                if (this.energyTier > GTValues.OpV) {
+                if (this.tier > GTValues.OpV) {
                     textList.add(Component.translatable("gtceu.machine.taixu.gui.tooltip.4", df.format(this.successRateB())))
                     textList.add(Component.translatable("gtceu.machine.taixu.gui.tooltip.5", this.baseOutputFluid2()))
                 }
@@ -121,102 +132,70 @@ open class TaixuTurbidArray(holder: IMachineBlockEntity) : TierCasingMachine(hol
         }
     }
 
-    private fun frameA(): Double {
-        return 8.0 * (2.0.pow(this.casingTier.toDouble()) - 1) * sqrt((GTValues.ALL_TIERS[this.energyTier] + 1).toDouble())
+    private fun successRateA(): Double = if (machineStorage.getStackInSlot(0).`is`(CREATE)) {
+        100.0
+    } else {
+        (100 / (1 + exp(-0.1 * (this.frameA / 50 + this.frameB / 100 + this.height / 9))) + this.slotAdd)
     }
 
-    private fun frameB(): Double {
-        return 3.8 * 1.3.pow(
-            (coil.get().indexOf(this.coilType.coilTemperature) + 1).toDouble()
-        ) * (this.coilType.coilTemperature / 36000.0).pow(0.7)
+    private fun successRateB(): Double = if (machineStorage.getStackInSlot(0).`is`(CREATE)) {
+        100.0
+    } else {
+        (100 * (1 - exp(-.02 * ((this.frameA + this.frameB) / 20 + cbrt(this.height) * this.tier / 7))) + this.slotAdd)
     }
 
-    private fun successRateA(): Double {
-        if (machineStorage.getStackInSlot(0).`is`(CREATE.item)) return 100.toDouble()
-        return (100 / (1 + exp(-0.1 * (this.frameA() / 50 + this.frameB() / 100 + this.height / 9.0))) + this.slotAdd)
-    }
+    private fun baseOutputFluid1(): Int = (4096 * (1 - exp(-0.015 * (this.frameA * this.height / 16 + this.frameB * ln(this.tier + 2))))).toInt()
 
-    private fun successRateB(): Double {
-        if (machineStorage.getStackInSlot(0).`is`(CREATE.item)) return 100.toDouble()
-        return (100 * (1 - exp(-0.02 * ((this.frameA() + this.frameB()) / 20.0 + cbrt(this.height.toDouble()) * this.energyTier / 7.0))) + this.slotAdd)
-    }
+    private fun baseOutputFluid2(): Int = (2250 * tanh(sqrt(this.frameA * this.frameB) * (this.height + this.tier) * 0.06 / 200)).toInt()
 
-    private fun baseOutputFluid1(): Int {
-        return (4096 * (1 - exp(-0.015 * (this.frameA() * this.height / 16.0 + this.frameB() * ln((this.energyTier + 2).toDouble()))))).toInt()
+    fun getMaxParallel(): Int = if (machineStorage.getStackInSlot(0).`is`(CREATE)) {
+        3.pow(16)
+    } else {
+        (4096 * 1.621.pow(this.coilType.coilTemperature.toDouble() / 6400)).toInt()
     }
-
-    private fun baseOutputFluid2(): Int {
-        return (2250 * tanh(sqrt(this.frameA() * this.frameB()) * (this.height + this.energyTier) * 0.06 / 200.0)).toInt()
-    }
-
-    fun getMaxParallel(): Int {
-        if (machineStorage.getStackInSlot(0).`is`(CREATE.item)) return 3.toDouble().pow(16).toInt()
-        return (4096 * 1.621.pow((this.coilType.coilTemperature.toDouble() / 6400))).toInt()
-    }
-
-    private val energyTier: Int
-        get() = GTUtil.getFloorTierByVoltage(this.maxVoltage).toInt()
 
     private val slotAdd: Double
         get() {
             val item = this.machineStorage.storage.getStackInSlot(0).item
             val amount = this.machineStorage.storage.getStackInSlot(0).count
-            if (ENDERIUM.`is`(item)) return 0.01 * amount
-            else if (DRACONIUM.`is`(item)) return 0.05 * amount
-            else if (SPACETIME.`is`(item)) return 0.1 * amount
-            else if (ETERNITY.`is`(item)) return 0.2 * amount
-            return 0.0
+            return when (item) {
+                EnderiumNano -> .01 * amount
+                DraconiumNano -> .05 * amount
+                SpacetimeNano -> .1 * amount
+                EternityNano -> .2 * amount
+                else -> .0
+            }
         }
 
-    override fun getFieldHolder(): ManagedFieldHolder {
-        return MANAGED_FIELD_HOLDER
-    }
-
-    init {
-        this.machineStorage = createMachineStorage()
-        this.coilType = CoilBlock.CoilType.CUPRONICKEL
-    }
+    override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
 
     companion object {
         val MANAGED_FIELD_HOLDER: ManagedFieldHolder =
             ManagedFieldHolder(TaixuTurbidArray::class.java, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER)
-        private val coil: Lazy<IntArrayList> = Lazy.of {
-            IntArrayList(
-                GTCEuAPI.HEATING_COILS.keys.stream().map<Int?> { obj: ICoilType? -> obj!!.coilTemperature }
-                    .sorted().toList())
-        }
-        private val ENDERIUM: ItemStack = Registries.getItemStack("gtceu:enderium_nanoswarm", 64)
-        private val DRACONIUM: ItemStack = Registries.getItemStack("gtceu:draconium_nanoswarm", 64)
-        private val SPACETIME: ItemStack = Registries.getItemStack("gtceu:spacetime_nanoswarm", 64)
-        private val ETERNITY: ItemStack = Registries.getItemStack("gtceu:eternity_nanoswarm", 64)
-        private val CREATE: ItemStack = CreativeMachines.CREATIVE_ENERGY_INPUT_HATCH.asStack()
+        private val coil: IntArrayList by lazy { IntArrayList(GTCEuAPI.HEATING_COILS.keys.stream().mapToInt { it.coilTemperature }.sorted().toList()) }
+        private val EnderiumNano = ChemicalHelper.get(nanoswarm, Enderium).item
+        private val DraconiumNano = ChemicalHelper.get(nanoswarm, Draconium).item
+        private val SpacetimeNano = ChemicalHelper.get(nanoswarm, SpaceTime).item
+        private val EternityNano = ChemicalHelper.get(nanoswarm, Eternity).item
+        private val CREATE: Item by lazy { CreativeMachines.CREATIVE_ENERGY_INPUT_HATCH.asStack().item }
 
         fun recipeModifier(machine: MetaMachine, recipe: GTRecipe, params: OCParams, result: OCResult): GTRecipe? {
-            if (machine is TaixuTurbidArray) {
-                var recipe1 = recipe.copy()
-                var maxParallel = ParallelLogic.getMaxRecipeMultiplier(recipe1, machine, machine.getMaxParallel())
+            (machine as TaixuTurbidArray).let {
+                val maxParallel = IParallelLogic.getMaxParallel(it, recipe, it.getMaxParallel().toLong())
                 if (maxParallel <= 0) return null
-                val builder = GTRecipeBuilder(GTLAdditions.id("uu"), GTRecipeTypes.DUMMY_RECIPES)
-                recipe1.outputs.put(FluidRecipeCapability.CAP, ObjectArrayList())
-                if (Math.random() * 100 <= machine.successRateA().toInt() && machine.energyTier >= GTValues.UXV) {
-                    builder.outputFluids(GTLMaterials.UuAmplifier.getFluid(machine.baseOutputFluid1().toLong()))
+                val fluidList = ContentList(2)
+                if (100.random() <= it.successRateA().toInt() && it.tier >= GTValues.UXV) {
+                    fluidList.addMaxChanceContent(UuAmplifier.getFluid(it.baseOutputFluid1().toLong()))
                 }
-                if (Math.random() * 100 <= machine.successRateB().toInt() && machine.energyTier >= GTValues.MAX) {
-                    builder.outputFluids(GTMaterials.UUMatter.getFluid(machine.baseOutputFluid2().toLong()))
+                if (100.random() <= it.successRateB().toInt() && it.tier >= GTValues.MAX) {
+                    fluidList.addMaxChanceContent(GTMaterials.UUMatter.getFluid(it.baseOutputFluid2().toLong()))
                 }
-                if (builder.buildRawRecipe().outputs[FluidRecipeCapability.CAP] != null) {
-                    recipe1.outputs[FluidRecipeCapability.CAP]!!
-                        .addAll(builder.buildRawRecipe().outputs[FluidRecipeCapability.CAP]!!)
-                }
-                val minParallel = ParallelLogic.limitByOutputMerging(recipe1, machine, machine.getMaxParallel()
-                ) { capability: RecipeCapability<*>? -> machine.canVoidRecipeOutputs(capability) }
-                if (minParallel < maxParallel) maxParallel = minParallel
-                recipe1 = recipe1.copy(ContentModifier.multiplier(maxParallel.toDouble()), false)
-                recipe1.duration = 100
-                RecipeHelper.setInputEUt(recipe1, 524288L * GTValues.V[machine.energyTier])
-                return recipe1
+                if (!fluidList.isEmpty) recipe.outputs.put(FluidRecipeCapability.CAP, fluidList)
+                val minParallel = IParallelLogic.getMinParallel(it, recipe, maxParallel)
+                val copy = recipe.copy(it, (maxParallel minToLong minParallel), 100)
+                copy.setEU(524288L * GTValues.V[it.tier])
+                return copy
             }
-            return null
         }
     }
 }

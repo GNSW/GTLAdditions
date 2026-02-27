@@ -1,5 +1,6 @@
 package com.gtladd.gtladditions.mixin.gtlcore.machine;
 
+import org.gtlcore.gtlcore.api.machine.ISteamMachine;
 import org.gtlcore.gtlcore.common.data.GTLMachines;
 import org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineA;
 import org.gtlcore.gtlcore.common.machine.multiblock.steam.LargeSteamParallelMultiblockMachine;
@@ -7,48 +8,51 @@ import org.gtlcore.gtlcore.common.machine.multiblock.steam.LargeSteamParallelMul
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IVoidable;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.steam.SteamEnergyRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 
+import com.gtladd.gtladditions.api.recipe.ContentList;
 import com.gtladd.gtladditions.common.machine.GTLAddMachines;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import com.gtladd.gtladditions.utils.GTRecipeUtils;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 @Mixin(LargeSteamParallelMultiblockMachine.class)
-public class LargeSteamParallelMultiblockMachineMixin extends WorkableMultiblockMachine {
+public class LargeSteamParallelMultiblockMachineMixin extends WorkableMultiblockMachine implements ISteamMachine, IVoidable {
 
     public LargeSteamParallelMultiblockMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
     @Unique
+    private static final Map<RecipeCapability<?>, Integer> OutputLimited = Map.of(ItemRecipeCapability.CAP, 4);
+    @DescSynced
+    @Unique
     private boolean gtladditions$isLarge;
+    @DescSynced
     @Unique
     private boolean gtladditions$isHuge;
+    @Unique
+    private boolean gtladditions$isMacerator;
     @Shadow(remap = false)
     private boolean isOC;
     @Shadow(remap = false)
@@ -66,11 +70,12 @@ public class LargeSteamParallelMultiblockMachineMixin extends WorkableMultiblock
         if (machine instanceof LargeSteamParallelMultiblockMachineMixin machine1) {
             boolean isHuge = machine1.gtladditions$isHuge;
             boolean isLarge = machine1.gtladditions$isLarge;
-            if (RecipeHelper.getInputEUt(recipe) > (long) (isHuge ? 512 : (isLarge ? 128 : 32))) return null;
-            GTRecipe result = GTRecipeModifiers.accurateParallel(machine, recipe, machine1.max_parallels, false).getFirst();
+            if (GTRecipeUtils.INSTANCE.getGetEU(recipe) > (isHuge ? 512 : (isLarge ? 128 : 32))) return null;
+            var result = GTRecipeModifiers.accurateParallel(machine, recipe, machine1.max_parallels, false).getFirst();
             recipe = result == recipe ? result.copy() : result;
             if (isHuge) reductionDuration = 0.0;
-            if (machine1.getDefinition() == MultiBlockMachineA.DIMENSIONALLY_TRANSCENDENT_STEAM_OVEN) recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) Math.max(1.0, (double) RecipeHelper.getInputEUt(recipe) * 0.01), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+            if (machine1.getDefinition() == MultiBlockMachineA.DIMENSIONALLY_TRANSCENDENT_STEAM_OVEN) recipe.tickInputs.put(EURecipeCapability.CAP,
+                    ContentList.Companion.getEUtList(Math.max(1.0, GTRecipeUtils.INSTANCE.getGetEU(recipe) * 0.01)));
             recipe.duration = (int) Math.max(1.0, (double) recipe.duration * reductionDuration / (isLarge ? Math.pow(2.0, machine1.amountOC) : 1.0));
         }
         return recipe;
@@ -83,23 +88,21 @@ public class LargeSteamParallelMultiblockMachineMixin extends WorkableMultiblock
     @Overwrite(remap = false)
     public void onStructureFormed() {
         super.onStructureFormed();
-        List<IRecipeHandler<?>> handlers = this.capabilitiesProxy.get(IO.IN, FluidRecipeCapability.CAP);
+        var handlers = this.capabilitiesProxy.get(IO.IN, FluidRecipeCapability.CAP);
         if (handlers != null) {
-            Iterator<IRecipeHandler<?>> itr = handlers.iterator();
+            var itr = handlers.iterator();
             while (itr.hasNext()) {
-                IRecipeHandler<?> handler = itr.next();
+                var handler = itr.next();
                 if (handler instanceof NotifiableFluidTank tank) {
                     if (tank.getFluidInTank(0).isFluidEqual(GTMaterials.Steam.getFluid(1L))) {
                         gtladditions$isLarge = tank.getMachine().getDefinition() == GTLMachines.LARGE_STEAM_HATCH;
                         gtladditions$isHuge = tank.getMachine().getDefinition() == GTLAddMachines.HUGE_STEAM_HATCH;
                         this.isOC = gtladditions$isLarge || gtladditions$isHuge;
-                        Object2IntMap<RecipeCapability<?>> recipeOutputLimits = new Object2IntOpenHashMap<>();
-                        recipeOutputLimits.put(ItemRecipeCapability.CAP, gtladditions$isHuge ? 3 : 1);
-                        MultiBlockMachineA.LARGE_STEAM_MACERATOR.setRecipeOutputLimits(recipeOutputLimits);
+                        this.gtladditions$isMacerator = this.self().getDefinition() == MultiBlockMachineA.LARGE_STEAM_MACERATOR;
                         itr.remove();
-                        if (!this.capabilitiesProxy.contains(IO.IN, EURecipeCapability.CAP)) this.capabilitiesProxy.put(IO.IN, EURecipeCapability.CAP, new ArrayList<>());
-                        (Objects.requireNonNull(this.capabilitiesProxy.get(IO.IN, EURecipeCapability.CAP)))
-                                .add(new SteamEnergyRecipeHandler(tank, 0.5 * (gtladditions$isHuge ? 250.0 : (gtladditions$isLarge ? Math.pow(3.0, amountOC) : 1.0))));
+                        this.capabilitiesProxy.put(IO.IN, EURecipeCapability.CAP,
+                                List.of(new SteamEnergyRecipeHandler(tank, 0.5 *
+                                        (gtladditions$isHuge ? 250.0 : (gtladditions$isLarge ? Math.pow(3.0, amountOC) : 1.0)))));
                         return;
                     }
                 }
@@ -119,5 +122,16 @@ public class LargeSteamParallelMultiblockMachineMixin extends WorkableMultiblock
                     .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "ocAdd")));
         }
         ci.cancel();
+    }
+
+    @Override
+    public double getConversionRate() {
+        return 0.5 * (gtladditions$isHuge ? 250.0 : (gtladditions$isLarge ? Math.pow(3.0, amountOC) : 1.0));
+    }
+
+    @Override
+    public Map<RecipeCapability<?>, Integer> getOutputLimits() {
+        if (this.gtladditions$isMacerator && this.gtladditions$isHuge) return OutputLimited;
+        else return this.self().getDefinition().getRecipeOutputLimits();
     }
 }

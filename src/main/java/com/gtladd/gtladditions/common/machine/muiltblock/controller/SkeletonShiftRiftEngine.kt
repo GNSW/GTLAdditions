@@ -1,78 +1,59 @@
 package com.gtladd.gtladditions.common.machine.muiltblock.controller
 
-import com.gregtechceu.gtceu.api.machine.*
-import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine
-import com.gregtechceu.gtceu.api.recipe.*
-import com.gregtechceu.gtceu.api.recipe.logic.*
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic
-import com.gregtechceu.gtceu.utils.FormattingUtil
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.DECAY_HASTENER_RECIPES
+
+import com.gregtechceu.gtceu.api.block.ICoilType
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
+import com.gregtechceu.gtceu.api.recipe.GTRecipe
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType
+import com.gregtechceu.gtceu.common.block.CoilBlock
+
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
+import net.minecraft.network.chat.Style
 
-class SkeletonShiftRiftEngine(holder: IMachineBlockEntity) : CoilWorkableElectricMultiblockMachine(holder) {
-    @Persisted
-    private var casingTier: Int = 0
-    @Persisted
-    private var parallel = 0
+import com.gtladd.gtladditions.api.machine.GTLAddWorkableElectricMultipleRecipeTypeMachine
+import com.gtladd.gtladditions.api.recipe.FastRecipeModify
+import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes.SkeletonShiftRiftEngineType
+import com.gtladd.gtladditions.utils.ComponentUtil.literal
+import com.gtladd.gtladditions.utils.MathUtil.minToInt
+import com.gtladd.gtladditions.utils.MathUtil.pow
+
+class SkeletonShiftRiftEngine(holder: IMachineBlockEntity) : GTLAddWorkableElectricMultipleRecipeTypeMachine(holder) {
+    private var casingTier = 0
+    private var coilType: ICoilType = CoilBlock.CoilType.CUPRONICKEL
 
     override fun onStructureFormed() {
         super.onStructureFormed()
+        this.coilType = multiblockState.matchContext.get("CoilType")
         this.casingTier = multiblockState.matchContext.get("SCTier")
-        parallel = getParallel()
     }
 
     override fun onStructureInvalid() {
         super.onStructureInvalid()
+        this.coilType = CoilBlock.CoilType.CUPRONICKEL
         this.casingTier = 0
-        parallel = 0
     }
 
-    override fun addDisplayText(textList: MutableList<Component?>) {
+    override fun addDisplayText(textList: MutableList<Component>) {
         super.addDisplayText(textList)
-        if (!this.isFormed) return
         textList.add(
             Component.translatable(
-                "gtceu.multiblock.parallel",
-                Component.literal(FormattingUtil.formatNumbers(parallel))
-                    .withStyle(ChatFormatting.DARK_PURPLE)
+                "gtceu.multiblock.blast_furnace.max_temperature",
+                "${coilType.coilTemperature}K".literal.setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
             )
-                .withStyle(ChatFormatting.GRAY)
         )
         textList.add(Component.translatable("gtceu.casings.tier", this.casingTier))
     }
 
-    private fun getParallel(): Int {
-        return min(
-            Int.Companion.MAX_VALUE.toDouble(),
-            2.0.pow(this.coilType.coilTemperature.toDouble() / 1200)
-        ).toInt()
-    }
+    override val multiRecipeTypes: Array<GTRecipeType> = arrayOf(DECAY_HASTENER_RECIPES, SkeletonShiftRiftEngineType)
 
-    override fun getFieldHolder(): ManagedFieldHolder {
-        return MANAGED_FIELD_HOLDER
-    }
+    override fun parallel() = Int.MAX_VALUE minToInt 2.pow(this.coilType.coilTemperature / 1200)
 
-    companion object {
-        fun recipeModifier(machine: MetaMachine?, recipe: GTRecipe, params: OCParams, result: OCResult): GTRecipe? {
-            if (machine is SkeletonShiftRiftEngine) {
-                val pair = ParallelLogic.applyParallel(machine, recipe, machine.parallel, false)
-                if (pair.getFirst() == null || pair.getSecond()!! <= 0) return null
-                val recipe1 = pair.getFirst()
-                recipe1.duration = max(recipe1.duration / machine.casingTier, 1)
-                return RecipeHelper.applyOverclock(
-                    OverclockingLogic.PERFECT_OVERCLOCK,
-                    recipe1, machine.getOverclockVoltage(), params, result
-                )
-            }
-            return null
-        }
-        val MANAGED_FIELD_HOLDER: ManagedFieldHolder =
-            ManagedFieldHolder(SkeletonShiftRiftEngine::class.java, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER)
-    }
+    override fun modifyRecipe(recipe: GTRecipe): GTRecipe? = FastRecipeModify.modify(
+        this,
+        recipe,
+        parallel().toLong(),
+        ocResult = FastRecipeModify.getPerfectOverclock()
+    ) { FastRecipeModify.ReduceResult(1.0, 1.0 / this.casingTier) }
 }

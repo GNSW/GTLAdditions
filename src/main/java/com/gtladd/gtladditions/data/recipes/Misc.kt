@@ -1,48 +1,129 @@
 package com.gtladd.gtladditions.data.recipes
 
-import com.gregtechceu.gtceu.api.GTValues
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix
-import com.gregtechceu.gtceu.common.data.GTMaterials
-import com.gtladd.gtladditions.GTLAdditions
-import dev.latvian.mods.kubejs.KubeJS
+import org.gtlcore.gtlcore.common.data.GTLItems
+import org.gtlcore.gtlcore.common.data.GTLItems.WORLD_FRAGMENTS_BARNARDA
+import org.gtlcore.gtlcore.common.data.GTLMaterials.*
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.DECAY_HASTENER_RECIPES
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.WORLD_DATA_SCANNER_RECIPES
+import org.gtlcore.gtlcore.common.recipe.condition.GravityCondition
+import org.gtlcore.gtlcore.config.ConfigHolder
+
+import com.gregtechceu.gtceu.api.GTValues.*
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
+import com.gregtechceu.gtceu.common.data.GTItems.*
+import com.gregtechceu.gtceu.common.data.GTMaterials.PCBCoolant
+import com.gregtechceu.gtceu.common.data.GTMaterials.Titanium
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
+import com.gregtechceu.gtceu.data.recipe.CustomTags
+
 import net.minecraft.data.recipes.FinishedRecipe
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.level.block.Blocks
-import org.gtlcore.gtlcore.common.data.GTLMaterials
-import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.*
-import org.gtlcore.gtlcore.utils.Registries.getItemStack
+import net.minecraft.world.item.Items
+
+import appeng.core.definitions.AEItems
+import com.gtladd.gtladditions.GTLAdditions.id
+import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine
+import com.gtladd.gtladditions.common.register.GTLAddItems
+import com.gtladd.gtladditions.utils.Registries.getItemStack
+import dev.latvian.mods.kubejs.KubeJS
+
 import java.util.function.Consumer
 
 object Misc {
     @JvmStatic
-    fun init(provider : Consumer<FinishedRecipe?>) {
-        DECAY_HASTENER_RECIPES.recipeBuilder(GTLAdditions.id("tiranium50"))
-            .inputFluids(GTMaterials.Titanium.getFluid(144))
-            .outputFluids(GTLMaterials.Titanium50.getFluid(144))
-            .EUt(GTValues.VA[14].toLong()).duration(10).save(provider)
-        DOOR_OF_CREATE_RECIPES.recipeBuilder(GTLAdditions.id("command_block"))
-            .inputItems(TagPrefix.block, GTLMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
-            .outputItems(Blocks.COMMAND_BLOCK.asItem())
-            .dimension(ResourceLocation("overworld"))
-            .EUt(GTValues.V[14]).duration(5).save(provider)
-        DOOR_OF_CREATE_RECIPES.recipeBuilder(GTLAdditions.id("magmatter_block"))
-            .inputItems(TagPrefix.ingot, GTLMaterials.Magmatter, 64)
-            .outputItems(TagPrefix.block, GTLMaterials.Magmatter)
-            .dimension(ResourceLocation("overworld"))
-            .EUt(GTValues.V[14]).duration(5).save(provider)
-        CREATE_AGGREGATION_RECIPES.recipeBuilder(GTLAdditions.id("chain_command_block"))
-            .inputItems(getItemStack("kubejs:chain_command_block_core"))
-            .inputItems(getItemStack("kubejs:command_block_broken"))
-            .outputItems(Blocks.CHAIN_COMMAND_BLOCK.asItem())
-            .dimension(KubeJS.id("create")).CWUt(Int.Companion.MAX_VALUE / 2)
-            .EUt(GTValues.V[14]).duration(20)
+    fun init(provider: Consumer<FinishedRecipe>) {
+        DECAY_HASTENER_RECIPES.recipeBuilder(id("tiranium50"))
+            .inputFluids(Titanium.getFluid(144))
+            .outputFluids(Titanium50.getFluid(144))
+            .EUt(VA[MAX].toLong()).duration(10).save(provider)
+        GTRecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(id("guide"))
+            .inputItems(AEItems.TABLET.stack()).outputItems(GTLAddItems.GUIDE_BOOK.asStack())
+            .EUt(VA[LV].toLong()).duration(20).save(provider)
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("extreme_conversion_simulate_card"))
+            .inputItems(GTLItems.FAST_CONVERSION_SIMULATE_CARD.asStack())
+            .inputItems(EMITTER_OpV, 4)
+            .inputItems(SENSOR_OpV, 4)
+            .inputItems(FIELD_GENERATOR_OpV, 2)
+            .inputItems("kubejs:supracausal_processor".getItemStack(2))
+            .inputItems(foil, Radox, 16)
+            .inputItems(wireFine, DraconiumAwakened, 32)
+            .inputFluids(RawRadox.getFluid(2000))
+            .inputFluids(AstralTitanium.getFluid(FluidStorageKeys.PLASMA, 5600))
+            .inputFluids(CelestialTungsten.getFluid(FluidStorageKeys.PLASMA, 5600))
+            .outputItems(GTLAddItems.ULTIMATE_CONVERSATION_CARD.asStack())
+            .EUt(VA[OpV].toLong()).duration(300)
+            .stationResearch {
+                it.researchStack(GTLItems.FAST_CONVERSION_SIMULATE_CARD.asStack())
+                    .dataStack(TOOL_DATA_MODULE.asStack())
+                    .EUt(VA[OpV]).CWUt(1024)
+            }
             .save(provider)
-        CREATE_AGGREGATION_RECIPES.recipeBuilder(GTLAdditions.id("repeating_command_block"))
-            .inputItems(getItemStack("kubejs:repeating_command_block_core"))
-            .inputItems(getItemStack("kubejs:chain_command_block_broken"))
-            .outputItems(Blocks.REPEATING_COMMAND_BLOCK.asItem())
-            .dimension(KubeJS.id("create")).CWUt(Int.Companion.MAX_VALUE / 2)
-            .EUt(GTValues.V[14]).duration(20)
+        WORLD_DATA_SCANNER_RECIPES.recipeBuilder(id("barnarda_data"))
+            .circuitMeta(1)
+            .inputItems(TOOL_DATA_STICK.asStack(8))
+            .inputItems("kubejs:barnarda_log".getItemStack(64))
+            .inputFluids(PCBCoolant.getFluid(800))
+            .inputFluids(BarnardaAir.getFluid(64000))
+            .outputItems(GTLAddItems.BARNARDA_DATA.asStack(8))
+            .EUt(2048).duration(4000)
+            .dimension(KubeJS.id("barnarda"))
+            .save(provider)
+        if (ConfigHolder.INSTANCE.enableSkyBlokeMode) {
+            WORLD_DATA_SCANNER_RECIPES.recipeBuilder(id("barnarda_data_sky"))
+                .notConsumable(WORLD_FRAGMENTS_BARNARDA.asStack(1))
+                .inputItems(TOOL_DATA_STICK.asStack(8))
+                .inputItems("kubejs:barnarda_log".getItemStack(64))
+                .inputFluids(PCBCoolant.getFluid(800))
+                .inputFluids(BarnardaAir.getFluid(64000))
+                .outputItems(GTLAddItems.BARNARDA_DATA.asStack(8))
+                .EUt(2048).duration(4000)
+                .dimension(KubeJS.id("barnarda"))
+                .save(provider)
+            GTRecipeTypes.ALLOY_SMELTER_RECIPES.recipeBuilder(id("magmatter_nugget"))
+                .inputItems(ingot, Magmatter)
+                .notConsumable(SHAPE_MOLD_NUGGET)
+                .outputItems(nugget, Magmatter, 9)
+                .duration(2000).EUt(VA[MAX].toLong())
+                .save(provider)
+            GTLRecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(id("miracle_adhesive"))
+                .chancedInput(GTLItems.SUPER_GLUE.asStack(), 100, 0)
+                .inputItems("kubejs:hyper_stable_self_healing_adhesive".getItemStack(100))
+                .inputFluids(Miracle.getFluid(100))
+                .outputFluids(MiracleAdhesive.getFluid(1000))
+                .EUt(4L * VA[MAX]).duration(300)
+                .addCondition(GravityCondition(false))
+                .save(provider)
+        }
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("harmonizing_core"))
+            .inputItems(MultiBlockMachine.DRACONIC_COLLAPSE_CORE)
+            .inputItems(CustomTags.MAX_CIRCUITS, 4)
+            .inputItems(Items.ENCHANTED_GOLDEN_APPLE, 16)
+            .inputItems(Items.ENCHANTED_GOLDEN_APPLE, 16)
+            .inputItems(
+                "kubejs:draconic_core".getItemStack(8),
+                "kubejs:wyvern_core".getItemStack(8),
+                "kubejs:awakened_core".getItemStack(8),
+                "kubejs:chaotic_core".getItemStack(8),
+                GTLItems.EMITTER_MAX.asStack(64),
+                GTLItems.SENSOR_MAX.asStack(64)
+            )
+            .inputItems(dustSmall, Magmatter, 48)
+            .inputItems(dustSmall, Magmatter, 48)
+            .inputFluids(
+                CosmicComputingMixture.getFluid(20000),
+                RawRadox.getFluid(4800),
+                DilutedXenoxene.getFluid(20000),
+                PurifiedXenoxene.getFluid(20000)
+            )
+            .outputItems(GTLAddItems.HARMONIZING_CORE)
+            .duration(6600).EUt(VA[MAX].toLong())
+            .stationResearch {
+                it.researchStack("kubejs:draconic_core".getItemStack())
+                    .dataStack(TOOL_DATA_MODULE.asStack())
+                    .EUt(VA[MAX]).CWUt(8192)
+            }
             .save(provider)
     }
 }

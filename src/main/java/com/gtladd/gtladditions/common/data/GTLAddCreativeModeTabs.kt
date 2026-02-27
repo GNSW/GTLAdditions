@@ -1,36 +1,32 @@
 package com.gtladd.gtladditions.common.data
 
-import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs.RegistrateDisplayItemsGenerator
-import com.gtladd.gtladditions.GTLAdditions
-import com.gtladd.gtladditions.api.registry.GTLAddRegistration.REGISTRATE
-import com.gtladd.gtladditions.common.items.GTLAddItems
-import com.tterrag.registrate.util.entry.RegistryEntry
-import net.minecraft.world.item.CreativeModeTab
 import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine
+
+import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs.RegistrateDisplayItemsGenerator
+
+import net.minecraft.world.item.CreativeModeTab
+
+import com.gtladd.gtladditions.GTLAdditions
+import com.gtladd.gtladditions.api.registry.GTLAddRegistration.Companion.REGISTRATE
+import com.gtladd.gtladditions.common.register.GTLAddItems
+import com.tterrag.registrate.util.entry.RegistryEntry
 
 object GTLAddCreativeModeTabs {
     @JvmField
-    var GTLADD_ITEMS: RegistryEntry<CreativeModeTab?> = REGISTRATE.defaultCreativeTab("item")
-    { builder : CreativeModeTab.Builder? ->
-        builder !!.displayItems(RegistrateDisplayItemsGenerator("item", REGISTRATE))
-            .title(
-                REGISTRATE.addLang("itemGroup", GTLAdditions.id("item"), "GTLAdditions")
-            )
-            .icon { GTLAddItems.STARMETAL_BOULE?.asStack() }
+    val GTLADD_ITEMS: RegistryEntry<CreativeModeTab> = REGISTRATE.defaultCreativeTab("item") {
+        it.displayItems(RegistrateDisplayItemsGenerator("item", REGISTRATE))
+            .title(REGISTRATE.addLang("itemGroup", GTLAdditions.id("item"), "GTLAdditions"))
+            .icon { GTLAddItems.STARMETAL_BOULE.asStack() }
             .build()
-    }
-        .register()
+    }.register()
+
     @JvmField
-    var GTLADD_MACHINE: RegistryEntry<CreativeModeTab?> = REGISTRATE.defaultCreativeTab("machine")
-    { builder : CreativeModeTab.Builder? ->
-        builder !!.displayItems(RegistrateDisplayItemsGenerator("machine", REGISTRATE))
-            .title(
-                REGISTRATE.addLang("itemGroup", GTLAdditions.id("machine"), "GTLAdditions")
-            )
+    val GTLADD_MACHINE: RegistryEntry<CreativeModeTab> = REGISTRATE.defaultCreativeTab("machine") {
+        it.displayItems(RegistrateDisplayItemsGenerator("machine", REGISTRATE))
+            .title(REGISTRATE.addLang("itemGroup", GTLAdditions.id("machine"), "GTLAdditions"))
             .icon { AdvancedMultiBlockMachine.EYE_OF_HARMONY.asStack() }
             .build()
-    }
-        .register()
+    }.register()
 
     @JvmStatic
     fun init() {}

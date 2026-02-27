@@ -1,32 +1,24 @@
-package com.gtladd.gtladditions.api.registry;
+package com.gtladd.gtladditions.api.registry
 
-import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
+import com.gregtechceu.gtceu.api.item.MetaMachineItem
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine
+import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate
 
-import net.minecraft.resources.ResourceKey;
+import com.gtladd.gtladditions.GTLAdditions
 
-import com.gtladd.gtladditions.GTLAdditions;
-import org.jetbrains.annotations.NotNull;
+import java.util.function.Function
 
-import java.util.function.Function;
+class GTLAddRegistration : GTRegistrate(GTLAdditions.MOD_ID) {
 
-public class GTLAddRegistration extends GTRegistrate {
-
-    public static final GTLAddRegistration REGISTRATE = new GTLAddRegistration();
-
-    private GTLAddRegistration() {
-        super(GTLAdditions.MOD_ID);
+    override fun multiblock(name: String, metaMachine: Function<IMachineBlockEntity, out MultiblockControllerMachine>): GTLAddMultiBlockMachineBuilder {
+        return GTLAddMultiBlockMachineBuilder.createMulti(name, metaMachine, ::MetaMachineBlock, ::MetaMachineItem) { type, pos, blockState -> MetaMachineBlockEntity.createBlockEntity(type, pos, blockState) }
     }
 
-    public @NotNull GTLAddMultiBlockMachineBuilder multiblock(@NotNull String name, @NotNull Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
-        return GTLAddMultiBlockMachineBuilder.createMulti(name, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::createBlockEntity);
-    }
-
-    static {
-        REGISTRATE.defaultCreativeTab((ResourceKey) null);
+    companion object {
+        @JvmField
+        val REGISTRATE: GTLAddRegistration = GTLAddRegistration()
     }
 }

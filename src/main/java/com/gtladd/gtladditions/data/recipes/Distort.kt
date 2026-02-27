@@ -1,22 +1,27 @@
 package com.gtladd.gtladditions.data.recipes
 
-import com.gregtechceu.gtceu.api.GTValues.*
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
-import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType.*
-import com.gregtechceu.gtceu.common.data.GTItems
-import com.gregtechceu.gtceu.common.data.GTMaterials.*
-import com.gtladd.gtladditions.GTLAdditions.id
-import net.minecraft.data.recipes.FinishedRecipe
 import org.gtlcore.gtlcore.api.data.tag.GTLTagPrefix
 import org.gtlcore.gtlcore.api.machine.multiblock.GTLCleanroomType.LAW_CLEANROOM
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.DISTORT_RECIPES
-import org.gtlcore.gtlcore.utils.Registries.*
+
+import com.gregtechceu.gtceu.api.GTValues.*
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType.CLEANROOM
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType.STERILE_CLEANROOM
+import com.gregtechceu.gtceu.common.data.GTItems
+import com.gregtechceu.gtceu.common.data.GTMaterials.*
+
+import net.minecraft.data.recipes.FinishedRecipe
+
+import com.gtladd.gtladditions.GTLAdditions.id
+import com.gtladd.gtladditions.utils.Registries.getItemStack
+
 import java.util.function.Consumer
 
 object Distort {
     @JvmStatic
-    fun init(provider : Consumer<FinishedRecipe?>) {
+    fun init(provider: Consumer<FinishedRecipe>) {
         DISTORT_RECIPES.recipeBuilder(id("rare_earth_dust_monazite"))
             .notConsumable(GTLTagPrefix.nanoswarm, Rhenium)
             .inputItems(dust, Monazite, 64)
@@ -91,11 +96,11 @@ object Distort {
             .EUt(VA[MAX].toLong()).duration(1800).blastFurnaceTemp(36000)
             .cleanroom(LAW_CLEANROOM).save(provider)
         DISTORT_RECIPES.recipeBuilder(id("biology_process"))
-            .notConsumable(getItemStack("avaritia:infinity_catalyst"))
+            .notConsumable("avaritia:infinity_catalyst".getItemStack())
             .inputItems(GTItems.STEM_CELLS, 256)
-            .inputItems(getItemStack("kubejs:tcetieseaweedextract", 256))
+            .inputItems("kubejs:tcetieseaweedextract".getItemStack(256))
             .inputItems(dust, Agar, 256)
-            .outputItems(getItemStack("kubejs:biological_cells", 8192))
+            .outputItems("kubejs:biological_cells".getItemStack(8192))
             .outputFluids(MutatedLivingSolder.getFluid(73728))
             .outputFluids(BiohmediumSterilized.getFluid(1024000))
             .outputFluids(SterileGrowthMedium.getFluid(1024000))
@@ -127,7 +132,7 @@ object Distort {
             .cleanroom(LAW_CLEANROOM).save(provider)
         DISTORT_RECIPES.recipeBuilder(id("trinium_compound"))
             .notConsumable(GTLTagPrefix.nanoswarm, Starmetal)
-            .notConsumable(getItemStack("gtceu:fluorocarborane_dust", 50))
+            .notConsumable("gtceu:fluorocarborane_dust".getItemStack(50))
             .inputItems(dust, CompoundTriniite, 360)
             .inputItems(dust, SodiumHydroxide, 512)
             .inputItems(dust, Fullerene, 16)
@@ -149,7 +154,7 @@ object Distort {
         DISTORT_RECIPES.recipeBuilder(id("agar_dust"))
             .notConsumable(GTLTagPrefix.nanoswarm, Neutronium)
             .inputItems(dust, Meat, 256)
-            .inputItems(getItemStack("minecraft:bone", 256))
+            .inputItems("minecraft:bone".getItemStack(256))
             .inputItems(dust, Sulfur, 64)
             .inputItems(dust, Phosphorus, 16)
             .outputItems(dust, Agar, 384)
@@ -162,11 +167,11 @@ object Distort {
             .inputItems(dust, Salt, 450)
             .inputItems(dust, Agar, 450)
             .inputItems(dust, Meat, 450)
-            .inputItems(getItemStack("minecraft:kelp", 228))
+            .inputItems("minecraft:kelp".getItemStack(228))
             .inputItems(dust, AlienAlgae, 90)
             .inputItems(GTItems.ENERGIUM_DUST, 36)
             .inputItems(dust, Mithril, 4)
-            .outputItems(getItemStack("kubejs:tcetieseaweedextract", 256))
+            .outputItems("kubejs:tcetieseaweedextract".getItemStack(256))
             .inputFluids(UnknowWater.getFluid(112000))
             .inputFluids(Methane.getFluid(225000))
             .inputFluids(Naphthalene.getFluid(90000))

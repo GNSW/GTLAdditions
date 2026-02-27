@@ -112,6 +112,7 @@ dependencies {
 
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-forge-api:$project.jei_version") { transitive = false }
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive = false }
+    modCompileOnly("curse.maven:emi-580555:6420945") { transitive = false }
 
     modImplementation("com.gregtechceu.gtceu:gtceu-$project.minecraft_version:$project.gtceu_version") { transitive = false }
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }
@@ -143,7 +144,8 @@ dependencies {
     modImplementation("earth.terrarium.adastra:ad_astra-forge-${project.minecraft_version}:${ad_astra_version}") { transitive false }
 
     modImplementation("dev:gtmthings-1.3.5.a")
-    modImplementation("dev:gtlcore-1.2.2.6-fix6")
+    modImplementation("curse.maven:spark-361579:4738952")
+    modImplementation("dev:gtlcore-1.2.2.8-fix3")
 
     // Adds KFF as dependency and Kotlin libs (use the variant matching your mod loader)
     include(modImplementation("thedarkcolour:kotlinforforge:4.11.0"))
@@ -180,6 +182,7 @@ dependencies {
     modRuntimeOnly("icyllis.modernui:ModernUI-Forge:1.20.1-3.10.1.4") { transitive = false }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
+    implementation(include("org.scilab.forge:jlatexmath:1.0.7"))
 }
 
 processResources {
@@ -242,21 +245,13 @@ publishing {
             from components.java
         }
     }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
-    }
 }
 
 spotless {
     encoding 'UTF-8'
 
     java {
-        target 'src/main/java/**/*.java', 'src/test/java/**/*.java'
+        target 'src/main/java/**/*.java'
 
         def orderFile = file("$rootDir/spotless/spotless.importorder")
         def formatFile = file("$rootDir/spotless/spotless.eclipseformat.xml")
@@ -266,6 +261,32 @@ spotless {
         removeUnusedImports('cleanthat-javaparser-unnecessaryimport')
         endWithNewline()
         eclipse('4.31').configFile(formatFile)
+    }
+    kotlin {
+        target 'src/main/java/**/*.kt'
+        ktlint().editorConfigOverride([
+                'ktlint_code_style': 'intellij_idea',
+                'indent_size': '4',
+                'indent_style': 'space',
+                'continuation_indent_size': '4',
+                'ktlint_brace_style': 'custom',
+                'ij_kotlin_space_before_comma': 'false',
+                'ij_kotlin_space_after_comma': 'true',
+                'ij_kotlin_space_around_range': 'false',
+                'insert_final_newline': 'true',
+                'ij_kotlin_imports_layout': 'org.gtlcore.gtlcore.**,|,com.gregtechceu.**,|,com.lowdragmc.**,|,net.**,|,*,|,java.**,javax.**,kotlin.**,|,^',
+                'ij_kotlin_packages_to_use_import_on_demand': 'java.util.*,org.gtlcore.gtlcore.**',
+                'ktlint_import_ordering': 'true',
+                'max_line_length': '65536',
+                'ktlint_standard_no-wildcard-imports': 'disabled',
+                'ktlint_standard_class-naming': 'disabled',
+                'ktlint_standard_function-naming': 'disabled',
+                'ktlint_standard_property-naming': 'disabled',
+                'ktlint_standard_trailing-comma-on-call-site': 'disabled',
+                'ktlint_standard_trailing-comma-on-declaration-site': 'disabled'
+        ])
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }
 kotlin {

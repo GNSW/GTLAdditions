@@ -2,6 +2,7 @@ package com.gtladd.gtladditions.mixin.gtlcore.machine.part;
 
 import org.gtlcore.gtlcore.common.machine.multiblock.part.maintenance.*;
 import org.gtlcore.gtlcore.utils.Registries;
+import org.gtlcore.gtlcore.utils.TextUtil;
 
 import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -11,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.client.util.TooltipHelper;
 
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
@@ -18,10 +20,10 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import com.gtladd.gtladditions.common.machine.GTLAddMachines;
 import dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.Overwrite;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,24 +35,30 @@ import java.util.function.Supplier;
 
 import static org.gtlcore.gtlcore.common.machine.multiblock.part.maintenance.ICleaningRoom.DUMMY_CLEANROOM;
 
+@SuppressWarnings("all")
 @Mixin(AutoConfigurationMaintenanceHatchPartMachine.class)
 public class AutoConfigurationMaintenanceHatchPartMachineMixin extends TieredPartMachine implements IMachineLife, IAutoConfigurationMaintenanceHatch {
 
-    private float MAX_DURATION = getMax();
-    private float MIN_DURATION = getMin();
-    private static final ItemStack BIOWARE_MAINFRAME = Registries.getItemStack("kubejs:bioware_mainframe");
-    private static final ItemStack COSMIC_MAINFRAME = Registries.getItemStack("kubejs:cosmic_mainframe");
-    private static final ItemStack CREATIVE_MAINFRAME = Registries.getItemStack("kubejs:suprachronal_mainframe_complex");
+    private float maxDuration = getMax();
+    private float minDuration = getMin();
+    private static final Item BIOWARE_MAINFRAME = Registries.getItem("kubejs:bioware_mainframe");
+    private static final Item COSMIC_MAINFRAME = Registries.getItem("kubejs:cosmic_mainframe");
+    private static final Item CREATIVE_MAINFRAME = Registries.getItem("kubejs:suprachronal_mainframe_complex");
     @Persisted
     private final NotifiableItemStackHandler gtladditions$max = this.createMachineStorage();
 
     private NotifiableItemStackHandler createMachineStorage() {
-        return new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, (slots) -> new ItemStackTransfer(1) {
+        var storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH,
+                slots -> new ItemStackTransfer(1) {
 
-            public int getSlotLimit(int slot) {
-                return 1;
-            }
-        });
+                    @Override
+                    public int getSlotLimit(int slot) {
+                        return 1;
+                    }
+                })
+                .setFilter(itemStack -> itemStack.is(BIOWARE_MAINFRAME) || itemStack.is(COSMIC_MAINFRAME) || itemStack.is(CREATIVE_MAINFRAME));
+        storage.addChangedListener(this::upDataConfig);
+        return storage;
     }
 
     @Shadow(remap = false)
@@ -68,8 +76,7 @@ public class AutoConfigurationMaintenanceHatchPartMachineMixin extends TieredPar
 
     @Override
     public void setDurationMultiplier(float count) {
-        if (count > getMax()) this.durationMultiplier = getMax();
-        else this.durationMultiplier = Math.max(count, getMin());
+        this.durationMultiplier = Mth.clamp(count, getMin(), getMax());
     }
 
     public AutoConfigurationMaintenanceHatchPartMachineMixin(IMachineBlockEntity holder) {
@@ -83,12 +90,12 @@ public class AutoConfigurationMaintenanceHatchPartMachineMixin extends TieredPar
 
     @Overwrite(remap = false)
     public void incInternalMultiplier(int multiplier) {
-        durationMultiplier = Math.min(durationMultiplier + 0.01F * (float) multiplier, MAX_DURATION);
+        durationMultiplier = Math.min(durationMultiplier + 0.01F * (float) multiplier, maxDuration);
     }
 
     @Overwrite(remap = false)
     private void decInternalMultiplier(int multiplier) {
-        durationMultiplier = Math.max(durationMultiplier - 0.01F * (float) multiplier, MIN_DURATION);
+        durationMultiplier = Math.max(durationMultiplier - 0.01F * (float) multiplier, minDuration);
     }
 
     @Overwrite(remap = false)
@@ -117,8 +124,8 @@ public class AutoConfigurationMaintenanceHatchPartMachineMixin extends TieredPar
     }
 
     private void setDurationMultiplier() {
-        MAX_DURATION = getMax();
-        MIN_DURATION = getMin();
+        maxDuration = getMax();
+        minDuration = getMin();
     }
 
     private void setSubDuration(int multiplier) {
@@ -137,32 +144,33 @@ public class AutoConfigurationMaintenanceHatchPartMachineMixin extends TieredPar
     }
 
     private @NotNull List<Component> gtladditions$setMaxTooltips() {
-        List<Component> gtladditions$tooltips = new ArrayList<>();
-        gtladditions$tooltips.add(Component.translatable("gtceu.universal.enabled"));
-        gtladditions$tooltips.add(Component.translatable("gtceu.multiblock.use_different_mainframe"));
-        gtladditions$tooltips.add(Component.translatable("gtceu.multiblock.use_bioware_mainframe", 3.0, 0.15));
-        gtladditions$tooltips.add(Component.translatable("gtceu.multiblock.use_cosmic_mainframe", 7.5, 0.1));
-        gtladditions$tooltips.add(Component.translatable("gtceu.multiblock.use_suprachronal_mainframe_complex", 25.0, 0.05));
-        gtladditions$tooltips.add(GTLAddMachines.INSTANCE.getGTLAdd_MODIFY());
-        return gtladditions$tooltips;
+        List<Component> list = new ArrayList<>();
+        list.add(Component.translatable("gtceu.universal.enabled"));
+        list.add(Component.translatable("gtceu.multiblock.use_different_mainframe"));
+        list.add(Component.translatable("gtceu.multiblock.use_bioware_mainframe", 3.0, 0.15));
+        list.add(Component.translatable("gtceu.multiblock.use_cosmic_mainframe", 7.5, 0.1));
+        list.add(Component.translatable("gtceu.multiblock.use_suprachronal_mainframe_complex", 25.0, 0.05));
+        list.add(Component.literal(TextUtil.full_color(Component.translatable("gui.gtladditions.modify").getString()))
+                .withStyle(style -> style.withColor(TooltipHelper.RAINBOW.getCurrent())));
+        return list;
     }
 
     private float getMax() {
-        Item stack = gtladditions$max != null ? gtladditions$max.storage.getStackInSlot(0).getItem() : null;
+        ItemStack stack = gtladditions$max != null ? gtladditions$max.storage.getStackInSlot(0) : null;
         if (stack != null) {
-            if (BIOWARE_MAINFRAME.is(stack)) return 3.0F;
-            else if (COSMIC_MAINFRAME.is(stack)) return 7.5F;
-            else if (CREATIVE_MAINFRAME.is(stack)) return 25.0F;
+            if (stack.is(BIOWARE_MAINFRAME)) return 3.0F;
+            else if (stack.is(COSMIC_MAINFRAME)) return 7.5F;
+            else if (stack.is(CREATIVE_MAINFRAME)) return 25.0F;
         }
         return 1.2F;
     }
 
     private float getMin() {
-        Item stack = gtladditions$max != null ? gtladditions$max.storage.getStackInSlot(0).getItem() : null;
+        ItemStack stack = gtladditions$max != null ? gtladditions$max.storage.getStackInSlot(0) : null;
         if (stack != null) {
-            if (BIOWARE_MAINFRAME.is(stack)) return 0.15F;
-            else if (COSMIC_MAINFRAME.is(stack)) return 0.1F;
-            else if (CREATIVE_MAINFRAME.is(stack)) return 0.05F;
+            if (stack.is(BIOWARE_MAINFRAME)) return 0.15F;
+            else if (stack.is(COSMIC_MAINFRAME)) return 0.1F;
+            else if (stack.is(CREATIVE_MAINFRAME)) return 0.05F;
         }
         return 0.2F;
     }
@@ -177,5 +185,10 @@ public class AutoConfigurationMaintenanceHatchPartMachineMixin extends TieredPar
     public void removedFromController(@NotNull IMultiController controller) {
         super.removedFromController(controller);
         if (controller instanceof ICleanroomReceiver receiver) if (receiver.getCleanroom() == DUMMY_CLEANROOM) receiver.setCleanroom(null);
+    }
+
+    private void upDataConfig() {
+        this.setSubDuration(0);
+        this.setAddDuration(0);
     }
 }
