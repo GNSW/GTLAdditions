@@ -46,7 +46,7 @@ class AntientropyCondensationCenter(holder: IMachineBlockEntity) : GTLAddWorkabl
                 this.isModify = true
             }
         }
-        return InteractionResult.PASS
+        return super.onUse(state, world, pos, player, hand, hit)
     }
 
     override fun getFieldHolder() = MANAGED_FIELD_HOLDER
