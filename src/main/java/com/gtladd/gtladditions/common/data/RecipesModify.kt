@@ -53,6 +53,10 @@ object RecipesModify {
         PLASMA_CONDENSER_RECIPES.onRecipeBuild { recipeBuilder, provider ->
             val builder = GTLAddRecipesTypes.ANTIENTROPY_CONDENSATION.copyFrom(recipeBuilder)
             builder.input[CAP]?.removeIf(filterLiquid)
+            if (builder.id.path.equals("helium_condenser")) {
+                builder.save(provider)
+                return@onRecipeBuild
+            }
             builder.output[CAP]?.removeIf(filterGas)
             builder.save(provider)
         }

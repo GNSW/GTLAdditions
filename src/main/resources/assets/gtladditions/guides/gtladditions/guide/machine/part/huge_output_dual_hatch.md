@@ -53,4 +53,3 @@ item_ids:
 </Row>
 
 * A hatch that combines the huge output bus and huge output hatch together, similar to the huge input bus
-* ~~Unlike GTMThings' huge bus tooltips which are misleading (the actual number of slots is one less than described)~~

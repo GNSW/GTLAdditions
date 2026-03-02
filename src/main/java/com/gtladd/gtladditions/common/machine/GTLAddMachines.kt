@@ -49,10 +49,11 @@ object GTLAddMachines {
         "huge_output_dual_hatch",
         { holder, tier -> HugeDualHatchPartMachine(holder, tier, IO.OUT) },
         { tier, builder ->
-            val vnf = GTValues.VNF
-            builder.langValue(vnf[tier] + " Huge Output Dual Hatch").rotationState(RotationState.ALL)
+            builder.langValue(GTValues.VNF[tier] + " Huge Output Dual Hatch")
+                .rotationState(RotationState.ALL)
                 .overlayTieredHullRenderer("huge_dual_hatch.import")
-                .abilities(*GTMachines.DUAL_OUTPUT_HATCH_ABILITIES).compassNode("huge_dual_hatch")
+                .abilities(*GTMachines.DUAL_OUTPUT_HATCH_ABILITIES)
+                .compassNode("huge_dual_hatch")
                 .tooltips(
                     "gtceu.machine.dual_hatch.export.tooltip".toComponent,
                     Component.translatable("gtceu.universal.tooltip.item_storage_capacity", (1 + tier) * 2 - 1),
@@ -63,7 +64,7 @@ object GTLAddMachines {
                     )
                 )
                 .tooltipBuilder(GTLAdd_ADD)
-            builder.register()
+                .register()
         },
         *GTValues.tiersBetween(1, 13)
     )
@@ -122,25 +123,38 @@ object GTLAddMachines {
                 "gtceu.machine.steam.steam_hatch.tooltip".toComponent
             )
             .tooltipBuilder(GTLAdd_ADD)
-            .compassSections(GTCompassSections.STEAM).compassNode("steam_hatch")
-            .renderer { OverlaySteamMachineRenderer(ResourceLocation("gtceu", "block/machine/part/steam_hatch")) }.register()
+            .compassSections(GTCompassSections.STEAM)
+            .compassNode("steam_hatch")
+            .renderer { OverlaySteamMachineRenderer(ResourceLocation("gtceu", "block/machine/part/steam_hatch")) }
+            .register()
+
         SUPER_INPUT_DUAL_HATCH = REGISTRATE.machine("super_input_dual_hatch", ::SuperDualHatchPartMachine)
             .rotationState(RotationState.ALL)
             .abilities(*GTMachines.DUAL_INPUT_HATCH_ABILITIES)
-            .langValue("Super Input Dual Hatch").overlayTieredHullRenderer("super_input_dual_hatch.import")
+            .langValue("Super Input Dual Hatch")
+            .overlayTieredHullRenderer("super_input_dual_hatch.import")
             .tooltips(
                 Component.translatable("gtceu.universal.tooltip.item_storage_capacity", 37),
                 Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", 24, Long.Companion.MAX_VALUE shr 12)
             )
-            .tooltipBuilder(GTLAdd_ADD).tier(14)
+            .tooltipBuilder(GTLAdd_ADD)
+            .tier(14)
             .register()
+
         ORE_PROCESSOR_HATCH = REGISTRATE.machine("spectral_analysis_hatch", ::OreProcessorHatch)
             .rotationState(RotationState.ALL)
             .abilities(GTLAddPartAbility.OP_HATCH)
-            .langValue("Ore Processor Hatch").overlayTieredHullRenderer("op_hatch")
-            .tooltips("gtceu.universal.disabled".toComponent, "gtceu.machine.hold_g.tooltip.1".toComponent, "gtceu.machine.hold_g.tooltip.2".toComponent)
-            .tooltipBuilder(GTLAdd_ADD).tier(8)
+            .langValue("Ore Processor Hatch")
+            .overlayTieredHullRenderer("op_hatch")
+            .tooltips(
+                "gtceu.universal.disabled".toComponent,
+                "gtceu.machine.hold_g.tooltip.1".toComponent,
+                "gtceu.machine.hold_g.tooltip.2".toComponent
+            )
+            .tooltipBuilder(GTLAdd_ADD)
+            .tier(8)
             .register()
+
         ME_BLOCK_CONVERSATION = REGISTRATE.machine("me_block_conservation", ::MEBlockConversationHatch)
             .rotationState(RotationState.ALL)
             .abilities(GTLAddPartAbility.CONVERSATION_HATCH)
@@ -154,14 +168,17 @@ object GTLAddMachines {
                 "gtceu.machine.hold_g.tooltip.2".toComponent
             )
             .langValue("Transmutation Bus Hatch")
-            .tooltipBuilder(GTLAdd_ADD).tier(11)
+            .tooltipBuilder(GTLAdd_ADD)
+            .tier(11)
             .register()
+
         VIENTIANE_TRANSCEIPTION_NODE = REGISTRATE.machine("vientiane_transcription_node", ::VientianeTranscriptionNode)
             .rotationState(RotationState.ALL)
             .abilities(GTLAddPartAbility.VIENTIANE_HATCH)
             .overlayTieredHullRenderer("vientiane_transcription_node")
             .langValue("Vientiane Transcription Node")
-            .tooltipBuilder(GTLAdd_ADD).tier(14)
+            .tooltipBuilder(GTLAdd_ADD)
+            .tier(14)
             .register()
     }
 }
