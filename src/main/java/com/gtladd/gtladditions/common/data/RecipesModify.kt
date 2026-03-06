@@ -38,10 +38,7 @@ object RecipesModify {
 
     @JvmStatic
     fun init() {
-        INTEGRATED_ORE_PROCESSOR.addDataInfo {
-            if (it.contains("handle")) LocalizationUtils.format("gtceu.integrated_ore_processor.advanced")
-            ""
-        }
+        INTEGRATED_ORE_PROCESSOR.addDataInfo { if (it.contains("handle")) LocalizationUtils.format("gtceu.integrated_ore_processor.advanced") else "" }
         val filterLiquid = { content: Content -> CAP.of(content.content)?.test(Helium.getFluid(LIQUID, 1L)) ?: false }
         val filterGas = { content: Content -> CAP.of(content.content)?.test(Helium.getFluid(GAS, 1L)) ?: false }
         VACUUM_RECIPES.onRecipeBuild { recipeBuilder, provider ->
@@ -160,7 +157,7 @@ object RecipesModify {
         }
     }
 
-    private fun modify(builder: GTRecipeBuilder,): Pair<Map<RecipeCapability<*>, MutableList<Content>>, Map<RecipeCapability<*>, MutableList<Content>>> {
+    private fun modify(builder: GTRecipeBuilder): Pair<Map<RecipeCapability<*>, MutableList<Content>>, Map<RecipeCapability<*>, MutableList<Content>>> {
         val ci = Reference2ObjectOpenHashMap<RecipeCapability<*>, MutableList<Content>>(builder.input.size)
         builder.input.entries.forEach { (c, l) ->
             if (!l.isEmpty()) {

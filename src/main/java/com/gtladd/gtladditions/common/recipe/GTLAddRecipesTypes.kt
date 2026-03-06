@@ -56,10 +56,7 @@ object GTLAddRecipesTypes {
     val BIOLOGICAL_SIMULATION: GTRecipeType =
         register("biological_simulation", MULTIBLOCK)
             .setEUIO(IO.IN).setMaxIOSize(3, 7, 2, 0)
-            .addDataInfo {
-                if (it.contains("infinity")) LocalizationUtils.format("gtceu.biological_simulation.infinity.1")
-                ""
-            }
+            .addDataInfo { if (it.contains("infinity")) LocalizationUtils.format("gtceu.biological_simulation.infinity.1") else "" }
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
 
