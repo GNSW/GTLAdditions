@@ -63,7 +63,7 @@ import kotlin.streams.toList
 @MethodsReturnNonnullByDefault
 open class TaixuTurbidArray(holder: IMachineBlockEntity) : TierCasingMachine(holder, "SCTier"), IMachineModifyDrops {
     @Persisted
-    val machineStorage: NotifiableItemStackHandler = NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH) { object : ItemStackTransfer(1) {} }.setFilter(::filter)
+    val machineStorage: NotifiableItemStackHandler = NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH) { ItemStackTransfer(1) }.setFilter(::filter)
     private var coilType: ICoilType = CoilBlock.CoilType.CUPRONICKEL
     private var height = 0
     private var frameA = .0
@@ -96,7 +96,7 @@ open class TaixuTurbidArray(holder: IMachineBlockEntity) : TierCasingMachine(hol
         this.coilType = context.get("CoilType")
         (context.getOrCreate("SpeedPipeValue") { IValueContainer.noop() }.getValue() as Int).let { this.height = it - 2 }
         this.frameA = 8.0 * (2.pow(this.casingTier) - 1) * sqrt(this.tier + 1)
-        this.frameB = 3.8 * 1.3.pow(coil.indexOf(this.coilType.coilTemperature) + 1) * (this.coilType.coilTemperature / 36000).pow(0.7)
+        this.frameB = 3.8 * 1.3.pow(coil.indexOf(this.coilType.coilTemperature) + 1) * (this.coilType.coilTemperature.toDouble() / 36000.0).pow(0.7)
     }
 
     override fun onStructureInvalid() {
@@ -173,10 +173,10 @@ open class TaixuTurbidArray(holder: IMachineBlockEntity) : TierCasingMachine(hol
         val MANAGED_FIELD_HOLDER: ManagedFieldHolder =
             ManagedFieldHolder(TaixuTurbidArray::class.java, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER)
         private val coil: IntArrayList by lazy { IntArrayList(GTCEuAPI.HEATING_COILS.keys.stream().mapToInt { it.coilTemperature }.sorted().toList()) }
-        private val EnderiumNano = ChemicalHelper.get(nanoswarm, Enderium).item
-        private val DraconiumNano = ChemicalHelper.get(nanoswarm, Draconium).item
-        private val SpacetimeNano = ChemicalHelper.get(nanoswarm, SpaceTime).item
-        private val EternityNano = ChemicalHelper.get(nanoswarm, Eternity).item
+        private val EnderiumNano: Item by lazy { ChemicalHelper.get(nanoswarm, Enderium).item }
+        private val DraconiumNano: Item by lazy { ChemicalHelper.get(nanoswarm, Draconium).item }
+        private val SpacetimeNano: Item by lazy { ChemicalHelper.get(nanoswarm, SpaceTime).item }
+        private val EternityNano: Item by lazy { ChemicalHelper.get(nanoswarm, Eternity).item }
         private val CREATE: Item by lazy { CreativeMachines.CREATIVE_ENERGY_INPUT_HATCH.asStack().item }
 
         fun recipeModifier(machine: MetaMachine, recipe: GTRecipe, params: OCParams, result: OCResult): GTRecipe? {

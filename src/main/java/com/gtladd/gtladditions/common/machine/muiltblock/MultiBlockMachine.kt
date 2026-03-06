@@ -792,7 +792,7 @@ object MultiBlockMachine {
                     "F",
                     blocks(HIGH_POWER_CASING.get())
                         .or(autoAbilities(*it.recipeTypes))
-                        .or(abilities(INPUT_LASER).setExactLimit(1))
+                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
                         .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                 )
                 .where("C", blocks(ChemicalHelper.getBlock(frameGt, Neutronium)))
@@ -1099,6 +1099,7 @@ object MultiBlockMachine {
             "gtceu.machine.hold_g.tooltip.1".toComponent
         )
         .tooltipTextParallelHatch()
+        .tooltipTextLaser()
         .tooltipTextPerfectOverclock()
         .tooltipTextMultiRecipeTypes()
         .tooltipTextMultiRecipeType(QFT_RECIPES, DISTORT_RECIPES)

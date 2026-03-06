@@ -19,6 +19,7 @@ public class ModClientEventListenerMixin {
 
     @Inject(method = "onSourceTooltipRegistration", at = @At("HEAD"), remap = false)
     private static void onSourceTooltipRegistration(SourceTooltipRegistrationEvent event, CallbackInfo ci) {
+        if (!ConfigHolder.INSTANCE.enableSkyBlokeMode) return;
         event.register(GTLAddMaterial.MINING_ESSENCE.getFluid()).get_or_create$custom(Component.empty(), () -> ConfigHolder.INSTANCE.enableSkyBlokeMode)
                 .add(Component.translatable("tooltip.gtladditions.item.mining_essence_bucket.0").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.BOLD),
                         Component.translatable("tooltip.gtladditions.item.mining_essence_bucket.1").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.BOLD),
