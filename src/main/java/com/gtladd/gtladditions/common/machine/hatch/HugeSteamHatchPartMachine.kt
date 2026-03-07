@@ -5,6 +5,8 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.UITemplate
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank
+import com.gregtechceu.gtceu.api.recipe.GTRecipe
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine
 
@@ -23,8 +25,16 @@ import javax.annotation.ParametersAreNonnullByDefault
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 class HugeSteamHatchPartMachine(holder: IMachineBlockEntity) :
-    FluidHatchPartMachine(holder, 0, IO.IN, 0, 1) {
-    override fun createTank(initialCapacity: Long, slots: Int, vararg args: Any): NotifiableFluidTank = NotifiableFluidTank(this, slots, Int.MAX_VALUE.toLong(), io).setFilter { it.fluid.`is`(tag) }
+    FluidHatchPartMachine(holder, 0, IO.IN, Int.MAX_VALUE.toLong(), 1) {
+
+    override fun createTank(initialCapacity: Long, slots: Int, vararg args: Any): NotifiableFluidTank = object : NotifiableFluidTank(this, slots, initialCapacity, io) {
+        override fun handleRecipeInner(io: IO, recipe: GTRecipe, left: List<FluidIngredient>, slotName: String?, simulate: Boolean): List<FluidIngredient>? {
+            val fluidStack = left[0]
+            val drained = (if (simulate) storages[0].copy() else storages[0]).drain(fluidStack.amount, false)
+            if ((fluidStack.amount - drained.amount).also { fluidStack.amount = it } <= 0) return null
+            return left
+        }
+    }.setFilter { it.fluid.`is`(tag) }
 
     override fun createUI(entityPlayer: Player): ModularUI {
         return ModularUI(176, 166, this, entityPlayer)

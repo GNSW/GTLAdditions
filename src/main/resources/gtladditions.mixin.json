@@ -9,6 +9,7 @@
   ],
   "mixins": [
     "ae.recipe.TransformLogicMixin",
+    "gtceu.api.FluidValueAccessor",
     "gtceu.api.GTBucketItemMixin",
     "gtceu.api.TagPrefixMixin",
     "gtceu.api.machine.MachineBuilderMixin",

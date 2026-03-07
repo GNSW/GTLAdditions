@@ -6,8 +6,8 @@ import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.*
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability.CAP
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID
+import com.gregtechceu.gtceu.api.data.tag.TagUtil
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.recipe.content.Content
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTMaterials.Helium
@@ -26,6 +26,7 @@ import com.gtladd.gtladditions.common.machine.muiltblock.controller.Resource.ite
 import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes
 import com.gtladd.gtladditions.utils.GTRecipeUtils.amount
 import com.gtladd.gtladditions.utils.GTRecipeUtils.stack
+import com.gtladd.gtladditions.utils.GTRecipeUtils.test
 import com.gtladd.gtladditions.utils.MathUtil.safeToInt
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
@@ -39,8 +40,16 @@ object RecipesModify {
     @JvmStatic
     fun init() {
         INTEGRATED_ORE_PROCESSOR.addDataInfo { if (it.contains("handle")) LocalizationUtils.format("gtceu.integrated_ore_processor.advanced") else "" }
-        val filterLiquid = { content: Content -> CAP.of(content.content)?.test(Helium.getFluid(LIQUID, 1L)) ?: false }
-        val filterGas = { content: Content -> CAP.of(content.content)?.test(Helium.getFluid(GAS, 1L)) ?: false }
+        val filterLiquid = { content: Content ->
+            (content.content as? FluidIngredient)?.let {
+                return@let it.test(TagUtil.createFluidTag("liquid_helium")) || it.test(Helium.getFluid(FluidStorageKeys.LIQUID, 1))
+            } == true
+        }
+        val filterGas = { content: Content ->
+            (content.content as? FluidIngredient)?.let {
+                return@let it.test(Helium.fluid) || it.test(Helium.getFluid(FluidStorageKeys.GAS, 1))
+            } == true
+        }
         VACUUM_RECIPES.onRecipeBuild { recipeBuilder, provider ->
             val builder = GTLAddRecipesTypes.ANTIENTROPY_CONDENSATION.copyFrom(recipeBuilder)
             builder.input[CAP]?.removeIf(filterLiquid)
@@ -50,11 +59,7 @@ object RecipesModify {
         PLASMA_CONDENSER_RECIPES.onRecipeBuild { recipeBuilder, provider ->
             val builder = GTLAddRecipesTypes.ANTIENTROPY_CONDENSATION.copyFrom(recipeBuilder)
             builder.input[CAP]?.removeIf(filterLiquid)
-            if (builder.id.path.equals("helium_condenser")) {
-                builder.save(provider)
-                return@onRecipeBuild
-            }
-            builder.output[CAP]?.removeIf(filterGas)
+            if (!builder.id.path.equals("helium_condenser")) builder.output[CAP]?.removeIf(filterGas)
             builder.save(provider)
         }
         DISTORT_RECIPES.onRecipeBuild { recipeBuilder, provider ->

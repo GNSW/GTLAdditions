@@ -24,11 +24,14 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder
 
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack
 
+import net.minecraft.tags.TagKey
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.level.material.Fluid
 
 import com.gtladd.gtladditions.api.recipe.ContentList
 import com.gtladd.gtladditions.api.recipe.FastRecipeModify
+import com.gtladd.gtladditions.mixin.gtceu.api.FluidValueAccessor
 import com.gtladd.gtladditions.utils.MachineUtil.maintenance
 import com.gtladd.gtladditions.utils.MathUtil.maxToInt
 import com.gtladd.gtladditions.utils.MathUtil.minToLong
@@ -329,6 +332,16 @@ object GTRecipeUtils {
     val FluidIngredient.stack: FluidStack get() {
         stacks?.forEach { if (it != null && !it.isEmpty) return it }
         return FluidStack.empty()
+    }
+
+    fun FluidIngredient.test(fluid: Fluid): Boolean {
+        this.values.forEach { (it as? FluidIngredient.FluidValue)?.let { value -> return (value as FluidValueAccessor).fluid == fluid } }
+        return false
+    }
+
+    fun FluidIngredient.test(key: TagKey<Fluid>): Boolean {
+        this.values.forEach { (it as? FluidIngredient.TagValue)?.let { value -> return value.tag == key } }
+        return false
     }
 
     fun ItemStack.create(amount: Long = this.count.toLong()): LongIngredient = LongIngredient.create(Ingredient.of(this), amount)

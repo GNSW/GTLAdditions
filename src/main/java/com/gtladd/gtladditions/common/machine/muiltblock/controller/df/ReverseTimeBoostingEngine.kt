@@ -52,6 +52,10 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
     private var returnItem: ItemStack? = null
     private var returnFluid: FluidStack? = null
 
+    init {
+        isWorking = true
+    }
+
     fun modifyRecipe(recipe: GTRecipe): GTRecipe? {
         if (superHeat) return null
         if (isWorking) {

@@ -29,21 +29,17 @@ import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine
 import com.hepdd.gtmthings.common.block.machine.trait.CatalystFluidStackHandler
 import com.hepdd.gtmthings.utils.FormatUtil
-import lombok.Getter
 
-open class SuperDualHatchPartMachine(holder: IMachineBlockEntity) :
-    HugeBusPartMachine(holder, 18, IO.IN, 9) {
+class SuperDualHatchPartMachine(holder: IMachineBlockEntity) : HugeBusPartMachine(holder, 18, IO.IN, 9) {
+
     @Persisted
-    protected val tank = object : NotifiableFluidTank(this, 24, Long.Companion.MAX_VALUE shr 12, IO.IN) {
-        override fun canCapOutput(): Boolean {
-            return true
-        }
+    private val tank = object : NotifiableFluidTank(this, 24, Long.Companion.MAX_VALUE shr 12, IO.IN) {
+        override fun canCapOutput() = true
     }
 
-    @Getter
     @Persisted
-    protected val shareTank = CatalystFluidStackHandler(this, 9, 16000L, IO.IN, IO.NONE)
-    protected var tankSubs: ISubscription? = null
+    private val shareTank = CatalystFluidStackHandler(this, 9, 16000L, IO.IN, IO.NONE)
+    private var tankSubs: ISubscription? = null
     private var hasFluidTransfer = false
     private var hasItemTransfer = false
 
@@ -168,6 +164,6 @@ open class SuperDualHatchPartMachine(holder: IMachineBlockEntity) :
     }
 
     companion object {
-        protected val MANAGED_FIELD_HOLDER = ManagedFieldHolder(SuperDualHatchPartMachine::class.java, HugeBusPartMachine.MANAGED_FIELD_HOLDER)
+        val MANAGED_FIELD_HOLDER = ManagedFieldHolder(SuperDualHatchPartMachine::class.java, HugeBusPartMachine.MANAGED_FIELD_HOLDER)
     }
 }
