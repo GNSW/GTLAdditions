@@ -19,9 +19,9 @@ This mod is developed based on the `GregTech Leisure`. On the basis of this Modp
 
 ## Install
 
-First,Download `GregTech Leisure` [here](https://www.123pan.com/s/LDeAjv-EHZ03.html),and install it with your Minecraft Launcher
+First,Download `GregTech Leisure` [here](https://pan.quark.cn/s/d13f899cdab5#/list/share)or [here](https://drive.google.com/drive/folders/1Ga_w-TmDKNru0me1kAM_gXyedz_Ne4-x),and install it with your Minecraft Launcher
 
-Second delete `GTLCore` and install newest one
+Second delete `GTLCore` and install newest one,you can find it in [here](https://github.com/AaAdoniSsS/GTLCore)
 
 Finally, add this mod to `/mods` folder
 
@@ -36,24 +36,26 @@ This mod added many better machines to replace original machines
 | Machines                                  | Recipes                            | Usage                                                                      |
 | ----------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------- |
 | SuperFactory mk[1,4]                      | run recipes from `plants`          | General                                                                    |
-| Atomic Transmutation Core                 | Em Resonance Conversion Field      | Work as `Block Conversion Room` but more efficient                         |
-| Lucid Etchdreamer                         | Photon Matrix Etch                 | Work as `Dimensional Focus Engraving Array` but no use `Photoresist`       |
+| Atomic Transmutation Core                 | Transmutation Block Conversion     | Work as `Block Conversion Room` but more efficient                         |
+| Lucid Etchdreamer                         | Photon Matrix Etch                 | Work as `Dimensional Focus Engraving Array` but no use `Photoresist` , `Computation Power` and `Research Data` |
 | Astral Convergence Nexus                  | Space Assembler Module             | Work as `Space Assembler Module`                                           |
-| Nebula Reaper                             | Space Miner Module *and* Space Drilling Module | Work as `Space Miner Module` *and* `Space Drilling Module`     |
-| Arcanic Astrograph                        | Cosmos Simulation                  | Work as `Eye of Harmony`                                                   |
-| Arcane Cache Vault                        | Packer                             | Work as `Packer` and use multirecipelogic                                  |
-| Draconic Collapse Core                    | Aggregation Device                 | Work as `Aggregation Device` and more parallel, can use HugeInputHatch     |
+| Nebula Reaper                             | Space Miner Module *and* Space Drilling Module | Work as `Space Miner Module` *and* `Space Drilling Module` but use multirecipelogic |
+| Arcanic Astrograph                        | Cosmos Simulation                  | Work as `Eye of Harmony` but more efficient                                |
+| Arcane Cache Vault                        | Packer                             | Work as `Packer` but use multirecipelogic                                  |
+| Draconic Collapse Core                    | Aggregation Device                 | Work as `Aggregation Device` with more parallel, can use HugeInputHatch and ME Pattern Buffer |
 | Titan Crip Earthbore                      | Tectonic Fault Generater           | Produce `Bedrock dust`                                                     |
 | Biological Simulation Laboratoy           | Biological Simulation              | Produce resources from entities with `world data`,`swords` and `spawn egg` |
-| Dimensionally Transcendent Chemical Plant | Large Chemical Reactor             | Work as `Large Chemical Reactor` and use multirecipelogic                  |
+| Dimensionally Transcendent Chemical Plant | Large Chemical Reactor             | Work as `Large Chemical Reactor` but use multirecipelogic                  |
 | Quantum Syphon Martix                     | Voidflux Reaction                  | Produce `Air` series                                                       |
 | Fuxi Bagua Heaven Forging Furnace | Stellar Lgintion *and* Chaotic Alchemy *and* Molecular Deconstruction *and* Ultimate Material Forge | Stellar Lgintioncan can Transmute some kinds of`Gas`or`Liquid` into `Plasma`, Chaotic Alchemy as `Alloy Blast Smelter` but output `Liquid`, Molecular Deconstruction can extraction some `dust` (It couldn't be extracted directly originally) into `Liquid`|
-|Antientropy Condensation Center            | Antientropy Condensation           | Work as `Cooling Tower` but no use `Liquid Helium`                         |
-|Taixu Turbid Array                         | Chaos Weave                        | Produce `Scrap Box` `UU Amplifier` *and* `UU Matter`                       | 
-|Inferno Cleft Smelting Vault               | Pyrolyse Oven *and* Cracker        | Work as `Large Pyrolyse Oven` *and* `Large Recycler` and use multirecipelogic |
-|Skeleton Shift Rift Engine                 | Decay Hastener                     | Work as `Decay Hastener` but more efficient                                |
+| Antientropy Condensation Center           | Antientropy Condensation           | Work as `Cooling Tower` but no use `Liquid Helium`                         |
+| Taixu Turbid Array                        | Chaos Weave                        | Produce `Scrap Box` `UU Amplifier` *and* `UU Matter`                       | 
+| Inferno Cleft Smelting Vault              | Pyrolyse Oven *and* Cracker        | Work as `Large Pyrolyse Oven` *and* `Large Recycler` and use multirecipelogic |
+| Skeleton Shift Rift Engine                | Decay Hastener                     | Work as `Decay Hastener` but more efficient                                |
+| Time Space Distorter                      | Dimensionally Transcendent Smelting and Stellar Thermal Smelting | Work as `Dimensionally Transcendent Plasma Forge` but more efficient |
+| Recursive Reverse Forge                   | Quantum Manipulator and Deep Chemical Distortion | Work as `Quantum Field Transformer` and `Deep Chemical Distorter` but more efficient |
 
-- The input upper limits of `Gaseous Hydrogen` and `Gaseous Helium` for the `Eye of Harmony` have been restricted
+- The input upper limits of `Gaseous Hydrogen` and `Gaseous Helium` for the `Eye of Harmony` have been restricted to 10,000,000,000 mB
 
 ### Multiblock Machine Part
 
@@ -64,6 +66,9 @@ This mod added many better machines to replace original machines
 | Huge Output Dual Hatch  | Similar with `Huge Input Dual Hatch`                                       |
 | Huge Steam Input Hatch  | Like Large Steam Input Hatch . Raise the steam multiblock recipe restriction to **HV** *and* The duration taken becomes **1t** |
 | Super Input Dual Hatch  | Similar to `Huge Input Dual Hatch` , but with more input space             |
+| Spectral Analysis Hatch | Enhanced Integrated Ore Processor and Advanced Integrated Ore Processor    |
+| Transmutation Bus Hatch | Used on Atomic Transmutation Core , Door of Creation and Creative Aggregator |
+| Ventiane Transcription Node | Output redstone signal for Catalytic Cascade Array and Reverse Time Boosting Engine |
 
 In addition, there are also some defiled Part
 
@@ -75,5 +80,5 @@ In addition, there are also some defiled Part
 - Many simplified recipes have been added, which can help optimize large-scale production lines. Please learn to use **`jei`** to find recipes. If this recipe is added by `GTLAdditions`, there will be a prompt to explain(So you can often look through jei in your daily life. You will always find some new recipes)
 - The addition of brand-new SOC chips and wafers enables more efficient circuit production
 
-
+For further information, please consult the in-game GTLAdditions guide.
 
