@@ -119,6 +119,7 @@
   "gtceu.recipe.accelerant": "Accelerant: %s",
   "gtceu.recipe.accelerant.hover": "Each run requires the consumption of one accelerant, does not participate in parallel computing, and returns after the recipe is finished",
   "gtceu.recipe.fail.accelerant": "Need to input an accelerant",
+  "block.gtceu.magmatter_block": "Block of Magmatter",
   "gui.gtceu.vientiane_transcription_node.invert.disabled.0": "Redstone Output: Normal",
   "gui.gtceu.vientiane_transcription_node.invert.disabled.1": "Click to invert redstone logic",
   "gui.gtceu.vientiane_transcription_node.invert.disabled.2": "Emits redstone signal when temperature is between set minimum and maximum values, stops emitting when below minimum",

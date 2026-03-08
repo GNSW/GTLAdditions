@@ -8,6 +8,7 @@ import org.gtlcore.gtlcore.config.ConfigHolder
 import com.gregtechceu.gtceu.api.GTValues.*
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTItems
@@ -141,5 +142,15 @@ object FractalReconstruction {
                 .EUt(16L * VA[MAX]).duration(500)
                 .save(provider)
         }
+        FRACTAL_RECONSTRUCTION.recipeBuilder(id("hypercube"))
+            .inputItems("kubejs:quantum_anomaly".getItemStack())
+            .inputItems("kubejs:quantum_chromodynamic_charge".getItemStack(4))
+            .inputItems(ingot, TranscendentMetal, 16)
+            .notConsumableFluid(TemporalFluid.getFluid(16000))
+            .inputFluids(CosmicNeutronium.getFluid(288), SpaceTime.getFluid(1000))
+            .addData("accelerant", "gtceu:magmatter_block")
+            .outputItems("kubejs:hypercube".getItemStack(64))
+            .EUt(48L * VA[MAX]).duration(4800)
+            .save(provider)
     }
 }
