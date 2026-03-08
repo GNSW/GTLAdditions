@@ -141,22 +141,14 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
             this.recipeStatus = null
             this.recipeList.clear()
             if (tsdMachine.isMultiple) {
-                tsdMachine.getOverclockRecipe(
-                    ::findAndModifyRecipe,
-                    { true },
-                    16,
-                    1
-                )?.let { if (checkRecipe(it)) setupRecipe(it) }
+                tsdMachine.getOverclockRecipe(::findAndModifyRecipe, maxThread = 16, minDuration = 1)?.let {
+                    if (RecipeRunnerHelper.matchRecipeOutput(tsdMachine, it)) setupRecipe(it)
+                }
             } else {
                 lookup.find(machine, ::checkRecipe)?.let { recipe ->
-                    this.modifyRecipe(
-                        recipe,
-                        tsdMachine.maxParallel.toLong()
-                    )?.let {
-                        if (checkRecipe(it)) {
-                            lastOriginRecipe = recipe
-                            setupRecipe(it)
-                        }
+                    this.modifyRecipe(recipe, tsdMachine.maxParallel.toLong())?.let {
+                        lastOriginRecipe = recipe
+                        setupRecipe(it)
                     }
                 }
             }
@@ -165,10 +157,8 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
         private fun findAndModifyRecipe(parallel: Long): GTRecipe? {
             lookup.find(machine, ::checkRecipe)?.let { recipe ->
                 this.modifyRecipe(recipe, parallel)?.let {
-                    if (checkRecipe(it)) {
-                        this.recipeList.add(recipe.id.hashCode())
-                        return it
-                    }
+                    this.recipeList.add(recipe.id.hashCode())
+                    return it
                 }
             }
             return null
@@ -210,13 +200,8 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
                     ism.`gtlcore$setSuspendAfterFinish`(false)
                 } else {
                     if (tsdMachine.isMultiple) {
-                        tsdMachine.getOverclockRecipe(
-                            ::findAndModifyRecipe,
-                            { true },
-                            16,
-                            1
-                        )?.let {
-                            if (checkRecipe(it)) {
+                        tsdMachine.getOverclockRecipe(::findAndModifyRecipe, maxThread = 16, minDuration = 1)?.let {
+                            if (RecipeRunnerHelper.matchRecipeOutput(tsdMachine, it)) {
                                 setupRecipe(it)
                                 return
                             }
@@ -224,11 +209,9 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
                     } else {
                         (lastOriginRecipe ?: lookup.find(machine, ::checkRecipe))?.let { recipe ->
                             this.modifyRecipe(recipe, tsdMachine.maxParallel.toLong())?.let {
-                                if (checkRecipe(it)) {
-                                    lastOriginRecipe = recipe
-                                    setupRecipe(it)
-                                    return
-                                }
+                                lastOriginRecipe = recipe
+                                setupRecipe(it)
+                                return
                             }
                         }
                     }

@@ -128,18 +128,9 @@ class OreProcessorMachine(holder: IMachineBlockEntity, private val isAdvanced: B
                 }
             } else {
                 if (getSub) {
-                    opMachine.getOverclockRecipe(
-                        ::findAndModifyRecipe,
-                        { true },
-                        getMachineThread,
-                        getRecipeDuration
-                    )?.let { return handleRecipe(it) }
+                    opMachine.getOverclockRecipe(::findAndModifyRecipe, maxThread = getMachineThread, minDuration = getRecipeDuration)?.let { return handleRecipe(it) }
                 } else {
-                    opMachine.getFastMultipleRecipe(
-                        ::findAndModifyRecipe,
-                        getMachineThread,
-                        getRecipeDuration
-                    )?.let { return handleRecipe(it) }
+                    opMachine.getFastMultipleRecipe(::findAndModifyRecipe, getMachineThread, getRecipeDuration)?.let { return handleRecipe(it) }
                 }
             }
             return false

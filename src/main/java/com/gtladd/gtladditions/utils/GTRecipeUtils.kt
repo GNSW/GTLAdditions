@@ -40,10 +40,12 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap
 
+import java.util.function.Predicate
+
 @Suppress("UNCHECKED_CAST", "CAST_NEVER_SUCCEEDS")
 object GTRecipeUtils {
 
-    fun WorkableElectricMultiblockMachine.getOverclockRecipe(getRecipe: (Long) -> GTRecipe?, testBefore: (Object) -> Boolean, maxThread: Int, minDuration: Int): GTRecipe? {
+    fun WorkableElectricMultiblockMachine.getOverclockRecipe(getRecipe: (Long) -> GTRecipe?, testBefore: (Object) -> Boolean = { true }, maxThread: Int, minDuration: Int): GTRecipe? {
         if (!this.hasProxies()) return null
         val maxEUt = this.overclockVoltage
         if (maxEUt <= 0) return null
@@ -320,6 +322,10 @@ object GTRecipeUtils {
         FluidRecipeCapability.CAP -> (content as FluidIngredient).amount
         EURecipeCapability.CAP -> (content as Long)
         else -> 1L
+    }
+
+    fun <K> Content.test(k: K): Boolean {
+        return (content as? Predicate<K>)?.test(k) == true
     }
 
     val Ingredient.amount: Long get() =
