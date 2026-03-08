@@ -51,7 +51,7 @@ object FractalReconstruction {
             .inputFluids(ExcitedDtsc.getFluid(4000))
             .inputFluids(ExcitedDtec.getFluid(8000))
             .outputFluids(TranscendentMetal.getFluid(1152))
-            .addData("accelerant", "kubejs:hypercube")
+            .addData("accelerant", "kubejs:spacetime_catalyst")
             .EUt(64L * VA[MAX]).duration(5600)
             .save(provider)
         FRACTAL_RECONSTRUCTION.recipeBuilder(id("high_energy_quark_gluon_plasma"))
