@@ -141,10 +141,10 @@ open class TaixuTurbidArray(holder: IMachineBlockEntity) : TierCasingMachine(hol
     private fun successRateB(): Double = if (machineStorage.getStackInSlot(0).`is`(CREATE)) {
         100.0
     } else {
-        (100 * (1 - exp(-.02 * ((this.frameA + this.frameB) / 20 + cbrt(this.height) * this.tier / 7))) + this.slotAdd)
+        (100 * (1 - exp(-0.02 * ((this.frameA + this.frameB) / 20 + cbrt(this.height) * this.tier / 7))) + this.slotAdd)
     }
 
-    private fun baseOutputFluid1(): Int = (4096 * (1 - exp(-0.015 * (this.frameA * this.height / 16 + this.frameB * ln(this.tier + 2))))).toInt()
+    private fun baseOutputFluid1(): Int = (4096 * (1 - exp(-0.015 * (this.frameA * this.height / 16) + this.frameB * ln(this.tier + 2)))).toInt()
 
     private fun baseOutputFluid2(): Int = (2250 * tanh(sqrt(this.frameA * this.frameB) * (this.height + this.tier) * 0.06 / 200)).toInt()
 

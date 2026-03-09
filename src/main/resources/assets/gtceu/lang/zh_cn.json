@@ -119,6 +119,7 @@
   "gtceu.recipe.accelerant": "触媒: %s",
   "gtceu.recipe.accelerant.hover": "每次运行需要消耗一份触媒, 不参与并行计算, 配方结束后返回",
   "gtceu.recipe.fail.accelerant": "需要输入一份触媒",
+  "block.gtceu.magmatter_block": "磁物质块",
   "gui.gtceu.vientiane_transcription_node.invert.disabled.0": "红石输出：普通",
   "gui.gtceu.vientiane_transcription_node.invert.disabled.1": "点击为以反转红石逻辑",
   "gui.gtceu.vientiane_transcription_node.invert.disabled.2": "温度介于所设定的最小值和最大值之间时发出红石信号，小于最小值时则停止发出红石信号",
