@@ -1,3 +1,5 @@
+[简体中文](README.zh.md)
+
 <div align="center">
 # GTLAddtions
 </div>
@@ -19,7 +21,7 @@ This mod is developed based on the `GregTech Leisure`. On the basis of this Modp
 
 ## Install
 
-First,Download `GregTech Leisure` [here](https://pan.quark.cn/s/d13f899cdab5#/list/share)or [here](https://drive.google.com/drive/folders/1Ga_w-TmDKNru0me1kAM_gXyedz_Ne4-x),and install it with your Minecraft Launcher
+First,Download `GregTech Leisure` [here](https://pan.quark.cn/s/d13f899cdab5#/list/share) or [here](https://drive.google.com/drive/folders/1Ga_w-TmDKNru0me1kAM_gXyedz_Ne4-x),and install it with your Minecraft Launcher
 
 Second delete `GTLCore` and install newest one,you can find it in [here](https://github.com/AaAdoniSsS/GTLCore)
 
@@ -47,13 +49,13 @@ This mod added many better machines to replace original machines
 | Biological Simulation Laboratoy           | Biological Simulation              | Produce resources from entities with `world data`,`swords` and `spawn egg` |
 | Dimensionally Transcendent Chemical Plant | Large Chemical Reactor             | Work as `Large Chemical Reactor` but use multirecipelogic                  |
 | Quantum Syphon Martix                     | Voidflux Reaction                  | Produce `Air` series                                                       |
-| Fuxi Bagua Heaven Forging Furnace | Stellar Lgintion *and* Chaotic Alchemy *and* Molecular Deconstruction *and* Ultimate Material Forge | Stellar Lgintioncan can Transmute some kinds of`Gas`or`Liquid` into `Plasma`, Chaotic Alchemy as `Alloy Blast Smelter` but output `Liquid`, Molecular Deconstruction can extraction some `dust` (It couldn't be extracted directly originally) into `Liquid`|
+| Fuxi Bagua Heaven Forging Furnace         | Stellar Lgintion *and* Chaotic Alchemy *and* Molecular Deconstruction *and* Ultimate Material Forge | Stellar Lgintioncan can Transmute some kinds of`Gas`or`Liquid` into `Plasma`, Chaotic Alchemy as `Alloy Blast Smelter` but output `Liquid`, Molecular Deconstruction can extraction some `dust` (It couldn't be extracted directly originally) into `Liquid`|
 | Antientropy Condensation Center           | Antientropy Condensation           | Work as `Cooling Tower` but no use `Liquid Helium`                         |
 | Taixu Turbid Array                        | Chaos Weave                        | Produce `Scrap Box` `UU Amplifier` *and* `UU Matter`                       | 
 | Inferno Cleft Smelting Vault              | Pyrolyse Oven *and* Cracker        | Work as `Large Pyrolyse Oven` *and* `Large Recycler` and use multirecipelogic |
 | Skeleton Shift Rift Engine                | Decay Hastener                     | Work as `Decay Hastener` but more efficient                                |
-| Time Space Distorter                      | Dimensionally Transcendent Smelting and Stellar Thermal Smelting | Work as `Dimensionally Transcendent Plasma Forge` but more efficient |
-| Recursive Reverse Forge                   | Quantum Manipulator and Deep Chemical Distortion | Work as `Quantum Field Transformer` and `Deep Chemical Distorter` but more efficient |
+| Recursive Reverse Forge                   | Dimensionally Transcendent Smelting and Stellar Thermal Smelting | Work as `Dimensionally Transcendent Plasma Forge` but more efficient |
+| Time Space Distorter                      | Quantum Manipulator and Deep Chemical Distortion | Work as `Quantum Field Transformer` and `Deep Chemical Distorter` but more efficient |
 
 - The input upper limits of `Gaseous Hydrogen` and `Gaseous Helium` for the `Eye of Harmony` have been restricted to 10,000,000,000 mB
 
@@ -63,7 +65,7 @@ This mod added many better machines to replace original machines
 | ----------------------- | -------------------------------------------------------------------------- |
 | Laser Hatch             | A larger laser Hatch than the original version , The ampere is `16777216A` *and* `67108863A` |
 | Wireless Laser Hatch    | Similar with `Laser Hatch` but No wiring is required                       |
-| Huge Output Dual Hatch  | Similar with `Huge Input Dual Hatch`                                       |
+| Huge Output Dual Hatch  | Similar with `Huge Input Dual Hatch` but with a larger capacity            |
 | Huge Steam Input Hatch  | Like Large Steam Input Hatch . Raise the steam multiblock recipe restriction to **HV** *and* The duration taken becomes **1t** |
 | Super Input Dual Hatch  | Similar to `Huge Input Dual Hatch` , but with more input space             |
 | Spectral Analysis Hatch | Enhanced Integrated Ore Processor and Advanced Integrated Ore Processor    |
