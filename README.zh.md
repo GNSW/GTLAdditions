@@ -4,7 +4,7 @@
 # GTLAddtions
 </div>
 
-> [!提示]
+> [提示！]
 > GTLAddtions 是一个为《GregTech Leisure》整合包新增配方与机器的扩展模组
 > 
 > 你可以在带有**最新**的core的GTL中加载这个mod！
