@@ -5,7 +5,7 @@
 </div>
 
 > [!TIP]
-> GTLAddtions is a mod which adds some new recipes and macthines To `GregTech Leisure`
+> GTLAddtions is a mod which adds some new recipes and macthines to `GregTech Leisure`
 > 
 > You can load it in your GTL with **Newest** core!
 > 
@@ -17,7 +17,7 @@ This mod is developed based on the `GregTech Leisure`. On the basis of this Modp
 
 ## Requirement
 
-- GTLCore  `Version >= 1.2.2.3`
+- GTLCore  `Version >= 1.2.2.8-fix3`
 
 ## Install
 
