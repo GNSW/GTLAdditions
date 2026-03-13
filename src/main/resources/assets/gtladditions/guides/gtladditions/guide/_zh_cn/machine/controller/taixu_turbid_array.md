@@ -39,7 +39,7 @@ item_ids:
 > <Latex math = "1/(1 + e^{-0.1 * (\frac{\alpha}{50} + \frac{\beta}{100} + \frac{高度}{9})})" />
 
 * uu增幅液的基础产出计算公式:
-> <Latex math = "4096 * (1 - e^{-0.015 * \alpha * \frac{高度}{16} + \beta * \ln{(电压等级 + 2)}})" />
+> <Latex math = "4096 * (1 - e^{-0.015 * (\alpha * \frac{高度}{16} + \beta * \ln{(电压等级 + 2)})})" />
 
 * uu物质成功概率计算公式:
 > <Latex math = "1/(1 - e^{-0.02 * (\frac{\alpha + \beta}{20} + \sqrt[3]{高度} * \frac{电压等级}{7})})" />
