@@ -39,7 +39,7 @@ item_ids:
 > <Latex math = "1/(1 + e^{-0.1 * (\frac{\alpha}{50} + \frac{\beta}{100} + \frac{height}{9})})" />
 
 * UU Amplifier base output calculation formula:
-> <Latex math = "4096 * (1 - e^{-0.015 * \alpha * \frac{height}{16} + \beta * \ln{(Voltage Tier + 2)}})" />
+> <Latex math = "4096 * (1 - e^{-0.015 * (\alpha * \frac{height}{16} + \beta * \ln{(Voltage Tier + 2)})})" />
 
 * UU Matter success probability calculation formula:
 > <Latex math = "1/(1 - e^{-0.02 * (\frac{\alpha + \beta}{20} + \sqrt[3]{height} * \frac{Voltage Tier}{7})})" />
