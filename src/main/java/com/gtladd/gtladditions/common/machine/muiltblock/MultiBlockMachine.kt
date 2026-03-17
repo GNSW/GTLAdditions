@@ -12,6 +12,7 @@ import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.*
 import com.gregtechceu.gtceu.GTCEu
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.frameGt
+import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine
@@ -359,7 +360,7 @@ object MultiBlockMachine {
                 .where(
                     "d",
                     blocks(LAFIUM_MECHANICAL_CASING.get())
-                        .or(abilities(GTLAddPartAbility.CONVERSATION_HATCH).setMaxGlobalLimited(1))
+                        .or(blocks(GTLAddMachines.ME_BLOCK_CONVERSATION.get()).setMaxGlobalLimited(1))
                         .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(1))
                 )
                 .where("E", blocks(DRAGON_STRENGTH_TRITANIUM_CASING.get()))
@@ -1214,7 +1215,7 @@ object MultiBlockMachine {
                     "B",
                     blocks(DIMENSION_INJECTION_CASING.get())
                         .or(blocks(GTLMachines.HUGE_FLUID_IMPORT_HATCH[1].get()).setExactLimit(1))
-                        .or(abilities(GTLAddPartAbility.VIENTIANE_HATCH).setExactLimit(1))
+                        .or(blocks(GTLAddMachines.VIENTIANE_TRANSCEIPTION_NODE.get()).setExactLimit(1))
                 )
                 .where("C", blocks(DEGENERATE_RHENIUM_CONSTRAINED_CASING.get()))
                 .where("E", blocks(GRAVITON_FIELD_CONSTRAINT_CASING.get()))
@@ -1300,9 +1301,9 @@ object MultiBlockMachine {
                 .where(
                     "B",
                     blocks(DIMENSION_INJECTION_CASING.get())
-                        .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1))
-                        .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
-                        .or(abilities(GTLAddPartAbility.VIENTIANE_HATCH).setExactLimit(1))
+                        .or(blocks(GTLAddMachines.SUPER_INPUT_DUAL_HATCH.get()).setMaxGlobalLimited(1))
+                        .or(blocks(*GTLMachines.HUGE_FLUID_IMPORT_HATCH.mapNotNull { hatch: MachineDefinition? -> hatch?.get() }.toTypedArray()).setMaxGlobalLimited(1))
+                        .or(blocks(GTLAddMachines.VIENTIANE_TRANSCEIPTION_NODE.get()).setExactLimit(1))
                 )
                 .where("C", blocks(DEGENERATE_RHENIUM_CONSTRAINED_CASING.get()))
                 .where("E", blocks(GRAVITON_FIELD_CONSTRAINT_CASING.get()))

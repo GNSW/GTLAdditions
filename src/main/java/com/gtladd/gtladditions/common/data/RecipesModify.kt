@@ -105,7 +105,7 @@ object RecipesModify {
                             else -> a.add(ObjectIntPair.of(item, it.amount(t).safeToInt))
                         }
                     }
-                    RTBERecipeItemMap.put(builder.id.hashCode(), a.toTypedArray())
+                    if (!a.isEmpty) RTBERecipeItemMap.put(builder.id.withPrefix(GTLAddRecipesTypes.RECURSIVE_REVERSE_FORGE.registryName.path + "/").hashCode(), a.toTypedArray())
                 } else if (t == CAP) {
                     val l =
                         u
@@ -115,7 +115,7 @@ object RecipesModify {
                                     GTLMaterials.DimensionallyTranscendentResidue.fluid
                             }.map { ObjectIntPair.of(it.stack.fluid, it.amount.safeToInt) }
                             .toTypedArray()
-                    RTBERecipeFluidMap.put(builder.id.hashCode(), l)
+                    if (!l.isEmpty()) RTBERecipeFluidMap.put(builder.id.withPrefix(GTLAddRecipesTypes.RECURSIVE_REVERSE_FORGE.registryName.path + "/").hashCode(), l)
                 }
             }
             builder.save(provider)
@@ -145,7 +145,7 @@ object RecipesModify {
                             else -> a.add(ObjectIntPair.of(item, it.amount(t).safeToInt))
                         }
                     }
-                    RTBERecipeItemMap.put(builder.id.hashCode(), a.toTypedArray())
+                    if (!a.isEmpty) RTBERecipeItemMap.put(builder.id.withPrefix(GTLAddRecipesTypes.RECURSIVE_REVERSE_FORGE.registryName.path + "/").hashCode(), a.toTypedArray())
                 } else if (t == CAP) {
                     val l =
                         u
@@ -155,7 +155,7 @@ object RecipesModify {
                                     GTLMaterials.DimensionallyTranscendentResidue.fluid
                             }.map { ObjectIntPair.of(it.stack.fluid, it.amount.safeToInt) }
                             .toTypedArray()
-                    RTBERecipeFluidMap.put(builder.id.hashCode(), l)
+                    if (!l.isEmpty()) RTBERecipeFluidMap.put(builder.id.withPrefix(GTLAddRecipesTypes.RECURSIVE_REVERSE_FORGE.registryName.path + "/").hashCode(), l)
                 }
             }
             builder.save(provider)

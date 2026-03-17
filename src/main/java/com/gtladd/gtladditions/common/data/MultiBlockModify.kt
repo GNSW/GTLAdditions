@@ -20,7 +20,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.ActiveTransformerMachine
 import com.gregtechceu.gtceu.utils.SupplierMemoizer
 
-import com.gtladd.gtladditions.api.machine.GTLAddPartAbility
+import com.gtladd.gtladditions.common.machine.GTLAddMachines
 import com.gtladd.gtladditions.common.machine.muiltblock.controller.CreateAggregationMachine
 import com.gtladd.gtladditions.common.machine.muiltblock.controller.CreateDoorMachine
 import com.gtladd.gtladditions.common.machine.muiltblock.controller.OreProcessorMachine
@@ -71,7 +71,7 @@ object MultiBlockModify {
                             "d",
                             blocks(GTLBlocks.DIMENSION_CONNECTION_CASING.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setExactLimit(1))
-                                .or(abilities(GTLAddPartAbility.CONVERSATION_HATCH).setMaxGlobalLimited(1))
+                                .or(blocks(GTLAddMachines.ME_BLOCK_CONVERSATION.get()).setMaxGlobalLimited(1))
                                 .or(abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(1))
                         )
                         .where("a", blocks(GTLBlocks.DIMENSION_CONNECTION_CASING.get()))
@@ -119,7 +119,7 @@ object MultiBlockModify {
                             "a",
                             blocks(GTLBlocks.DIMENSION_CONNECTION_CASING.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setExactLimit(1))
-                                .or(abilities(GTLAddPartAbility.CONVERSATION_HATCH).setMaxGlobalLimited(1))
+                                .or(blocks(GTLAddMachines.ME_BLOCK_CONVERSATION.get()).setMaxGlobalLimited(1))
                                 .or(abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(1))
                                 .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1))
                         )
@@ -152,7 +152,7 @@ object MultiBlockModify {
                                 .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
                                 .or(Predicates.autoAbilities(GTLRecipeTypes.INTEGRATED_ORE_PROCESSOR))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                .or(abilities(GTLAddPartAbility.OP_HATCH).setMaxGlobalLimited(1))
+                                .or(blocks(GTLAddMachines.ORE_PROCESSOR_HATCH.get()).setMaxGlobalLimited(1))
                         )
                         .where("a", blocks(GTBlocks.CASING_HSSE_STURDY.get()))
                         .where("b", blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
@@ -211,7 +211,7 @@ object MultiBlockModify {
                                 .or(abilities(PartAbility.IMPORT_ITEMS))
                                 .or(abilities(PartAbility.EXPORT_ITEMS))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS))
-                                .or(abilities(GTLAddPartAbility.OP_HATCH).setMaxGlobalLimited(1))
+                                .or(blocks(GTLAddMachines.ORE_PROCESSOR_HATCH.get()).setMaxGlobalLimited(1))
                         )
                         .where("A", blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                         .where("B", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.HSSS)))

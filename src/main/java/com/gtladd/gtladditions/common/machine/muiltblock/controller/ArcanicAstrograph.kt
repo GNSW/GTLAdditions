@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level
 
 import com.gtladd.gtladditions.common.saved.HarmonySaved
 import com.gtladd.gtladditions.utils.ComponentUtil.literal
+import com.gtladd.gtladditions.utils.MathUtil.ln
 
 import kotlin.math.ln
 
@@ -23,15 +24,15 @@ class ArcanicAstrograph(holder: IMachineBlockEntity) : HarmonyMachine(holder) {
     companion object {
         fun recipeModifier(machine: MetaMachine, recipe: GTRecipe, params: OCParams, result: OCResult): GTRecipe? {
             HarmonyMachine.recipeModifier(machine, recipe, params, result)?.let {
-                val parallel = getMachineParallel(machine.level)
+                val parallel = getMachineParallel(machine.level, machine as ArcanicAstrograph)
                 return GTRecipeModifiers.accurateParallel(machine, it, parallel, false).getFirst()
             }
             return null
         }
-        fun getMachineParallel(level: Level?): Int {
+        fun getMachineParallel(level: Level?, machine: ArcanicAstrograph): Int {
             if (level == null) return 0
             val machineCount = HarmonySaved.INSTANCE.getMachineCount(level)
-            return (924 * ln((machineCount.firstInt() + 15 * machineCount.secondInt()).toDouble())).toInt()
+            return (924 * ln(machineCount.firstInt() + 15 * (machineCount.secondInt() + if (machine.recipeLogic.isWorking) 0 else 1))).toInt()
         }
     }
 
@@ -41,7 +42,7 @@ class ArcanicAstrograph(holder: IMachineBlockEntity) : HarmonyMachine(holder) {
             textList.add(
                 Component.translatable(
                     "gtceu.multiblock.parallel",
-                    FormattingUtil.formatNumbers(getMachineParallel(this.level)).literal
+                    FormattingUtil.formatNumbers(getMachineParallel(this.level, this)).literal
                         .withStyle(ChatFormatting.DARK_PURPLE)
                 ).withStyle(ChatFormatting.GRAY)
             )

@@ -17,7 +17,6 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 
-import com.gtladd.gtladditions.api.machine.GTLAddPartAbility
 import com.gtladd.gtladditions.api.registry.GTLAddRegistration.Companion.REGISTRATE
 import com.gtladd.gtladditions.common.data.GTLAddCreativeModeTabs
 import com.gtladd.gtladditions.common.data.MultiBlockModify
@@ -143,7 +142,6 @@ object GTLAddMachines {
 
         ORE_PROCESSOR_HATCH = REGISTRATE.machine("spectral_analysis_hatch", ::OreProcessorHatch)
             .rotationState(RotationState.ALL)
-            .abilities(GTLAddPartAbility.OP_HATCH)
             .langValue("Ore Processor Hatch")
             .overlayTieredHullRenderer("op_hatch")
             .tooltips(
@@ -157,7 +155,6 @@ object GTLAddMachines {
 
         ME_BLOCK_CONVERSATION = REGISTRATE.machine("me_block_conservation", ::MEBlockConversationHatch)
             .rotationState(RotationState.ALL)
-            .abilities(GTLAddPartAbility.CONVERSATION_HATCH)
             .overlayTieredHullRenderer("me_block_conservation")
             .tooltips(
                 "gtceu.universal.disabled".toComponent,
@@ -174,7 +171,6 @@ object GTLAddMachines {
 
         VIENTIANE_TRANSCEIPTION_NODE = REGISTRATE.machine("vientiane_transcription_node", ::VientianeTranscriptionNode)
             .rotationState(RotationState.ALL)
-            .abilities(GTLAddPartAbility.VIENTIANE_HATCH)
             .overlayTieredHullRenderer("vientiane_transcription_node")
             .langValue("Vientiane Transcription Node")
             .tooltipBuilder(GTLAdd_ADD)

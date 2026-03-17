@@ -1,6 +1,7 @@
 package com.gtladd.gtladditions.common.machine.muiltblock.controller.df
 
 import org.gtlcore.gtlcore.common.data.GTLMaterials
+import org.gtlcore.gtlcore.common.machine.multiblock.part.HugeFluidHatchPartMachine
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability
@@ -10,8 +11,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTMaterials
-import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine
-import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine
 
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
@@ -25,6 +24,7 @@ import com.gtladd.gtladditions.api.machine.gui.MultiblockDisplayText
 import com.gtladd.gtladditions.api.recipe.ContentList
 import com.gtladd.gtladditions.api.recipe.ContentList.MaxChanceContent
 import com.gtladd.gtladditions.common.data.RecipesModify
+import com.gtladd.gtladditions.common.machine.hatch.SuperDualHatchPartMachine
 import com.gtladd.gtladditions.common.machine.hatch.VientianeTranscriptionNode
 import com.gtladd.gtladditions.common.machine.muiltblock.controller.Resource
 import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
@@ -40,8 +40,8 @@ import kotlin.math.pow
 
 class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(holder) {
 
-    private var fluidHatch: FluidHatchPartMachine? = null
-    private var itemHatch: ItemBusPartMachine? = null
+    private var fluidHatch: HugeFluidHatchPartMachine? = null
+    private var returnHatch: SuperDualHatchPartMachine? = null
     private var hatch: VientianeTranscriptionNode? = null
 
     @Persisted
@@ -79,31 +79,31 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
     }
 
     private fun findDiv(recipe: GTRecipe): Double {
-        itemHatch?.inventory?.let {
+        returnHatch?.inventory?.let {
             RecipesModify.RTBERecipeItemMap[recipe.id.hashCode()]?.let { t ->
                 for (i in 0..<it.storage.slots) {
                     val item = it.storage.getStackInSlot(i)
                     if (!item.isEmpty) {
                         for (il in t) if (il.first() == item.item) {
                             val ma = temperature * il.rightInt()
-                            it.extractItemInternal(i, item.count minToInt il.rightInt(), false)
-                            returnItem = item.copyWithCount((getReturnDiv() * (item.count minToInt ma)).toInt())
-                            return (item.count / ma) minToDouble 1
+                            val ri = it.extractItemInternal(i, item.count minToInt ma, false)
+                            returnItem = item.copyWithCount((getReturnDiv() * ri.count).toInt())
+                            return (ri.count / ma) minToDouble 1
                         }
                     }
                 }
             }
         }
-        fluidHatch?.tank?.let {
+        returnHatch?.tank?.let {
             RecipesModify.RTBERecipeFluidMap[recipe.id.hashCode()]?.let { t ->
                 for (i in 0..<it.storages.size) {
                     val fluid = it.storages[i].fluid
                     if (!fluid.isEmpty) {
                         for (fl in t) if (fl.first() == fluid.fluid) {
-                            val ma = temperature * fl.rightInt().toLong()
-                            it.drainInternal(fluid.copy(fluid.amount minToLong fl.rightInt()), false)
-                            returnFluid = fluid.copy((getReturnDiv() * (fluid.amount minToLong ma)).toLong())
-                            return (fluid.amount / ma) minToDouble 1
+                            val ma = temperature * fl.rightInt()
+                            val rf = it.drainInternal(fluid.copy(fluid.amount minToLong ma), false)
+                            returnFluid = fluid.copy((getReturnDiv() * rf.amount).toLong())
+                            return (rf.amount / ma) minToDouble 1
                         }
                     }
                 }
@@ -124,6 +124,7 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
 
     override fun startupUpdate() {
         if (offsetTimer % 20 == 0L) {
+            if (host?.recipeLogic?.isWorking != true) safeMinusTemperature(900)
             fluidHatch?.tank?.let {
                 it.contents.forEach { f ->
                     val fluidStack = f as FluidStack
@@ -191,8 +192,8 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
                 this.hatch = part
                 this.hatch!!.controlMachine = true
             }
-            is FluidHatchPartMachine -> this.fluidHatch = part
-            is ItemBusPartMachine -> this.itemHatch = part
+            is HugeFluidHatchPartMachine -> this.fluidHatch = part
+            is SuperDualHatchPartMachine -> this.returnHatch = part
         }
     }
 

@@ -34,7 +34,7 @@ item_ids:
 > <Latex math = "\min{(0.8, 0.05+0.7932*e^{-0.8473*投入比例^{2.326}})}" /> \
 > 投入比例为: 投入量/初始配方输出量乘当前温度, 投入比例不会大于1, 投入比例小于10%时不会激活耗时减免功能 \
 > 只需投入一种输出物品或流体即可, 不能使用<FluidLink id="gtceu:dimensionallytranscendentresidue" />,<ItemLink id="kubejs:extremely_durable_plasma_cell" />,<ItemLink id="kubejs:time_dilation_containment_unit" />, <ItemLink id="kubejs:plasma_containment_cell" /> \
-> 初始温度为48000K, 若机器处于工作状态则温度会以1300K/s的速度增长, 处于待机状态则温度会以900K/s的速度减少(不低于48000K) \
+> 初始温度为48000K, 若机器处于工作状态则温度会以1300K/s的速度增长, 处于非工作状态则温度会以900K/s的速度减少(不低于48000K) \
 > 可以通入不同的流体来控制温度,可用加热介质为<FluidLink id="minecraft:lava" />2500K,<FluidLink id="gtceu:blaze" />4600K,<FluidLink id="gtceu:raw_star_matter_plasma" />14000K, 可用冷却液为<FluidLink id="gtceu:ice" />1900K,<FluidLink id="gtceu:liquid_helium" />3400K,<FluidLink id="kubejs:gelid_cryotheum" />6700K \
 > 加热介质和冷却液消耗速度均为100B/1s \
 > 投入的配方产物会在配方处理结束后按比例返还 \
@@ -45,7 +45,7 @@ item_ids:
 > <Latex math = "1-0.85*(\frac{当前温度-97000}{13000})^{0.42}" /> \
 > 当温度超过105000K时将触发过热保护机制, 默认以7125K/s的冷却速度降低温度(使用冷却剂可以额外增加降温速度, 实际降温速度为默认速度加冷却剂降温速度), 直到降低到48000K前机器本体将不会处理配方 \
 > 可以安装<ItemLink id="gtladditions:vientiane_transcription_node" />来控制温度 \
-> **无法使用**输入总成来提供控温流体, 只能使用输入仓提供
+> **只能**使用巨型输入仓提供控温流体, **只能**使用<ItemLink id="gtceu:super_input_dual_hatch" />提供投入的配方产物
 
 ### 催化迭升阵列
 

@@ -336,7 +336,7 @@ object GTRecipeUtils {
         }
 
     val FluidIngredient.stack: FluidStack get() {
-        stacks?.forEach { if (it != null && !it.isEmpty) return it }
+        getStacks().forEach { if (it != null && !it.isEmpty) return it }
         return FluidStack.empty()
     }
 

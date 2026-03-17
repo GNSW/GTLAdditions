@@ -250,11 +250,6 @@ class RecursiveReverseForge(holder: IMachineBlockEntity) :
         private var eut = 0L
         private var bigEUt = BigInteger.ZERO
 
-        override fun serverTick() {
-            super.serverTick()
-            if (!isWorking) rrfMachine.rtbeModule?.safeMinusTemperature(45)
-        }
-
         override fun findAndHandleRecipe() {
             lastRecipe = null
             lastOriginRecipe = null
