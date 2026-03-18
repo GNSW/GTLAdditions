@@ -45,7 +45,7 @@ item_ids:
 > <Latex math = "1-0.85*(\frac{当前温度-97000}{13000})^{0.42}" /> \
 > 当温度超过105000K时将触发过热保护机制, 默认以7125K/s的冷却速度降低温度(使用冷却剂可以额外增加降温速度, 实际降温速度为默认速度加冷却剂降温速度), 直到降低到48000K前机器本体将不会处理配方 \
 > 可以安装<ItemLink id="gtladditions:vientiane_transcription_node" />来控制温度 \
-> **只能**使用巨型输入仓提供控温流体, **只能**使用<ItemLink id="gtceu:super_input_dual_hatch" />提供投入的配方产物
+> **只能**使用巨型输入仓提供控温流体, **只能**使用<ItemLink id="super_input_dual_hatch" />提供投入的配方产物
 
 ### 催化迭升阵列
 

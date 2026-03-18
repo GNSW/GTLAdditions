@@ -45,7 +45,7 @@ item_ids:
 > <Latex math = "1-0.85*(\frac{current temperature-97000}{13000})^{0.42}" /> \
 > The overheat protection mechanism will be triggered when the temperature exceeds 105000K. By default, the temperature is reduced at a cooling rate of 7125K/s (using coolant can increase the cooling rate additionally; the actual cooling rate is the default rate plus the coolant cooling rate). The Recursive Reverse Forge linked until it drops to 48000K will not handle the recipe \
 > The <ItemLink id="gtladditions:vientiane_transcription_node" /> can be installed to control the temperature \
-> **Only** use giant input bin to provide temperature control fluid. **Only** use <ItemLink id="gtceu:super_input_dual_hatch" /> provide input to the recipe product
+> **Only** use giant input bin to provide temperature control fluid. **Only** use <ItemLink id="super_input_dual_hatch" /> provide input to the recipe product
 
 ### Catalytic Cascade Array
 

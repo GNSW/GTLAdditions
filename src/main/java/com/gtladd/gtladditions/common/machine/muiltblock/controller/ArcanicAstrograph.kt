@@ -18,8 +18,6 @@ import com.gtladd.gtladditions.common.saved.HarmonySaved
 import com.gtladd.gtladditions.utils.ComponentUtil.literal
 import com.gtladd.gtladditions.utils.MathUtil.ln
 
-import kotlin.math.ln
-
 class ArcanicAstrograph(holder: IMachineBlockEntity) : HarmonyMachine(holder) {
     companion object {
         fun recipeModifier(machine: MetaMachine, recipe: GTRecipe, params: OCParams, result: OCResult): GTRecipe? {
