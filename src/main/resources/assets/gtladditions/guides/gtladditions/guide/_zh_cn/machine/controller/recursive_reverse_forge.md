@@ -32,9 +32,9 @@ item_ids:
 
 > 安装该模块后, 可以减少配方耗时, 具体倍数为: \
 > <Latex math = "\min{(0.8, 0.05+0.7932*e^{-0.8473*投入比例^{2.326}})}" /> \
-> 投入比例为: 投入量/初始配方输出量乘当前温度, 投入比例不会大于1, 投入比例小于10%时不会激活耗时减免功能 \
+> 投入比例为: 投入量/(初始配方输出量*当前温度), 投入比例不会大于1, 投入比例小于10%时不会激活耗时减免功能 \
 > 只需投入一种输出物品或流体即可, 不能使用<FluidLink id="gtceu:dimensionallytranscendentresidue" />,<ItemLink id="kubejs:extremely_durable_plasma_cell" />,<ItemLink id="kubejs:time_dilation_containment_unit" />, <ItemLink id="kubejs:plasma_containment_cell" /> \
-> 初始温度为48000K, 若机器处于工作状态则温度会以1300K/s的速度增长, 处于非工作状态则温度会以900K/s的速度减少(不低于48000K) \
+> 初始温度为48000K, 若机器处于工作状态则温度会以65K/t的速度增长, 处于非工作状态则温度会以900K/s的速度减少(不低于48000K) \
 > 可以通入不同的流体来控制温度,可用加热介质为<FluidLink id="minecraft:lava" />2500K,<FluidLink id="gtceu:blaze" />4600K,<FluidLink id="gtceu:raw_star_matter_plasma" />14000K, 可用冷却液为<FluidLink id="gtceu:ice" />1900K,<FluidLink id="gtceu:liquid_helium" />3400K,<FluidLink id="kubejs:gelid_cryotheum" />6700K \
 > 加热介质和冷却液消耗速度均为100B/1s \
 > 投入的配方产物会在配方处理结束后按比例返还 \
@@ -100,7 +100,7 @@ item_ids:
 > 拥有无损超频, 且超频次数不限 \
 > 只能使用激光仓 \
 > 可以与递归反演锻炉共享催化迭升阵列以及超维聚能元件的加成 \
-> **当且仅当**逆时助推引擎模块正常工作时该模块可以正常工作 \
+> **当且仅当**逆时助推引擎模块运行正常时该模块可以正常工作 \
 > 模块运行配方时需额外输入一份配方对应的**触媒**(通过JEI查看), 触媒**不参与**并行计算, 配方运行结束后**返还**触媒
 
 
