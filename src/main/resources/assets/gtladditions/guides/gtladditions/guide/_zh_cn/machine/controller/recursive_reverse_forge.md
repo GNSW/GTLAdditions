@@ -32,7 +32,7 @@ item_ids:
 
 > 安装该模块后, 可以减少配方耗时, 具体倍数为: \
 > <Latex math = "\min{(0.8, 0.05+0.7932*e^{-0.8473*投入比例^{2.326}})}" /> \
-> 投入比例为: 当前温度*投入量/初始配方输出量, 投入比例不会大于1, 投入比例小于10%时不会激活耗时减免功能 \
+> 投入比例为: 投入量/(初始配方输出量*当前温度), 投入比例不会大于1, 投入比例小于10%时不会激活耗时减免功能 \
 > 只需投入一种输出物品或流体即可, 不能使用<FluidLink id="gtceu:dimensionallytranscendentresidue" />,<ItemLink id="kubejs:extremely_durable_plasma_cell" />,<ItemLink id="kubejs:time_dilation_containment_unit" />, <ItemLink id="kubejs:plasma_containment_cell" /> \
 > 初始温度为48000K, 若机器处于工作状态则温度会以65K/t的速度增长, 处于非工作状态则温度会以900K/s的速度减少(不低于48000K) \
 > 可以通入不同的流体来控制温度,可用加热介质为<FluidLink id="minecraft:lava" />2500K,<FluidLink id="gtceu:blaze" />4600K,<FluidLink id="gtceu:raw_star_matter_plasma" />14000K, 可用冷却液为<FluidLink id="gtceu:ice" />1900K,<FluidLink id="gtceu:liquid_helium" />3400K,<FluidLink id="kubejs:gelid_cryotheum" />6700K \

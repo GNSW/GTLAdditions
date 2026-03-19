@@ -32,7 +32,7 @@ item_ids:
 
 > After installing the module, the recipe time can be reduced by a factor of: \
 > <Latex math = "\min{(0.8, 0.05+0.7932*e^{-0.8473*input ratio^{2.326}})}" /> \
-> The input ratio is: current temperature * input quantity/initial recipe output quantity, the input ratio will not be greater than 1, and the time reduction function will not be activated when the input ratio is less than 10% \
+> The input ratio is:  input quantity/(initial recipe output quantity * current temperature), the input ratio will not be greater than 1, and the time reduction function will not be activated when the input ratio is less than 10% \
 > Just input one output item or fluid. Do not use <FluidLink id="gtceu:dimensionallytranscendentresidue" />,<ItemLink id="kubejs:extremely_durable_plasma_cell" />,<ItemLink id="kubejs:time_dilation_containment_unit" />, <ItemLink id="kubejs:plasma_containment_cell" /> \
 > The initial temperature is 48000K, if the machine is in the working state, the temperature will increase at the speed of 65K/t, and in the non-working state, the temperature will decrease at the speed of 900K/s (not less than 48000K) \
 > Different fluids can be introduced to control the temperature. The heating medium can be <FluidLink id="minecraft:lava" />2500K,<FluidLink id="gtceu:blaze" />4600K,<FluidLink id="gtceu:raw_star_matter" />14000K, and the cooling fluid can be <FluidLink id="gtceu:ice" />1900K,<FluidLink id="gtceu:helium" />3400K,<FluidLink id="kubejs:gelid_cryotheum" />6700K \
