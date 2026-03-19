@@ -14,8 +14,8 @@ item_ids:
 
 * You need to reach the <Color color="#00AA00">**UIV**</Color> tier to craft it
 * The Super Input Dual Hatch has a large number of input slots, capable of holding more items and fluids than the Huge Dual Input Hatch
-* Has 37 item slots, each slot can hold 2147483647 (2.14G) items
-* Has 24 fluid slots, each slot can hold 2251799813685247mb (2.2TB) of fluid
+* Has 37 item slots, each slot can hold 2,147,483,647 (2.14G) items
+* Has 24 fluid slots, each slot can hold 2,251,799,813,685,247mb (2.2TB) of fluid
 * However, it has a fatal drawback: each time it returns items or fluids, it can only return a maximum of 2.14G items or 2.14MB of fluid, which means if you input too much fluid in the hatch, you need to click return multiple times to get all items and fluids back
 * ~~Actually, you can use Primitive Robot Arm or Primitive Fluid Regulator to extract quickly(?)~~
 * ~~(Actually, it has been replaced by the MEPatternBuffer)~~
