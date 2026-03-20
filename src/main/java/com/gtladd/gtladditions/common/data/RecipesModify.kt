@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagUtil
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.recipe.content.Content
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
+import com.gregtechceu.gtceu.common.data.GCyMRecipeTypes
 import com.gregtechceu.gtceu.common.data.GTMaterials.Helium
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.VACUUM_RECIPES
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder
@@ -27,7 +28,10 @@ import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes
 import com.gtladd.gtladditions.utils.GTRecipeUtils.amount
 import com.gtladd.gtladditions.utils.GTRecipeUtils.stack
 import com.gtladd.gtladditions.utils.GTRecipeUtils.test
+import com.gtladd.gtladditions.utils.MathUtil.maxToInt
 import com.gtladd.gtladditions.utils.MathUtil.safeToInt
+import com.gtladd.gtladditions.utils.Registries.getFluid
+import com.gtladd.gtladditions.utils.SingleStream
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import it.unimi.dsi.fastutil.objects.ObjectIntPair
@@ -159,6 +163,16 @@ object RecipesModify {
                 }
             }
             builder.save(provider)
+        }
+        GCyMRecipeTypes.ALLOY_BLAST_RECIPES.onRecipeBuild { recipeBuilder, provider ->
+            val builder = GTLAddRecipesTypes.CHAOTIC_ALCHEMY.copyFrom(recipeBuilder)
+            val content = builder.output[CAP]!![0]
+            val fluidIngredient = content.content as FluidIngredient
+            val id = (fluidIngredient.stack.fluid as Fluid).builtInRegistryHolder().key().location().toString()
+            if (id.contains("molten")) {
+                builder.output.put(CAP, listOf(Content(FluidIngredient.fromValues(SingleStream.createSingle(FluidIngredient.FluidValue(id.replace("molten_", "").getFluid)), fluidIngredient.amount, fluidIngredient.nbt), content.chance, content.maxChance, content.tierChanceBoost, content.slotName, content.uiName)))
+            }
+            builder.duration((builder.duration * 0.8) maxToInt 1).save(provider)
         }
     }
 

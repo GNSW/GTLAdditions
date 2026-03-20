@@ -28,7 +28,6 @@ class GTLAdditionsGTAddon : IGTAddon {
     }
 
     override fun addRecipes(provider: Consumer<FinishedRecipe>) {
-        ChaoticAlchemy.init(provider)
         PhotonMatrixEtch.init(provider)
         EMResonanceConversionField.init(provider)
         TitansCripEarthbore.init(provider)

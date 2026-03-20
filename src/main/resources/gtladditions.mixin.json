@@ -24,8 +24,6 @@
     "gtceu.integration.jade.MachineModeProviderMixin",
     "gtceu.integration.jade.RecipeLogicProviderMixin",
     "gtceu.integration.jade.RecipeOutputProviderMixin",
-    "gtceu.recipe.AlloyBlastRecipeProducerMixin",
-    "gtceu.recipe.GCyMRecipesMixin",
     "gtceu.recipe.IGTRecipeLookupInvoker",
     "gtceu.recipe.RecyclingRecipesMixin",
     "gtlcore.api.NotifiableCircuitItemStackHandlerMixin",

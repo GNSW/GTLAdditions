@@ -1,15 +1,15 @@
 [English](README.md)
 
 <div align="center">
-# GTLAddtions
+# GTLAdditions
 </div>
 
 > [!TIP]
-> GTLAddtions 是一个为《GregTech Leisure》整合包新增配方与机器的扩展模组
+> GTLAdditions 是一个为《GregTech Leisure》整合包新增配方与机器的扩展模组
 > 
 > 你可以在带有**最新**的gtlcore的GTL中使用这个mod！
 > 
-> ***禁止再分发***
+> ***请遵守许可证协议***
 
 ## 前言
 
@@ -25,7 +25,7 @@
 
 然后删除其中的GTLCore，接着在[这里](https://github.com/AaAdoniSsS/GTLCore)下载并安装最新版GTLCore
 
-最后将GTLAddtions添加到/mods文件夹中
+最后将GTLAdditions添加到/mods文件夹中
 
 享受你的GTL之旅吧! ~~你可能在不玩GTL之后也能看到这些机器~~
 
