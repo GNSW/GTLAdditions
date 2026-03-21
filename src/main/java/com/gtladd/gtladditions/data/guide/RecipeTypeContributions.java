@@ -1,5 +1,7 @@
 package com.gtladd.gtladditions.data.guide;
 
+import org.gtlcore.gtlcore.common.data.machines.GCyMMachines;
+
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -14,6 +16,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.util.Map;
 
+import static com.gregtechceu.gtceu.common.data.GCyMRecipeTypes.ALLOY_BLAST_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.ATOMIC_TRANSMUTATION_CORE;
 import static com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.TITAN_CRIP_EARTHBORE;
@@ -47,5 +50,6 @@ public class RecipeTypeContributions implements RecipeTypeMappingSupplier {
         TYPE_MAP.put(DECAY_HASTENER_RECIPES, DECAY_HASTENER.asStack());
         TYPE_MAP.put(DISTORT_RECIPES, CHEMICAL_DISTORT.asStack());
         TYPE_MAP.put(QFT_RECIPES, QFT.asStack());
+        TYPE_MAP.put(ALLOY_BLAST_RECIPES, GCyMMachines.BLAST_ALLOY_SMELTER.asStack());
     }
 }

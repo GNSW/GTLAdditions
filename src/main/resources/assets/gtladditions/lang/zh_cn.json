@@ -75,6 +75,8 @@
   "material.gtladditions.mining_essence": "采掘精华液",
   "material.gtladditions.treasures_essence": "奇珍精华液",
   "material.gtladditions.crystalline_protoplasm": "结晶原浆",
+  "material.gtladditions.liquid_ruridit": "液态钌铱合金",
+  "material.gtladditions.ruridit": "钌铱合金",
   "gui.gtladditions.add": "由GTLAdditions添加",
   "gui.gtladditions.modify": "由GTLAdditions修改",
   "config.gtladditions.option.isMultiple": "GTLAdditions机器默认模式",
