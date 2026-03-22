@@ -47,5 +47,6 @@ class GTLAdditionsGTAddon : IGTAddon {
         Qft.init(provider)
         SocProcess.init(provider)
         Misc.init(provider)
+        RuriditExtend.init(provider)
     }
 }
