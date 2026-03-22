@@ -20,6 +20,8 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.material.Fluid
 
+import com.gtladd.gtladditions.utils.GTRecipeUtils.stack
+
 import javax.annotation.ParametersAreNonnullByDefault
 
 @ParametersAreNonnullByDefault
@@ -29,9 +31,11 @@ class HugeSteamHatchPartMachine(holder: IMachineBlockEntity) :
 
     override fun createTank(initialCapacity: Long, slots: Int, vararg args: Any): NotifiableFluidTank = object : NotifiableFluidTank(this, slots, initialCapacity, io) {
         override fun handleRecipeInner(io: IO, recipe: GTRecipe, left: List<FluidIngredient>, slotName: String?, simulate: Boolean): List<FluidIngredient>? {
-            val fluidStack = left[0]
-            val drained = (if (simulate) storages[0].copy() else storages[0]).drain(fluidStack.amount, false)
-            if ((fluidStack.amount - drained.amount).also { fluidStack.amount = it } <= 0) return null
+            val ingredient = left[0]
+            val fluidStack = ingredient.stack
+            if (left.size > 1 || fluidStack.fluid != GTMaterials.Steam.fluid) return left
+            val drained = (if (simulate) storages[0].copy() else storages[0]).drain(ingredient.amount, false)
+            if ((ingredient.amount - drained.amount).also { ingredient.amount = it } <= 0) return null
             return left
         }
     }.setFilter { it.fluid.`is`(tag) }
