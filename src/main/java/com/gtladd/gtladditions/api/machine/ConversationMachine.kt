@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
+import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic
@@ -50,7 +51,9 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap
 
 import kotlin.math.pow
 
-open class ConversationMachine(holder: IMachineBlockEntity) : WorkableElectricMultiblockMachine(holder) {
+open class ConversationMachine(holder: IMachineBlockEntity) :
+    WorkableElectricMultiblockMachine(holder),
+    IMachineModifyDrops {
 
     protected var bcHatch: MEBlockConversationHatch? = null
     private var busHatch: ItemBusPartMachine? = null
@@ -93,7 +96,7 @@ open class ConversationMachine(holder: IMachineBlockEntity) : WorkableElectricMu
         }
     }
 
-    open fun getStartRecipe(): GTRecipe = recipe
+    open fun getStartRecipe(): GTRecipe = if (cardId == 3) recipe1 else recipe
 
     open fun tickConsume(): Boolean {
         val ecList = (this as IEnergyMachine).energyContainerList
@@ -168,6 +171,8 @@ open class ConversationMachine(holder: IMachineBlockEntity) : WorkableElectricMu
 
     override fun getFieldHolder() = MANAGED_FIELD_HOLDER
 
+    override fun onDrops(drops: MutableList<ItemStack>) = this.clearInventory(this.machineStorage.storage)
+
     class ConversationRecipeLogic(val cMachine: ConversationMachine) : RecipeLogic(cMachine), IRecipeStatus {
 
         override fun findAndHandleRecipe() {
@@ -211,6 +216,7 @@ open class ConversationMachine(holder: IMachineBlockEntity) : WorkableElectricMu
 
     companion object {
         val recipe: GTRecipe by lazy { GTRecipeBuilder.ofRaw().buildRawRecipe() }
+        val recipe1: GTRecipe by lazy { GTRecipeBuilder.ofRaw().duration(20).buildRawRecipe() }
         val CARD_1: Item by lazy { CONVERSION_SIMULATE_CARD.asItem() }
         val CARD_2: Item by lazy { FAST_CONVERSION_SIMULATE_CARD.asItem() }
         val CARD_3: Item by lazy { GTLAddItems.ULTIMATE_CONVERSATION_CARD.asItem() }
