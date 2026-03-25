@@ -83,8 +83,18 @@ class ContentList : ObjectArrayList<Content> {
         return this
     }
 
+    fun addChanceIngredient(ingredient: Ingredient, chance: Int, maxChance: Int = 10000, tierChanceBoost: Int = 0): ContentList {
+        this.add(Content(ingredient, chance, maxChance, tierChanceBoost, null, null))
+        return this
+    }
+
     fun addChanceItemStack(itemStack: ItemStack, chance: Int, maxChance: Int = 10000, tierChanceBoost: Int = 0): ContentList {
         this.add(Content(itemStack.create(), chance, maxChance, tierChanceBoost, null, null))
+        return this
+    }
+
+    fun addChanceFluidIngredient(fluidIngredient: FluidIngredient, chance: Int, maxChance: Int = 10000, tierChanceBoost: Int = 0): ContentList {
+        this.add(Content(fluidIngredient, chance, maxChance, tierChanceBoost, null, null))
         return this
     }
 

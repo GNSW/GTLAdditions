@@ -190,7 +190,7 @@ object RecipesModify {
                             if (item.`kjs$getId`().contains("nanoswarm")) {
                                 cl.addNoCustomContent(t.content)
                             } else {
-                                cl.addChanceItemStack(item, t.chance, t.maxChance * 10)
+                                cl.addChanceIngredient(t.content as Ingredient, t.chance, t.maxChance * 10)
                             }
                         } else {
                             cl.addNoCustomContent(t.content)

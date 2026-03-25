@@ -96,7 +96,7 @@ open class ConversationMachine(holder: IMachineBlockEntity) :
         }
     }
 
-    open fun getStartRecipe(): GTRecipe = if (cardId == 3) recipe1 else recipe
+    open fun getStartRecipe(): GTRecipe = recipe
 
     open fun tickConsume(): Boolean {
         val ecList = (this as IEnergyMachine).energyContainerList
@@ -186,7 +186,7 @@ open class ConversationMachine(holder: IMachineBlockEntity) :
                 this.lastRecipe = recipe
                 this.status = Status.WORKING
                 this.progress = 0
-                this.duration = recipe.duration
+                this.duration = if (cMachine.cardId == 3) 20 else 100
             }
         }
 
@@ -195,7 +195,6 @@ open class ConversationMachine(holder: IMachineBlockEntity) :
                 this.status = Status.WORKING
                 cMachine.onWorking()
                 ++this.progress
-                ++this.totalContinuousRunningTime
             } else {
                 this.setWaiting(null)
             }
@@ -216,7 +215,6 @@ open class ConversationMachine(holder: IMachineBlockEntity) :
 
     companion object {
         val recipe: GTRecipe by lazy { GTRecipeBuilder.ofRaw().buildRawRecipe() }
-        val recipe1: GTRecipe by lazy { GTRecipeBuilder.ofRaw().duration(20).buildRawRecipe() }
         val CARD_1: Item by lazy { CONVERSION_SIMULATE_CARD.asItem() }
         val CARD_2: Item by lazy { FAST_CONVERSION_SIMULATE_CARD.asItem() }
         val CARD_3: Item by lazy { GTLAddItems.ULTIMATE_CONVERSATION_CARD.asItem() }
