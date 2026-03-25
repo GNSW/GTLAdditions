@@ -16,7 +16,7 @@ navigation:
 * [深度化学扭曲仪配方](distort_recipe.md)
 * [量子操纵者配方](qft_recipe.md)
 * [集成矿石处理配方](integratedted_ore_processor_recipe.md)
-* [钌铱合金配方](ruridit_recipe.md)
+* [更多流体配方](extended_fluid_recipe.md)
 * [其他配方杂项](others_recipe.md)
 
 ### 新产线
