@@ -7,6 +7,8 @@ navigation:
 
 # GTLAdditions Machine Config
 
+The default number of threads for most GTLAdditions machines is 128 (where applicable; for reference, the original cross-recipe parallel machine uses 64 threads).
+
 ## **Equally Divided Mode**
 
 > In Equally Divided Mode, the machine will process all possible recipes, with parallel recipes distributed as evenly as possible \
@@ -22,6 +24,6 @@ navigation:
 
 #### **Limit Duration Configuration for Recipe**
 
-> The button can be opened in the lower left corner of the GUI of some GTLAdd machines to adjust the initial default value. \
+> The button can be opened in the lower left corner of the GUI of some GTLAdditions machines to adjust the initial default value. \
 > The initial default value is 1 second. It ranges from 5 tick (minimum) to 10 seconds (maximum). \
 > The default value can also be modified in the mod configuration file.
