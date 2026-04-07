@@ -35,9 +35,9 @@ import net.minecraft.world.phys.BlockHitResult
 import com.gtladd.gtladditions.api.machine.IEnergyMachine
 import com.gtladd.gtladditions.api.machine.gui.MultiblockDisplayText
 import com.gtladd.gtladditions.common.machine.muiltblock.controller.Resource.Cryotheum
+import com.gtladd.gtladditions.common.machine.muiltblock.controller.Resource.HyperdimensionalDrone
 import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import com.gtladd.gtladditions.utils.MachineUtil.inputFluidStack
-import com.gtladd.gtladditions.utils.Registries.getItem
 import com.hepdd.gtmthings.api.misc.WirelessEnergyManager
 import com.hepdd.gtmthings.utils.TeamUtil
 
@@ -184,7 +184,6 @@ class HyperdimensionalEnergyConcentrator(holder: IMachineBlockEntity) :
         const val EU = 64L * Int.MAX_VALUE
         val bigLong: BigInteger = BigInteger.valueOf(Long.MAX_VALUE)
         private val Fluid = FluidStack.create(Cryotheum, 240000)
-        private val HyperdimensionalDrone = "kubejs:hyperdimensional_drone".getItem
         val MANAGED_FIELD_HOLDER = ManagedFieldHolder(HyperdimensionalEnergyConcentrator::class.java, StorageMachine.MANAGED_FIELD_HOLDER)
     }
 

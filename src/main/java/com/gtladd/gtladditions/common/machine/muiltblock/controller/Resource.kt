@@ -7,6 +7,7 @@ import com.gtladd.gtladditions.utils.Registries.getItem
 
 object Resource {
     val Cryotheum = "kubejs:gelid_cryotheum".getFluid
+    val HyperdimensionalDrone = "kubejs:hyperdimensional_drone".getItem
     val BlackBodyNaquadriaSupersolid = "kubejs:black_body_naquadria_supersolid".getItem
     val HyperStableSelfHealingAdhesive = "kubejs:hyper_stable_self_healing_adhesive".getItem
     val QuantumAnomaly: Item = "kubejs:quantum_anomaly".getItem

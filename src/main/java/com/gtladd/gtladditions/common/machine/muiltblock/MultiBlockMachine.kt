@@ -30,7 +30,9 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.state.properties.SlabType
 
+import appeng.core.definitions.AEBlocks
 import com.gtladd.gtladditions.api.machine.*
 import com.gtladd.gtladditions.api.recipe.FastRecipeModify
 import com.gtladd.gtladditions.api.registry.GTLAddRegistration.Companion.REGISTRATE
@@ -1150,7 +1152,6 @@ object MultiBlockMachine {
             GTLCore.id("block/casings/dimension_injection_casing"),
             GTCEu.id("block/multiblock/fusion_reactor")
         )
-        .hasTESR(true)
         .register()
 
     val RECURSIVE_REVERSE_FORGE: MultiblockMachineDefinition = REGISTRATE.multiblock("recursive_reverse_forge", ::RecursiveReverseForge)
@@ -1348,6 +1349,54 @@ object MultiBlockMachine {
         .workableCasingRenderer(
             GTLCore.id("block/casings/dimension_injection_casing"),
             GTCEu.id("block/multiblock/top/fusion_reactor")
+        )
+        .register()
+
+    val PLANETARY_IONISATION_CONVERGENCE_TOWER: MultiblockMachineDefinition = REGISTRATE.multiblock("planetary_ionisation_convergence_tower", ::PlanetaryIonisationConvergenceTower)
+        .nonYAxisRotation()
+        .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
+        .recipeType(DUMMY_RECIPES)
+        .generator(true)
+        .appearanceBlock(SPS_CASING)
+        .pattern {
+            MultiBlockStructureB.PLANETARY_IONISATION_CONVERGENCE_TOWER_STRUCTURE
+                .where("Z", controller(blocks(it.get())))
+                .where(
+                    "I",
+                    blocks(SPS_CASING.get())
+                        .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                        .or(abilities(OUTPUT_LASER).setExactLimit(1))
+                )
+                .where("U", blocks(PLASTCRETE.get()))
+                .where("G", blocks(GCyMBlocks.ELECTROLYTIC_CELL.get()))
+                .where("N", blocks(RHENIUM_REINFORCED_ENERGY_GLASS.get()))
+                .where("H", GTLAddPredicates.slabBlock(SlabType.BOTTOM, Blocks.POLISHED_DEEPSLATE_SLAB))
+                .where("O", blocks(Blocks.POLISHED_DEEPSLATE_WALL))
+                .where("P", blocks(CASING_EXTREME_ENGINE_INTAKE.get()))
+                .where("R", blocks(FUSION_GLASS.get()))
+                .where("X", blocks(SUPERCONDUCTING_COIL.get()))
+                .where("M", GTLPredicates.tierCasings(BlockMap.scMap, "SCTier"))
+                .where("B", blocks(ENHANCE_HYPER_MECHANICAL_CASING.get()))
+                .where("W", frames(NaquadahAlloy))
+                .where("C", blocks(HIGH_POWER_CASING.get()))
+                .where("Q", GTLAddPredicates.heatingCoils(14400))
+                .where("T", blocks(AEBlocks.QUARTZ_VIBRANT_GLASS.block()))
+                .where("D", blocks(HYPER_MECHANICAL_CASING.get()))
+                .where("F", frames(Mithril))
+                .where("J", blocks(OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
+                .where("L", blocks(Blocks.IRON_TRAPDOOR))
+                .where("K", blocks(GCyMBlocks.HEAT_VENT.get()))
+                .where("E", blocks(MOLECULAR_CASING.get()))
+                .where("V", blocks(CASING_PTFE_INERT.get()))
+                .where("S", blocks(HSSS_REINFORCED_BOROSILICATE_GLASS.get()))
+                .where("[", blocks(Blocks.BEACON))
+                .where("a", blocks(CLEANROOM_GLASS.get()))
+                .where("Y", blocks(Blocks.IRON_BLOCK))
+                .build()
+        }
+        .workableCasingRenderer(
+            GTLCore.id("block/casings/sps_casing"),
+            GTCEu.id("block/multiblock/gcym/large_assembler")
         )
         .register()
 
