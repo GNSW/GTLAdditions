@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: Ruridit Recipe
+  title: Extended Fluids Recipe
   parent: recipe/recipe_index.md
   position: 7
 item_ids:
@@ -38,7 +38,7 @@ item_ids:
   - gtceu:germanium_nugget
 ---
 
-# More Fluids Recipe
+# Extended Fluids Recipe
 >In GTLAdditions, <FluidLink id="gtladditions:molten_ruridit" />and<FluidLink id="gtladditions:liquid_ruridit" />have been added for Ruridit, along with a series of related formulations
 
 <Row>

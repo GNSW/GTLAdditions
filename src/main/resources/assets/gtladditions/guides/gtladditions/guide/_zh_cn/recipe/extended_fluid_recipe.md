@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: 钌铱合金相关配方
+  title: 更多流体相关配方
   parent: recipe/recipe_index.md
   position: 7
 item_ids:

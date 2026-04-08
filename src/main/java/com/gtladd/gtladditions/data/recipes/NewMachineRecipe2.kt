@@ -1,6 +1,8 @@
 package com.gtladd.gtladditions.data.recipes
 
+import org.gtlcore.gtlcore.api.data.tag.GTLTagPrefix.nanoswarm
 import org.gtlcore.gtlcore.common.data.GTLBlocks.CREATE_CASING
+import org.gtlcore.gtlcore.common.data.GTLBlocks.SPS_CASING
 import org.gtlcore.gtlcore.common.data.GTLItems
 import org.gtlcore.gtlcore.common.data.GTLMachines
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
@@ -9,14 +11,20 @@ import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.CREATE
 import org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineA.*
 
 import com.gregtechceu.gtceu.api.GTValues.MAX
+import com.gregtechceu.gtceu.api.GTValues.UIV
 import com.gregtechceu.gtceu.api.GTValues.VA
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTItems
+import com.gregtechceu.gtceu.common.data.GTItems.FIELD_GENERATOR_UEV
 import com.gregtechceu.gtceu.common.data.GTItems.TOOL_DATA_MODULE
 import com.gregtechceu.gtceu.common.data.GTMachines
+import com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium
+import com.gregtechceu.gtceu.common.data.GTMaterials.Promethium
+import com.gregtechceu.gtceu.common.data.GTMaterials.Rhenium
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
 import com.gregtechceu.gtceu.data.recipe.CustomTags
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
 
@@ -33,6 +41,7 @@ import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.FRACT
 import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.FUXI_BAGUA_HEAVEN_FORGING_FURNACE
 import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.HYPERDIMENSIONAL_ENERGY_CONCETRATOR
 import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.MAGNETORHEOLOGICAL_CONVERGENCE_CORE
+import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.PLANETARY_IONISATION_CONVERGENCE_TOWER
 import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.RECURSIVE_REVERSE_FORGE
 import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.REVERSE_TIME_BOOSTING_ENGINE
 import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.SKELETON_SHIFT_RIFT_ENGINE
@@ -241,6 +250,42 @@ object NewMachineRecipe2 {
                 it.researchStack(Blocks.COMMAND_BLOCK.asItem().defaultInstance)
                     .dataStack(TOOL_DATA_MODULE.asStack())
                     .EUt(VA[MAX]).CWUt(16384)
+            }
+            .save(provider)
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("planetary_ionisation_convergence_tower"))
+            .inputItems(
+                "minecraft:lightning_rod".getItemStack(64)
+            )
+            .inputItems(
+                GTLMachines.LIGHTNING_ROD[4].asStack(64),
+                GTLMachines.LIGHTNING_ROD[5].asStack(64),
+                GTLMachines.LIGHTNING_ROD[6].asStack(64)
+            )
+            .inputItems(CustomTags.UEV_CIRCUITS, 16)
+            .inputItems(SPS_CASING, 16)
+            .inputItems("kubejs:space_drone_mk3".getItemStack(16))
+            .inputItems(nanoswarm, Neutronium, 64)
+            .inputItems(
+                "gtceu:uhv_ultimate_battery".getItemStack(56),
+                "gtceu:uhv_ultimate_battery".getItemStack(56)
+            )
+            .inputItems("kubejs:nm_chip".getItemStack(48))
+            .inputItems("gtceu:highly_advanced_soc".getItemStack(48))
+            .inputItems(FIELD_GENERATOR_UEV, 64)
+            .inputItems(plateDouble, Quantum, 32)
+            .inputItems(plateDouble, Dalisenite, 32)
+            .inputItems("kubejs:special_ceramics".getItemStack(64))
+            .inputFluids(Promethium.getFluid(8192))
+            .inputFluids(Rhenium.getFluid(8192))
+            .inputFluids(MutatedLivingSolder.getFluid(16384))
+            .inputFluids(HastelloyX78.getFluid(9216))
+            .outputItems(PLANETARY_IONISATION_CONVERGENCE_TOWER)
+            .EUt(VA[UIV].toLong()).duration(6000)
+            .stationResearch {
+                it.researchStack(GTLMachines.LIGHTNING_ROD[6].asStack())
+                    .dataStack(TOOL_DATA_MODULE.asStack()).dataStack(TOOL_DATA_MODULE.asStack())
+                    .EUt(VA[UIV]).CWUt(256)
             }
             .save(provider)
     }

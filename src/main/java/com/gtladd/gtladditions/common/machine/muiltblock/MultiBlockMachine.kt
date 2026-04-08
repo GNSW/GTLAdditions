@@ -1354,6 +1354,8 @@ object MultiBlockMachine {
 
     val PLANETARY_IONISATION_CONVERGENCE_TOWER: MultiblockMachineDefinition = REGISTRATE.multiblock("planetary_ionisation_convergence_tower", ::PlanetaryIonisationConvergenceTower)
         .nonYAxisRotation()
+        .tooltipTextKey("gtceu.machine.hold_g.tooltip.0".toComponent, "gtceu.machine.hold_g.tooltip.1".toComponent)
+        .tooltipOnlyTextLaser()
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .recipeType(DUMMY_RECIPES)
         .generator(true)

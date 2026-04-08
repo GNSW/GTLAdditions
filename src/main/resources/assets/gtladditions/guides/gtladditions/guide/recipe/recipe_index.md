@@ -16,7 +16,7 @@ navigation:
 * [Chemical Distorter Recipe](distort_recipe.md)
 * [QFT Recipe](qft_recipe.md)
 * [Integrated Ore Processor Recipe](integratedted_ore_processor_recipe.md)
-* [More Fluids Recipe](extended_fluid_recipe.md)
+* [Extended Fluids Recipe](extended_fluid_recipe.md)
 * [Other Recipe](others_recipe.md)
 
 ### New Production Line

@@ -16,6 +16,7 @@ categories:
 ## <Color color="#AA0000">**UHV**</Color>
 
 * [密藏之匣](arcane_cache_vault.md)
+* [行星电离汇流塔](planetary_ionisation_convergence_tower.md)
 
 ## <Color color="#00FF00">**UEV**</Color>
 

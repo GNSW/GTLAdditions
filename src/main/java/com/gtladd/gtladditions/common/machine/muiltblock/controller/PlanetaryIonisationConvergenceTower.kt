@@ -42,7 +42,6 @@ import com.gtladd.gtladditions.api.machine.IEnergyMachine
 import com.gtladd.gtladditions.api.machine.gui.MultiblockDisplayText
 import com.gtladd.gtladditions.common.machine.muiltblock.controller.Resource.Cryotheum
 import com.gtladd.gtladditions.common.machine.muiltblock.controller.Resource.HyperdimensionalDrone
-import com.gtladd.gtladditions.utils.ComponentUtil.literal
 import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import com.gtladd.gtladditions.utils.ComponentUtil.translatable
 import com.gtladd.gtladditions.utils.MachineUtil.inputFluidStack
@@ -87,7 +86,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
             coilEnergy?.dischargePower ?: 0
         }
         storageEUt += addEUt
-        if (storageEUt > maxStorageEUt) doExplosion(this.pos, 100f)
+        if (storageEUt > maxStorageEUt) doExplosion(this.pos, 500f)
         return addEUt
     }
 
@@ -156,9 +155,9 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
             .addWorkingStatusLine()
             .addProgressLine(recipeLogic.progressPercent)
             .addComponent(
-                Component.literal("线圈： " + (coilEnergy?.material?.unlocalizedName ?: "").translatable),
-                Component.literal("恒星热容等级： " + this.stellarTier),
-                Component.literal("内部存储能量： " + FormattingUtil.formatNumbers(this.storageEUt))
+                Component.translatable("gui.gtladditions.planetary_ionisation_convergence_tower_1", (coilEnergy?.material?.unlocalizedName ?: "").translatable),
+                Component.translatable("gui.gtladditions.planetary_ionisation_convergence_tower_2", this.stellarTier),
+                Component.translatable("gui.gtladditions.planetary_ionisation_convergence_tower_3", FormattingUtil.formatNumbers(this.storageEUt))
             )
             .addRecipeStatus(recipeLogic as IRecipeStatus)
     }
@@ -225,8 +224,8 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
             if (progress == 0) {
                 val droneResult = DroneResult(false, "")
                 if (pictMachine.isSuper) {
-                    pictMachine.startCycle = pictMachine.inputFluidStack(Miracle.getFluid(100))
-                    if (pictMachine.cycleAmount++ % 1000000 == 0) {
+                    pictMachine.startCycle = pictMachine.inputFluidStack(Miracle.getFluid(10))
+                    if (pictMachine.startCycle && pictMachine.cycleAmount++ % 1000000 == 0) {
                         pictMachine.startCycle = pictMachine.machineStorageItem.`is`(HyperdimensionalDrone).also { droneResult.isDrone = it }
                         if (pictMachine.startCycle) {
                             pictMachine.machineStorage.extractItemInternal(0, 1, false)
@@ -270,7 +269,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                             }
                             3 -> {
                                 pictMachine.startCycle = (
-                                    pictMachine.inputFluidStack(Crystalmatrix.getFluid(FluidStorageKeys.PLASMA, 9216)) &&
+                                    pictMachine.inputFluidStack(Crystalmatrix.getFluid(FluidStorageKeys.LIQUID, 9216)) &&
                                         pictMachine.inputFluidStack(FluidStack.create(Cryotheum, 1000000))
                                     )
                                 if (pictMachine.cycleAmount++ % 100000 == 0) {
@@ -287,7 +286,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                     }
                 }
                 if (!droneResult.isDrone && !droneResult.tier.isEmpty()) {
-                    workingStatus = RecipeResult.fail("需要在主机中放入".literal.append(droneResult.tier.toComponent))
+                    workingStatus = RecipeResult.fail(Component.translatable("gui.gtladditions.planetary_ionisation_convergence_tower_4").append(droneResult.tier.toComponent))
                 }
             }
             if (pictMachine.startCycle) {

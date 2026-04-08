@@ -25,5 +25,4 @@ item_ids:
 
 * A highly integrated factory that processes recipes more efficiently, ~~greatly improving factory efficiency~~
 * Features [Multi Recipe Types](../multi_type.md), eliminating the need to frequently switch recipe types
-* ~~(I know you think the structure is ugly, this is actually just a joke)~~
 
