@@ -242,7 +242,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                                     pictMachine.inputFluidStack(GTMaterials.Rhenium.getFluid(73728)) &&
                                         pictMachine.inputFluidStack(GTMaterials.Ice.getFluid(8000000))
                                     )
-                                if (pictMachine.cycleAmount++ % 10000 == 0) {
+                                if (pictMachine.startCycle && pictMachine.cycleAmount++ % 10000 == 0) {
                                     pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK2).also { value -> droneResult.isDrone = value }
                                     if (pictMachine.startCycle) {
                                         pictMachine.machineStorage.extractItemInternal(0, 1, false)
@@ -257,7 +257,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                                     pictMachine.inputFluidStack(GTMaterials.Promethium.getFluid(36864)) &&
                                         pictMachine.inputFluidStack(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 4000000))
                                     )
-                                if (pictMachine.cycleAmount++ % 20000 == 0) {
+                                if (pictMachine.startCycle && pictMachine.cycleAmount++ % 20000 == 0) {
                                     pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK4).also { value -> droneResult.isDrone = value }
                                     if (pictMachine.startCycle) {
                                         pictMachine.machineStorage.extractItemInternal(0, 1, false)
@@ -272,7 +272,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                                     pictMachine.inputFluidStack(Crystalmatrix.getFluid(FluidStorageKeys.LIQUID, 9216)) &&
                                         pictMachine.inputFluidStack(FluidStack.create(Cryotheum, 1000000))
                                     )
-                                if (pictMachine.cycleAmount++ % 100000 == 0) {
+                                if (pictMachine.startCycle && pictMachine.cycleAmount++ % 100000 == 0) {
                                     pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK6).also { value -> droneResult.isDrone = value }
                                     if (pictMachine.startCycle) {
                                         pictMachine.machineStorage.extractItemInternal(0, 1, false)
