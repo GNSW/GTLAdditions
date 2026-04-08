@@ -66,8 +66,8 @@ object GTLAddPredicates {
                 false
             },
             {
-                GTCEuAPI.HEATING_COILS.entries.sortedBy { it.key.coilTemperature }
-                    .map { BlockInfo.fromBlockState(it.value.get().defaultBlockState()) }.toTypedArray()
+                val (matched, notMatched) = GTCEuAPI.HEATING_COILS.entries.partition { it.key.coilTemperature >= temperature }
+                (matched.sortedBy { it.key.coilTemperature } + notMatched.sortedBy { it.key.coilTemperature }).map { BlockInfo.fromBlockState(it.value.get().defaultBlockState()) }.toTypedArray()
             }
         ) {
             override fun test(blockWorldState: MultiblockState): Boolean {
