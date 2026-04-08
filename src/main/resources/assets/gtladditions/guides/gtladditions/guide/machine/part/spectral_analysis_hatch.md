@@ -10,7 +10,7 @@ item_ids:
 
 # Spectral Analysis Hatch
 
-~~Alias (OP Hatch)~~
+~~Alias OP Hatch~~
 
 <BlockImage id="spectral_analysis_hatch" scale="8" />
 

@@ -10,7 +10,7 @@ item_ids:
 
 # 物料谱解析仓
 
-~~别名(op仓)~~
+~~别名op仓~~
 
 <BlockImage id="spectral_analysis_hatch" scale="8" />
 

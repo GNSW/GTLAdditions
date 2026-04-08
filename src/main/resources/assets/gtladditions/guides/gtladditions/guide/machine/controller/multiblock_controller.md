@@ -16,6 +16,7 @@ categories:
 ## <Color color="#AA0000">**UHV**</Color>
 
 * [Arcane Cache Vault](arcane_cache_vault.md)
+* [Planetary Ionisation Convergence Tower](planetary_ionisation_convergence_tower.md)
 
 ## <Color color="#00FF00">**UEV**</Color>
 
