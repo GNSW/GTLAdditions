@@ -350,7 +350,9 @@ object GTRecipeUtils {
         return false
     }
 
-    fun ItemStack.create(amount: Long = this.count.toLong()): LongIngredient = LongIngredient.create(Ingredient.of(this), amount)
+    fun FluidStack.create() = FluidIngredient(SingleStream.createSingle(FluidIngredient.FluidValue(this.fluid)), this.amount, this.tag)
+
+    fun ItemStack.create(amount: Long = this.count.toLong()): LongIngredient = LongIngredient.create(Ingredient.fromValues(SingleStream.createSingle(Ingredient.ItemValue(this))), amount)
 
     @JvmRecord
     private data class RecipeData(val index: Int, val remainingWant: Long)
