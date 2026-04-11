@@ -39,7 +39,7 @@ class ContentList : ObjectArrayList<Content> {
         for (o in objects) {
             when (o) {
                 is ItemStack -> this.add(MaxChanceContent(o.create()))
-                is FluidStack -> this.add(MaxChanceContent(FluidIngredient.of(o)))
+                is FluidStack -> this.add(MaxChanceContent(o.create()))
                 is Ingredient -> this.add(MaxChanceContent(o))
                 is FluidIngredient -> this.add(MaxChanceContent(o))
             }
@@ -51,7 +51,7 @@ class ContentList : ObjectArrayList<Content> {
         for (o in objects) {
             when (o) {
                 is ItemStack -> this.add(NoCustomContent(o.create()))
-                is FluidStack -> this.add(NoCustomContent(FluidIngredient.of(o)))
+                is FluidStack -> this.add(NoCustomContent(o.create()))
                 is Ingredient -> this.add(NoCustomContent(o))
                 is FluidIngredient -> this.add(NoCustomContent(o))
             }
@@ -63,7 +63,7 @@ class ContentList : ObjectArrayList<Content> {
         for (o in objects) {
             when (o) {
                 is ItemStack -> this.add(MaxChanceContent(o.create()))
-                is FluidStack -> this.add(MaxChanceContent(FluidIngredient.of(o)))
+                is FluidStack -> this.add(MaxChanceContent(o.create()))
                 is Ingredient -> this.add(MaxChanceContent(o))
                 is FluidIngredient -> this.add(MaxChanceContent(o))
             }
@@ -75,7 +75,7 @@ class ContentList : ObjectArrayList<Content> {
         for (o in objects) {
             when (o) {
                 is ItemStack -> this.add(NoCustomContent(o.create()))
-                is FluidStack -> this.add(NoCustomContent(FluidIngredient.of(o)))
+                is FluidStack -> this.add(NoCustomContent(o.create()))
                 is Ingredient -> this.add(NoCustomContent(o))
                 is FluidIngredient -> this.add(NoCustomContent(o))
             }
@@ -99,7 +99,7 @@ class ContentList : ObjectArrayList<Content> {
     }
 
     fun addChanceFluidStack(fluidStack: FluidStack, chance: Int, maxChance: Int = 10000, tierChanceBoost: Int = 0): ContentList {
-        this.add(Content(FluidIngredient.of(fluidStack), chance, maxChance, tierChanceBoost, null, null))
+        this.add(Content(fluidStack.create(), chance, maxChance, tierChanceBoost, null, null))
         return this
     }
 

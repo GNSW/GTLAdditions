@@ -8,7 +8,6 @@ import org.gtlcore.gtlcore.common.machine.multiblock.electric.StorageMachine
 
 import com.gregtechceu.gtceu.api.block.ICoilType
 import com.gregtechceu.gtceu.api.data.chemical.material.Material
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton
@@ -16,7 +15,10 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic
-import com.gregtechceu.gtceu.common.data.GTMaterials
+import com.gregtechceu.gtceu.common.data.GTMaterials.Helium
+import com.gregtechceu.gtceu.common.data.GTMaterials.Ice
+import com.gregtechceu.gtceu.common.data.GTMaterials.Promethium
+import com.gregtechceu.gtceu.common.data.GTMaterials.Rhenium
 import com.gregtechceu.gtceu.utils.FormattingUtil
 
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack
@@ -74,6 +76,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
     private var coilEnergy: CoilToEnergy? = null
     private var stellarTier = 0
     private var maxStorageEUt = 0L
+    private var particlePos: BlockPos? = null
 
     init {
         this.isWorkingEnabled = false
@@ -91,19 +94,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
     }
 
     fun renderParticles() {
-        val serverLevel = level as ServerLevel
-        val x = when (frontFacing) {
-            Direction.WEST -> -7
-            Direction.EAST -> 7
-            else -> 0
-        }
-        val z = when (frontFacing) {
-            Direction.SOUTH -> -7
-            Direction.NORTH -> 7
-            else -> 0
-        }
-        val pos = pos.offset(x, 20, z)
-        serverLevel.sendParticles(ParticleTypes.LIGHTNING, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), 200, 4.0, 4.0, 4.0, 0.01)
+        particlePos?.let { (level as ServerLevel).sendParticles(ParticleTypes.LIGHTNING, it.x.toDouble(), it.y.toDouble(), it.z.toDouble(), 200, 4.0, 4.0, 4.0, 0.01) }
     }
 
     override fun filter(itemStack: ItemStack) = when (coilEnergy?.workTier) {
@@ -125,6 +116,19 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
             3 -> 0x101925daa3740000
             else -> 0
         }
+        this.particlePos = pos.offset(
+            when (frontFacing) {
+                Direction.WEST -> -7
+                Direction.EAST -> 7
+                else -> 0
+            },
+            20,
+            when (frontFacing) {
+                Direction.SOUTH -> -7
+                Direction.NORTH -> 7
+                else -> 0
+            }
+        )
     }
 
     override fun onStructureInvalid() {
@@ -132,6 +136,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
         this.coilEnergy = null
         this.stellarTier = 0
         this.maxStorageEUt = 0
+        this.particlePos = null
     }
 
     override fun onUse(state: BlockState, world: Level, pos: BlockPos, player: Player, hand: InteractionHand, hit: BlockHitResult): InteractionResult {
@@ -141,7 +146,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                 stack.shrink(1)
                 player.`kjs$setMainHandItem`(if (stack.isEmpty) ItemStack.EMPTY else stack)
                 this.isSuper = true
-                if (!machineStorageItem.`is`(HyperdimensionalDrone)) this.clearInventory(this.machineStorage.storage)
+                this.cycleAmount = 0
             }
         }
         return super.onUse(state, world, pos, player, hand, hit)
@@ -224,7 +229,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
             if (progress == 0) {
                 val droneResult = DroneResult(false, "")
                 if (pictMachine.isSuper) {
-                    pictMachine.startCycle = pictMachine.inputFluidStack(Miracle.getFluid(10))
+                    pictMachine.startCycle = pictMachine.inputFluidStack(MIRACLE)
                     if (pictMachine.startCycle && pictMachine.cycleAmount++ % 1000000 == 0) {
                         pictMachine.startCycle = pictMachine.machineStorageItem.`is`(HyperdimensionalDrone).also { droneResult.isDrone = it }
                         if (pictMachine.startCycle) {
@@ -238,10 +243,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                     pictMachine.coilEnergy?.let {
                         when (it.workTier) {
                             1 -> {
-                                pictMachine.startCycle = (
-                                    pictMachine.inputFluidStack(GTMaterials.Rhenium.getFluid(73728)) &&
-                                        pictMachine.inputFluidStack(GTMaterials.Ice.getFluid(8000000))
-                                    )
+                                pictMachine.startCycle = pictMachine.inputFluidStack(RHENIUM) && pictMachine.inputFluidStack(ICE)
                                 if (pictMachine.startCycle && pictMachine.cycleAmount++ % 10000 == 0) {
                                     pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK2).also { value -> droneResult.isDrone = value }
                                     if (pictMachine.startCycle) {
@@ -253,10 +255,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                                 }
                             }
                             2 -> {
-                                pictMachine.startCycle = (
-                                    pictMachine.inputFluidStack(GTMaterials.Promethium.getFluid(36864)) &&
-                                        pictMachine.inputFluidStack(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 4000000))
-                                    )
+                                pictMachine.startCycle = pictMachine.inputFluidStack(PROMETHIUM) && pictMachine.inputFluidStack(HELIUM)
                                 if (pictMachine.startCycle && pictMachine.cycleAmount++ % 20000 == 0) {
                                     pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK4).also { value -> droneResult.isDrone = value }
                                     if (pictMachine.startCycle) {
@@ -268,10 +267,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                                 }
                             }
                             3 -> {
-                                pictMachine.startCycle = (
-                                    pictMachine.inputFluidStack(Crystalmatrix.getFluid(FluidStorageKeys.LIQUID, 9216)) &&
-                                        pictMachine.inputFluidStack(FluidStack.create(Cryotheum, 1000000))
-                                    )
+                                pictMachine.startCycle = pictMachine.inputFluidStack(CRYSTALMATRIX) && pictMachine.inputFluidStack(CRYOTHEUM)
                                 if (pictMachine.startCycle && pictMachine.cycleAmount++ % 100000 == 0) {
                                     pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK6).also { value -> droneResult.isDrone = value }
                                     if (pictMachine.startCycle) {
@@ -325,6 +321,13 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
         val SpaceDroneMK2 = "kubejs:space_drone_mk2".getItem
         val SpaceDroneMK4 = "kubejs:space_drone_mk4".getItem
         val SpaceDroneMK6 = "kubejs:space_drone_mk6".getItem
+        val MIRACLE: FluidStack = Miracle.getFluid(10)
+        val RHENIUM: FluidStack = Rhenium.getFluid(73728)
+        val ICE: FluidStack = Ice.getFluid(8000000)
+        val PROMETHIUM: FluidStack = Promethium.getFluid(36864)
+        val HELIUM: FluidStack = Helium.getFluid(4000000)
+        val CRYSTALMATRIX: FluidStack = Crystalmatrix.getFluid(9216)
+        val CRYOTHEUM: FluidStack = FluidStack.create(Cryotheum, 1000000)
         fun findCoil(material: Material?) = enumValues<CoilToEnergy>().find { it.material == material }
     }
 }

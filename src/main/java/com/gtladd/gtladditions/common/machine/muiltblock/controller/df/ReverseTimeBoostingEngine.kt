@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTMaterials
 
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack
@@ -21,7 +20,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.material.Fluids
 
 import com.gtladd.gtladditions.api.machine.gui.MultiblockDisplayText
-import com.gtladd.gtladditions.api.recipe.ContentList
 import com.gtladd.gtladditions.api.recipe.ContentList.MaxChanceContent
 import com.gtladd.gtladditions.common.data.RecipesModify
 import com.gtladd.gtladditions.common.machine.hatch.SuperDualHatchPartMachine
@@ -34,6 +32,7 @@ import com.gtladd.gtladditions.utils.MathUtil.minToDouble
 import com.gtladd.gtladditions.utils.MathUtil.minToInt
 import com.gtladd.gtladditions.utils.MathUtil.minToLong
 import com.gtladd.gtladditions.utils.MathUtil.pow
+import it.unimi.dsi.fastutil.objects.ObjectArrayList
 
 import kotlin.math.exp
 import kotlin.math.pow
@@ -67,12 +66,14 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
 
     fun setReturnContent(recipe: GTRecipe) {
         if (returnItem != null) {
-            recipe.outputs.computeIfAbsent(ItemRecipeCapability.CAP) { ContentList() }.add(MaxChanceContent(returnItem!!.create()))
+            val list = recipe.outputs.computeIfAbsent(ItemRecipeCapability.CAP) { ObjectArrayList() }
+            list.add(MaxChanceContent(returnItem!!.create()))
             returnItem = null
             return
         }
         if (returnFluid != null) {
-            recipe.outputs.computeIfAbsent(FluidRecipeCapability.CAP) { ContentList() }.add(MaxChanceContent(FluidIngredient.of(returnFluid!!)))
+            val list = recipe.outputs.computeIfAbsent(FluidRecipeCapability.CAP) { ObjectArrayList() }
+            list.add(MaxChanceContent(returnFluid!!.create()))
             returnFluid = null
             return
         }
