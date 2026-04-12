@@ -4,6 +4,7 @@ import org.gtlcore.gtlcore.api.machine.trait.ICheckPatternMachine
 import org.gtlcore.gtlcore.api.machine.trait.IRecipeStatus
 import org.gtlcore.gtlcore.api.recipe.RecipeResult
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
+import org.gtlcore.gtlcore.common.data.GTLSoundEntries
 import org.gtlcore.gtlcore.common.machine.multiblock.electric.StorageMachine
 
 import com.gregtechceu.gtceu.api.block.ICoilType
@@ -15,10 +16,8 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic
-import com.gregtechceu.gtceu.common.data.GTMaterials.Helium
-import com.gregtechceu.gtceu.common.data.GTMaterials.Ice
-import com.gregtechceu.gtceu.common.data.GTMaterials.Promethium
-import com.gregtechceu.gtceu.common.data.GTMaterials.Rhenium
+import com.gregtechceu.gtceu.api.sound.AutoReleasedSound
+import com.gregtechceu.gtceu.common.data.GTMaterials.*
 import com.gregtechceu.gtceu.utils.FormattingUtil
 
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack
@@ -38,6 +37,8 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 import appeng.client.render.effects.ParticleTypes
 import com.gtladd.gtladditions.api.machine.IEnergyMachine
@@ -300,6 +301,40 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                 this.setWaiting(null)
             }
             if (this.status == Status.WAITING) this.doDamping()
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        override fun updateSound() {
+            if (isWorking && pictMachine.shouldWorkingPlaySound()) {
+                val sound = GTLSoundEntries.DTPF
+                if (workingSound is AutoReleasedSound) {
+                    val soundEntry = workingSound as AutoReleasedSound
+                    if (soundEntry.soundEntry == sound && !soundEntry.isStopped) {
+                        return
+                    }
+                    soundEntry.release()
+                    workingSound = null
+                }
+                if (sound != null) {
+                    workingSound = sound.playAutoReleasedSound(
+                        {
+                            pictMachine.shouldWorkingPlaySound() && isWorking && !pictMachine.isInValid &&
+                                pictMachine.level!!.isLoaded(pictMachine.pos) && getMachine(
+                                    pictMachine.level,
+                                    pictMachine.pos
+                                ) == pictMachine
+                        },
+                        pictMachine.pos,
+                        true,
+                        0,
+                        1f,
+                        1f
+                    )
+                }
+            } else if (workingSound is AutoReleasedSound) {
+                (workingSound as AutoReleasedSound).release()
+                workingSound = null
+            }
         }
 
         internal class DroneResult(var isDrone: Boolean, var tier: String)
