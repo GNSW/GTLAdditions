@@ -35,7 +35,6 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.properties.SlabType
 
 import appeng.core.definitions.AEBlocks
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility
 import com.gtladd.gtladditions.api.machine.*
 import com.gtladd.gtladditions.api.recipe.FastRecipeModify
 import com.gtladd.gtladditions.api.registry.GTLAddRegistration.Companion.REGISTRATE
@@ -57,7 +56,6 @@ import com.gtladd.gtladditions.utils.MathUtil.pow
 import com.gtladd.gtladditions.utils.Registries.getBlock
 import com.gtladd.gtladditions.utils.Registries.getFluid
 import com.hepdd.gtmthings.data.CustomMachines
-import org.gtlcore.gtlcore.api.pattern.GTLPredicates.diffAbilities
 
 import java.util.function.Function
 
