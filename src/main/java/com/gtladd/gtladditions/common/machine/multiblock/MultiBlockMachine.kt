@@ -30,6 +30,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes.*
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
+import net.minecraft.world.item.DyeColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.properties.SlabType
 
@@ -1412,49 +1413,49 @@ object MultiBlockMachine {
         .appearanceBlock(DIMENSIONALLY_TRANSCENDENT_CASING)
         .pattern {
             MultiBlockStructureB.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_STRUCTURE
+                .where("Y", controller(blocks(it.get())))
+                .where(
+                    "X",
+                    blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())
+                        .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                        .or(abilities(INPUT_ENERGY).setExactLimit(1))
+                )
                 .where("]", blocks("kubejs:neutronium_gearbox".getBlock))
-                .where("D", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())) // 要改"gtceu:cyan_borderless_lamp"
+                .where("D", blocks(BORDERLESS_LAMPS[DyeColor.CYAN]!!.get()))
                 .where("F", blocks(HEAT_VENT.get()))
-                .where("R", blocks("kubejs:gelid_cryotheum".getBlock))
+                .where("R", fluids("kubejs:gelid_cryotheum".getFluid))
                 .where("K", blocks(ChemicalHelper.getBlock(frameGt, Vibranium)))
-                .where("c", blocks("minecraft:blue_stained_glass".getBlock))
+                .where("c", blocks(Blocks.BLUE_STAINED_GLASS))
                 .where("e", blocks("kubejs:neutronium_pipe_casing".getBlock))
-                .where("T", blocks("minecraft:polished_deepslate_wall".getBlock))
-                .where("U", blocks("minecraft:polished_deepslate_slab".getBlock))
+                .where("T", blocks(Blocks.POLISHED_DEEPSLATE_WALL))
+                .where("U", GTLAddPredicates.slabBlock(SlabType.BOTTOM, Blocks.POLISHED_DEEPSLATE_SLAB))
                 .where("H", blocks("kubejs:dimensional_bridge_casing".getBlock))
-                .where("Z", blocks("minecraft:lodestone".getBlock))
-                .where("b", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())) // 要改"gtceu:blue_borderless_lamp"
+                .where("Z", blocks(Blocks.LODESTONE))
+                .where("b", blocks(BORDERLESS_LAMPS[DyeColor.BLUE]!!.get()))
                 .where("E", blocks(FUSION_GLASS.get()))
                 .where("M", blocks("kubejs:accelerated_pipeline".getBlock))
                 .where("^", blocks(BATTERY_ULTIMATE_UHV.get()))
                 .where("C", blocks(MOLECULAR_CASING.get()))
                 .where("W", blocks(ChemicalHelper.getBlock(frameGt, Neutronium)))
-                .where("P", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())) // 要改"gtceu:light_blue_large_metal_sheet"
+                .where("P", blocks(LARGE_METAL_SHEETS[DyeColor.LIGHT_BLUE]!!.get()))
                 .where("`", fluids("minecraft:lava".getFluid))
                 .where("_", blocks(ULTIMATE_STELLAR_CONTAINMENT_CASING.get()))
                 .where("J", blocks(HYPER_CORE.get()))
                 .where("N", blocks(ChemicalHelper.getBlock(frameGt, Mithril)))
                 .where("G", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                 .where("Q", blocks(AEBlocks.QUARTZ_VIBRANT_GLASS.block()))
-                .where("[", blocks("minecraft:lectern".getBlock)) // 要确定方向
+                .where("[", blocks(Blocks.LECTERN))
                 .where("L", blocks(HIGH_POWER_CASING.get()))
                 .where("S", blocks(FILTER_CASING_LAW.get()))
                 .where("I", blocks(SPS_CASING.get()))
                 .where("O", blocks(ENHANCE_HYPER_MECHANICAL_CASING.get()))
                 .where("V", blocks(IRIDIUM_CASING.get()))
-                .where("Y", controller(blocks(it.get())))
-                .where(
-                    "X",
-                    blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())
-                        .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
-                        .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(1))
-                )
                 .where("A", blocks("minecraft:cyan_stained_glass".getBlock))
                 .where("a", blocks(OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
                 .build()
         }
         .workableCasingRenderer(
-            GTLCore.id("block/casings/dimensionally_transecndent_casing"),
+            GTLCore.id("block/casings/dimensionally_transcendent_casing"),
             GTCEu.id("block/multiblock/fusion_reactor")
         )
         .register()
@@ -1476,7 +1477,7 @@ object MultiBlockMachine {
             }
         }
     )
-        .nonYAxisRotation()
+        .allRotation()
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -1497,6 +1498,7 @@ object MultiBlockMachine {
         .appearanceBlock(DIMENSIONALLY_TRANSCENDENT_CASING)
         .pattern {
             MultiBlockStructureB.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_STRUCTURE
+                .where("D", controller(blocks(it.get())))
                 .where(
                     "E",
                     blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())
@@ -1504,14 +1506,13 @@ object MultiBlockMachine {
                         .or(autoAbilities(*it.recipeTypes))
                         .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
                 )
-                .where("D", controller(blocks(it.get())))
                 .where("C", blocks(ChemicalHelper.getBlock(frameGt, Vibranium)))
                 .where("B", blocks(MOLECULAR_CASING.get()))
                 .where("A", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                 .build()
         }
         .workableCasingRenderer(
-            GTLCore.id("block/casings/dimensionally_transecndent_casing"),
+            GTLCore.id("block/casings/dimensionally_transcendent_casing"),
             GTCEu.id("block/multiblock/fusion_reactor")
         )
         .register()
@@ -1532,7 +1533,7 @@ object MultiBlockMachine {
             }
         }
     )
-        .nonYAxisRotation()
+        .allRotation()
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -1554,6 +1555,7 @@ object MultiBlockMachine {
         .appearanceBlock(DIMENSIONALLY_TRANSCENDENT_CASING)
         .pattern {
             MultiBlockStructureB.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_STRUCTURE
+                .where("D", controller(blocks(it.get())))
                 .where(
                     "E",
                     blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())
@@ -1561,14 +1563,13 @@ object MultiBlockMachine {
                         .or(autoAbilities(*it.recipeTypes))
                         .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
                 )
-                .where("D", controller(blocks(it.get())))
                 .where("C", blocks(ChemicalHelper.getBlock(frameGt, Vibranium)))
                 .where("B", blocks(MOLECULAR_CASING.get()))
                 .where("A", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                 .build()
         }
         .workableCasingRenderer(
-            GTLCore.id("block/casings/dimensionally_transecndent_casing"),
+            GTLCore.id("block/casings/dimensionally_transcendent_casing"),
             GTCEu.id("block/multiblock/fusion_reactor")
         )
         .register()
@@ -1585,7 +1586,7 @@ object MultiBlockMachine {
             }
         }
     )
-        .nonYAxisRotation()
+        .allRotation()
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -1615,6 +1616,7 @@ object MultiBlockMachine {
         .appearanceBlock(DIMENSIONALLY_TRANSCENDENT_CASING)
         .pattern {
             MultiBlockStructureB.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_STRUCTURE
+                .where("D", controller(blocks(it.get())))
                 .where(
                     "E",
                     blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())
@@ -1622,14 +1624,13 @@ object MultiBlockMachine {
                         .or(autoAbilities(*it.recipeTypes))
                         .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
                 )
-                .where("D", controller(blocks(it.get())))
                 .where("C", blocks(ChemicalHelper.getBlock(frameGt, Vibranium)))
                 .where("B", blocks(MOLECULAR_CASING.get()))
                 .where("A", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                 .build()
         }
         .workableCasingRenderer(
-            GTLCore.id("block/casings/dimensionally_transecndent_casing"),
+            GTLCore.id("block/casings/dimensionally_transcendent_casing"),
             GTCEu.id("block/multiblock/fusion_reactor")
         )
         .register()
@@ -1646,7 +1647,7 @@ object MultiBlockMachine {
             }
         }
     )
-        .nonYAxisRotation()
+        .allRotation()
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -1664,6 +1665,7 @@ object MultiBlockMachine {
         .appearanceBlock(DIMENSIONALLY_TRANSCENDENT_CASING)
         .pattern {
             MultiBlockStructureB.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_STRUCTURE
+                .where("D", controller(blocks(it.get())))
                 .where(
                     "E",
                     blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())
@@ -1671,14 +1673,13 @@ object MultiBlockMachine {
                         .or(autoAbilities(*it.recipeTypes))
                         .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
                 )
-                .where("D", controller(blocks(it.get())))
                 .where("C", blocks(ChemicalHelper.getBlock(frameGt, Vibranium)))
                 .where("B", blocks(MOLECULAR_CASING.get()))
                 .where("A", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                 .build()
         }
         .workableCasingRenderer(
-            GTLCore.id("block/casings/dimensionally_transecndent_casing"),
+            GTLCore.id("block/casings/dimensionally_transcendent_casing"),
             GTCEu.id("block/multiblock/fusion_reactor")
         )
         .register()

@@ -1,7 +1,9 @@
-package com.gtladd.gtladditions.utils
+package com.gtladd.gtladditions.common.machine.multiblock.controller.fl
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+
+import kotlin.collections.iterator
 
 /**代码参考自GTLAdditions分支
  * &#064;line <a href="https://github.com/Dragonators/GTLAdditions">...</a>

@@ -7,27 +7,51 @@ import org.gtlcore.gtlcore.common.machine.multiblock.part.HugeFluidHatchPartMach
 import org.gtlcore.gtlcore.utils.datastructure.ModuleRenderInfo
 
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer
+import com.gregtechceu.gtceu.api.gui.GuiTextures
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
+import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator
+import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
 import com.gregtechceu.gtceu.utils.GTUtil
 
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI
+import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget
+import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget
+import com.lowdragmc.lowdraglib.gui.widget.Widget
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack
 
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.material.Fluid
 
-import com.gtladd.gtladditions.utils.FloatingLightPosHelper.calculateModulePositions
+import com.gtladd.gtladditions.api.machine.gui.MultiblockDisplayText
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine
+import com.gtladd.gtladditions.common.machine.multiblock.controller.fl.FloatingLightPosHelper.calculateModulePositions
+import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 
+import java.util.function.Consumer
+
 class FloatingLightController(holder: IMachineBlockEntity) :
-    MultiblockControllerMachine(holder), IModularMachineHost<FloatingLightController>, IMachineLife {
+    MultiblockControllerMachine(holder),
+    IModularMachineHost<FloatingLightController>,
+    IFancyUIMachine,
+    IDisplayUIMachine,
+    IMachineLife {
 
     val modulePos = ObjectOpenHashSet<IModularMachineModule<FloatingLightController, FloatingLightModule>>(32)
     private val energyTick = ConditionalSubscriptionHandler(this, {
@@ -86,6 +110,36 @@ class FloatingLightController(holder: IMachineBlockEntity) :
         safeClearModules()
     }
 
+    override fun attachSideTabs(sideTabs: TabsWidget) {
+        sideTabs.setMainTab(this)
+        CombinedDirectionalFancyConfigurator.of(self(), self())?.let { sideTabs.attachSubTab(it) }
+    }
+
+    override fun createUIWidget(): Widget {
+        val group = WidgetGroup(0, 0, 182 + 8, 117 + 8)
+        group.addWidget(
+            DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(screenTexture)
+                .addWidget(LabelWidget(4, 5, self().blockState.block.descriptionId))
+                .addWidget(
+                    ComponentPanelWidget(4, 17, ::addDisplayText)
+                        .textSupplier(if (this.level!!.isClientSide) null else Consumer(::addDisplayText))
+                        .setMaxWidthLimit(150)
+                )
+        )
+        group.setBackground(GuiTextures.BACKGROUND_INVERSE)
+        return group
+    }
+
+    override fun addDisplayText(textList: MutableList<Component>) {
+        MultiblockDisplayText.builder(textList, isFormed)
+            .addEnergyTierLine(tier)
+            .addComponent("已连接${modulePos.size}个模块".toComponent)
+    }
+
+    override fun createUI(entityPlayer: Player): ModularUI = ModularUI(198, 208, this, entityPlayer).widget(FancyMachineUIWidget(this, 198, 208))
+
+    override fun isRemote() = super<MultiblockControllerMachine>.isRemote
+
     override fun onMachineRemoved() = safeClearModules()
 
     override fun getModuleSet() = this.modulePos
@@ -96,9 +150,264 @@ class FloatingLightController(holder: IMachineBlockEntity) :
 
     override fun getMaxModuleCount() = 32
 
-    override fun getModulesForRendering(): List<ModuleRenderInfo> {
-        TODO("Not yet implemented")
-    }
+    override fun getModulesForRendering() = listOf(
+        ModuleRenderInfo(
+            BlockPos(-14, 28, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 28, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 28, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 28, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 34, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 34, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 34, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 34, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 40, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 40, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 40, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 40, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 46, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 46, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 46, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 46, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 52, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 52, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 52, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 52, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 58, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 58, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 58, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 58, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 64, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 64, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 64, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 64, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 70, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+        ),
+        ModuleRenderInfo(
+            BlockPos(-14, 70, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.WEST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 70, 8),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.UP,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+        ),
+        ModuleRenderInfo(
+            BlockPos(14, 70, 12),
+            Direction.UP,
+            Direction.NORTH,
+            Direction.EAST,
+            Direction.DOWN,
+            MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+        )
+    )
 
     companion object {
         val RAWSTARMATTER: Fluid = GTLMaterials.RawStarMatter.fluid

@@ -15,7 +15,7 @@ import net.minecraft.core.BlockPos
 import com.gtladd.gtladditions.api.machine.GTLAddWorkableElectricMultipleRecipesMachine
 import com.gtladd.gtladditions.api.machine.GTLAddWorkableElectricMultipleRecipesTypesMachine
 import com.gtladd.gtladditions.api.recipe.FastRecipeModify.ReduceResult
-import com.gtladd.gtladditions.utils.FloatingLightPosHelper.calculatePossibleHostPositions
+import com.gtladd.gtladditions.common.machine.multiblock.controller.fl.FloatingLightPosHelper.calculatePossibleHostPositions
 
 import kotlin.math.pow
 
