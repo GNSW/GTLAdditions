@@ -2,6 +2,7 @@ package com.gtladd.gtladditions.common.machine.multiblock
 
 import org.gtlcore.gtlcore.GTLCore
 import org.gtlcore.gtlcore.api.pattern.GTLPredicates
+import org.gtlcore.gtlcore.api.pattern.GTLPredicates.diffAbilities
 import org.gtlcore.gtlcore.common.block.BlockMap
 import org.gtlcore.gtlcore.common.block.GTLFusionCasingBlock
 import org.gtlcore.gtlcore.common.data.GTLBlocks.*
@@ -1427,7 +1428,7 @@ object MultiBlockMachine {
                 .where(
                     "X",
                     blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())
-                        .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                        .or(diffAbilities(listOf(IMPORT_FLUIDS), listOf(IMPORT_ITEMS)).setMaxGlobalLimited(1))
                         .or(abilities(INPUT_ENERGY).setExactLimit(1))
                 )
                 .where("]", blocks("kubejs:neutronium_gearbox".getBlock))
