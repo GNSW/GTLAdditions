@@ -25,7 +25,7 @@ categories:
 
 ## <Color color="#00AA00">**UIV**</Color>
 
-* [超级工厂](super_factory.md)
+* [浮光号深空工业舰](super_factory.md)
 * [星云收割者](advanced_space_elevator_module.md)
 * [原子置换核心](atomic_transmutation_core.md)
 * [超维度化工厂](dimensionally_transcendent_chemical_plant.md)

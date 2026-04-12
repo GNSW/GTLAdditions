@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SlabBlock
 import net.minecraft.world.level.block.state.properties.SlabType
 
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.DraconicCollapseCore
+import com.gtladd.gtladditions.common.machine.multiblock.controller.DraconicCollapseCore
 import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 
 import java.util.function.Predicate
