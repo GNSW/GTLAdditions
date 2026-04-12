@@ -37,7 +37,7 @@ abstract class FloatingLightModule(holder: IMachineBlockEntity) :
     private var host: FloatingLightController? = null
 
     override fun modifyRecipe(recipe: GTRecipe): ReduceResult {
-        val modify = host!!.tier - GTValues.UIV
+        val modify = (host?.tier ?: 0) - GTValues.UIV
         return if (modify > 0) {
             ReduceResult(0.9.pow(modify), 0.9.pow(modify))
         } else {
@@ -49,7 +49,7 @@ abstract class FloatingLightModule(holder: IMachineBlockEntity) :
 
     override fun testBefore(obj: Object): Boolean {
         val circuit = host?.getCircuit()
-        return (host?.tier ?: 0) >= GTValues.UIV && host?.isWorking == true && (circuit == 1 || circuit == 2)
+        return (host?.tier ?: 0) >= GTValues.UIV && host?.isWorkingEnabled == true && (circuit == 1 || circuit == 2)
     }
 
     override fun addDisplayText(textList: MutableList<Component>) {

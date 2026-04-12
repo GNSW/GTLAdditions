@@ -4,120 +4,74 @@ import org.gtlcore.gtlcore.api.machine.multiblock.IModularMachineHost
 import org.gtlcore.gtlcore.api.machine.multiblock.IModularMachineModule
 import org.gtlcore.gtlcore.api.machine.trait.ICheckPatternMachine
 import org.gtlcore.gtlcore.common.data.GTLMaterials
-import org.gtlcore.gtlcore.common.machine.multiblock.part.HugeFluidHatchPartMachine
 import org.gtlcore.gtlcore.utils.datastructure.ModuleRenderInfo
 
-import com.gregtechceu.gtceu.api.capability.IEnergyContainer
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
-import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
-import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator
-import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine
-import com.gregtechceu.gtceu.api.misc.EnergyContainerList
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
-import com.gregtechceu.gtceu.utils.GTUtil
+import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine
 
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget
-import com.lowdragmc.lowdraglib.gui.widget.Widget
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
+import com.lowdragmc.lowdraglib.gui.widget.*
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.material.Fluid
 
+import com.gtladd.gtladditions.api.machine.IEnergyMachine
 import com.gtladd.gtladditions.api.machine.gui.MultiblockDisplayText
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine
 import com.gtladd.gtladditions.common.machine.multiblock.controller.fl.FloatingLightPosHelper.calculateModulePositions
-import it.unimi.dsi.fastutil.objects.ObjectArrayList
+import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 
 import java.util.function.Consumer
 
 class FloatingLightController(holder: IMachineBlockEntity) :
-    MultiblockControllerMachine(holder),
+    WorkableElectricMultiblockMachine(holder),
     IModularMachineHost<FloatingLightController>,
-    IFancyUIMachine,
-    IDisplayUIMachine,
     IMachineLife {
 
     val modulePos = ObjectOpenHashSet<IModularMachineModule<FloatingLightController, FloatingLightModule>>(32)
-    private val energyTick = ConditionalSubscriptionHandler(this, {
-        if (!this.isFormed) return@ConditionalSubscriptionHandler
-        val energyContainer = getEnergy()
-        this.isWorking = energyContainer.removeEnergy(energyContainer.inputVoltage) > 0
-        if (getCircuit() == 2 && offsetTimer % 20 == 0L) {
-            val fluid = fluidHatch?.tank?.getFluidInTank(0) ?: FluidStack.empty()
-            if (!fluid.isEmpty && fluid.fluid == RAWSTARMATTER && fluid.amount >= 1000) {
-                fluidHatch?.tank?.drainInternal(1000, false)
-                isDouble = true
-            } else {
-                isDouble = false
-            }
-        }
-    }) { this.isFormed }
-
-    private var fluidHatch: HugeFluidHatchPartMachine? = null
-    private var energyHatch: EnergyContainerList? = null
-    var isWorking = false
+    private var fluidHatch: FluidHatchPartMachine? = null
     var isDouble = false
-    var tier = 0
 
     fun getCircuit() = IntCircuitBehaviour.getCircuitConfiguration(fluidHatch?.circuitInventory?.getStackInSlot(0) ?: ItemStack.EMPTY)
 
-    fun getEnergy(): EnergyContainerList {
-        if (energyHatch == null) {
-            val list = ObjectArrayList<IEnergyContainer>()
-            parts.forEach { it.recipeHandlers.forEach { i -> if (i is IEnergyContainer) list.add(i) } }
-            this.energyHatch = EnergyContainerList(list)
-        }
-        return energyHatch!!
-    }
+    override fun createRecipeLogic(vararg args: Any) = FLRecipeLogic(this)
 
     override fun onStructureFormed() {
-        isFormed = true
-        this.parts.clear()
-        val set = multiblockState.matchContext.getOrCreate<MutableSet<IMultiPart>>("parts") { ObjectOpenHashSet() }
-        for (part in set) {
-            this.parts.add(part)
-            part.addedToController(this)
-            if (part is HugeFluidHatchPartMachine) this.fluidHatch = part
-        }
-        updatePartPositions()
+        super.onStructureFormed()
+        parts.forEach { if (it is FluidHatchPartMachine) this.fluidHatch = it }
         safeClearModules()
         scanAndConnectModules()
-        tier = GTUtil.getFloorTierByVoltage(getEnergy().highestInputVoltage).toInt()
-        energyTick.initialize(level)
     }
 
     override fun onStructureInvalid() {
         super.onStructureInvalid()
-        energyHatch = null
-        tier = 0
-        safeClearModules()
-    }
-
-    override fun onPartUnload() {
-        super.onPartUnload()
-        energyHatch = null
-        tier = 0
         safeClearModules()
     }
 
     override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {
+        configuratorPanel.attachConfigurators(
+            IFancyConfiguratorButton.Toggle(
+                GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.0, 1.0, 0.5),
+                GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.5, 1.0, 0.5),
+                { this.isWorkingEnabled },
+                { clickData, pressed -> this.isWorkingEnabled = pressed }
+            )
+                .setTooltipsSupplier { listOf(if (it) "behaviour.soft_hammer.enabled".toComponent else "behaviour.soft_hammer.disabled".toComponent) }
+        )
         ICheckPatternMachine.attachConfigurators(configuratorPanel, self())
     }
 
@@ -143,15 +97,11 @@ class FloatingLightController(holder: IMachineBlockEntity) :
 
     override fun addDisplayText(textList: MutableList<Component>) {
         MultiblockDisplayText.builder(textList, isFormed)
-            .setWorkingStatus(isWorking, true)
+            .setWorkingStatus(recipeLogic.isWorkingEnabled, true)
             .addEnergyTierLine(tier)
             .addWorkingStatusLine()
             .addComponent(Component.translatable("gtceu.machine.module", modulePos.size))
     }
-
-    override fun createUI(entityPlayer: Player): ModularUI = ModularUI(198, 208, this, entityPlayer).widget(FancyMachineUIWidget(this, 198, 208))
-
-    override fun isRemote() = super<MultiblockControllerMachine>.isRemote
 
     override fun onMachineRemoved() = safeClearModules()
 
@@ -422,7 +372,41 @@ class FloatingLightController(holder: IMachineBlockEntity) :
         )
     )
 
+    class FLRecipeLogic(val flMachine: FloatingLightController) : RecipeLogic(flMachine) {
+        override fun serverTick() {
+            if (!this.isSuspend) {
+                if (this.progress < 20) this.handleRecipeWorking()
+                if (this.progress >= 20) progress = 0
+            } else if (this.subscription != null) {
+                this.subscription.unsubscribe()
+                this.subscription = null
+            }
+        }
+
+        override fun handleRecipeWorking() {
+            val ecList = (flMachine as IEnergyMachine).energyContainerList
+            if (flMachine.maxVoltage > 0 && flMachine.maxVoltage <= ecList.energyStored) {
+                ecList.removeEnergy(flMachine.maxVoltage)
+                this.status = Status.WORKING
+                ++this.progress
+                if (progress == 3 && flMachine.getCircuit() == 2) {
+                    val fluid = flMachine.fluidHatch?.tank?.getFluidInTank(0) ?: FluidStack.empty()
+                    if (!fluid.isEmpty && fluid.fluid == RAWSTARMATTER && fluid.amount >= 1000) {
+                        flMachine.fluidHatch?.tank?.drainInternal(1000, false)
+                        flMachine.isDouble = true
+                    } else {
+                        flMachine.isDouble = false
+                    }
+                }
+            } else {
+                this.status = Status.SUSPEND
+            }
+        }
+
+        override fun updateSound() = Unit
+    }
+
     companion object {
-        val RAWSTARMATTER: Fluid = GTLMaterials.RawStarMatter.fluid
+        val RAWSTARMATTER: Fluid = GTLMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA)
     }
 }
