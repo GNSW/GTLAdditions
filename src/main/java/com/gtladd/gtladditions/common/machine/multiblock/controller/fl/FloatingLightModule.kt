@@ -11,11 +11,13 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 import net.minecraft.core.BlockPos
+import net.minecraft.network.chat.Component
 
 import com.gtladd.gtladditions.api.machine.GTLAddWorkableElectricMultipleRecipesMachine
 import com.gtladd.gtladditions.api.machine.GTLAddWorkableElectricMultipleRecipesTypesMachine
 import com.gtladd.gtladditions.api.recipe.FastRecipeModify.ReduceResult
 import com.gtladd.gtladditions.common.machine.multiblock.controller.fl.FloatingLightPosHelper.calculatePossibleHostPositions
+import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 
 import kotlin.math.pow
 
@@ -47,7 +49,22 @@ abstract class FloatingLightModule(holder: IMachineBlockEntity) :
 
     override fun testBefore(obj: Object): Boolean {
         val circuit = host?.getCircuit()
-        return (host?.tier ?: 0) >= GTValues.UIV && (circuit == 1 || circuit == 2)
+        return (host?.tier ?: 0) >= GTValues.UIV && host?.isWorking == true && (circuit == 1 || circuit == 2)
+    }
+
+    override fun addDisplayText(textList: MutableList<Component>) {
+        super.addDisplayText(textList)
+        if (isFormed) {
+            textList.add(
+                (
+                    if (host == null) {
+                        "gui.gtladditions.floating_light_deep_space_industrial_vessel_module_disconnect"
+                    } else {
+                        "gui.gtladditions.floating_light_deep_space_industrial_vessel_module_connect"
+                    }
+                    ).toComponent
+            )
+        }
     }
 
     override fun onMachineRemoved() = removeFromHost(this.host)

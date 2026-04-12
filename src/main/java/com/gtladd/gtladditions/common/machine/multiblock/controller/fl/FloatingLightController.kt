@@ -2,12 +2,14 @@ package com.gtladd.gtladditions.common.machine.multiblock.controller.fl
 
 import org.gtlcore.gtlcore.api.machine.multiblock.IModularMachineHost
 import org.gtlcore.gtlcore.api.machine.multiblock.IModularMachineModule
+import org.gtlcore.gtlcore.api.machine.trait.ICheckPatternMachine
 import org.gtlcore.gtlcore.common.data.GTLMaterials
 import org.gtlcore.gtlcore.common.machine.multiblock.part.HugeFluidHatchPartMachine
 import org.gtlcore.gtlcore.utils.datastructure.ModuleRenderInfo
 
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer
 import com.gregtechceu.gtceu.api.gui.GuiTextures
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler
@@ -54,8 +56,9 @@ class FloatingLightController(holder: IMachineBlockEntity) :
 
     val modulePos = ObjectOpenHashSet<IModularMachineModule<FloatingLightController, FloatingLightModule>>(32)
     private val energyTick = ConditionalSubscriptionHandler(this, {
+        if (!this.isFormed) return@ConditionalSubscriptionHandler
         val energyContainer = getEnergy()
-        energyContainer.removeEnergy(energyContainer.inputVoltage)
+        this.isWorking = energyContainer.removeEnergy(energyContainer.inputVoltage) > 0
         if (getCircuit() == 2 && offsetTimer % 20 == 0L) {
             val fluid = fluidHatch?.tank?.getFluidInTank(0) ?: FluidStack.empty()
             if (!fluid.isEmpty && fluid.fluid == RAWSTARMATTER && fluid.amount >= 1000) {
@@ -69,6 +72,7 @@ class FloatingLightController(holder: IMachineBlockEntity) :
 
     private var fluidHatch: HugeFluidHatchPartMachine? = null
     private var energyHatch: EnergyContainerList? = null
+    var isWorking = false
     var isDouble = false
     var tier = 0
 
@@ -100,13 +104,21 @@ class FloatingLightController(holder: IMachineBlockEntity) :
     }
 
     override fun onStructureInvalid() {
-        isFormed = false
-        parts.forEach { it.removedFromController(this) }
-        parts.clear()
-        updatePartPositions()
+        super.onStructureInvalid()
         energyHatch = null
         tier = 0
         safeClearModules()
+    }
+
+    override fun onPartUnload() {
+        super.onPartUnload()
+        energyHatch = null
+        tier = 0
+        safeClearModules()
+    }
+
+    override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {
+        ICheckPatternMachine.attachConfigurators(configuratorPanel, self())
     }
 
     override fun attachSideTabs(sideTabs: TabsWidget) {
@@ -131,7 +143,9 @@ class FloatingLightController(holder: IMachineBlockEntity) :
 
     override fun addDisplayText(textList: MutableList<Component>) {
         MultiblockDisplayText.builder(textList, isFormed)
+            .setWorkingStatus(isWorking, true)
             .addEnergyTierLine(tier)
+            .addWorkingStatusLine()
             .addComponent(Component.translatable("gtceu.machine.module", modulePos.size))
     }
 
