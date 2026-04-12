@@ -86,6 +86,7 @@ object MultiBlockMachine {
         .tooltipTextRecipeTypes(LATHE_RECIPES, BENDER_RECIPES, COMPRESSOR_RECIPES, FORGE_HAMMER_RECIPES, WIREMILL_RECIPES, POLARIZER_RECIPES)
         .tooltipTextMultiRecipeType(EXTRUDER_RECIPES, CUTTER_RECIPES, MIXER_RECIPES, FORMING_PRESS_RECIPES)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
+        .tooltips(Component.translatable("tooltip.gtladditions.discontinued"))
         .recipeType(LATHE_RECIPES)
         .recipeType(BENDER_RECIPES)
         .recipeType(COMPRESSOR_RECIPES)
@@ -150,6 +151,7 @@ object MultiBlockMachine {
         .tooltipTextMultiRecipeType(ELECTROLYZER_RECIPES, ELECTROMAGNETIC_SEPARATOR_RECIPES)
         .tooltipTextMultiRecipeType(SIFTER_RECIPES, DEHYDRATOR_RECIPES)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
+        .tooltips(Component.translatable("tooltip.gtladditions.discontinued"))
         .recipeType(ROCK_BREAKER_RECIPES)
         .recipeType(ORE_WASHER_RECIPES)
         .recipeType(CENTRIFUGE_RECIPES)
@@ -216,6 +218,7 @@ object MultiBlockMachine {
         )
         .tooltipTextMultiRecipeType(FLUID_SOLIDFICATION_RECIPES, EXTRACTOR_RECIPES)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
+        .tooltips(Component.translatable("tooltip.gtladditions.discontinued"))
         .recipeType(EVAPORATION_RECIPES)
         .recipeType(AUTOCLAVE_RECIPES)
         .recipeType(EXTRACTOR_RECIPES)
@@ -272,6 +275,7 @@ object MultiBlockMachine {
         .tooltipTextMultiRecipeType(PRECISION_ASSEMBLER_RECIPES, CIRCUIT_ASSEMBLER_RECIPES)
         .tooltipTextMultiRecipeType(ARC_FURNACE_RECIPES, CANNER_RECIPES, LIGHTNING_PROCESSOR_RECIPES)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
+        .tooltips(Component.translatable("tooltip.gtladditions.discontinued"))
         .recipeType(CANNER_RECIPES)
         .recipeType(ARC_FURNACE_RECIPES)
         .recipeType(LIGHTNING_PROCESSOR_RECIPES)
@@ -1456,7 +1460,7 @@ object MultiBlockMachine {
         }
         .workableCasingRenderer(
             GTLCore.id("block/casings/dimensionally_transcendent_casing"),
-            GTCEu.id("block/multiblock/fusion_reactor")
+            GTCEu.id("block/multiblock/cosmos_simulation")
         )
         .register()
 

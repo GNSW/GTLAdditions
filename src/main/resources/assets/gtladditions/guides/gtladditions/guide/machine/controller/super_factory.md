@@ -27,6 +27,6 @@ item_ids:
 </Row>
 
 * The four highly integrated industrial modules on board The Floating Light Deep Space Industrial Vessel are capable of processing recipes with exceptional efficiency
-* For every level above UIV, the module’s energy consumption and processing time are multiplied by 0.9; an additional input <FluidLink id="gtceu:raw_star_matter_plasma" /> increases the module’s thread count to 192, with a consumption rate of 1B/s
+* For every level above UIV, the module’s energy consumption and processing time are multiplied by 0.9; an additional input <FluidLink id="gtceu:raw_star_matter_plasma" /> increases the module’s thread count to 256, with a consumption rate of 1B/s
 * Features [Multi Recipe Types](../multi_type.md), eliminating the need to frequently switch recipe types
 

@@ -40,7 +40,6 @@ import net.minecraft.world.level.material.Fluid
 import com.gtladd.gtladditions.api.machine.gui.MultiblockDisplayText
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine
 import com.gtladd.gtladditions.common.machine.multiblock.controller.fl.FloatingLightPosHelper.calculateModulePositions
-import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 
@@ -133,7 +132,7 @@ class FloatingLightController(holder: IMachineBlockEntity) :
     override fun addDisplayText(textList: MutableList<Component>) {
         MultiblockDisplayText.builder(textList, isFormed)
             .addEnergyTierLine(tier)
-            .addComponent("已连接${modulePos.size}个模块".toComponent)
+            .addComponent(Component.translatable("gtceu.machine.module", modulePos.size))
     }
 
     override fun createUI(entityPlayer: Player): ModularUI = ModularUI(198, 208, this, entityPlayer).widget(FancyMachineUIWidget(this, 198, 208))
