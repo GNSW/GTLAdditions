@@ -28,10 +28,10 @@ open class GTLAddMultipleRecipesLogic(private val gtlAddMachine: GTLAddWorkableE
     }
 
     val getMultipleRecipe: GTRecipe?
-        get() = gtlAddMachine.getMultipleRecipe(lookupRecipeIterator(), ::testBefore, gtlAddMachine::modifyRecipe, 128, gtlAddMachine.limitedDuration)
+        get() = gtlAddMachine.getMultipleRecipe(lookupRecipeIterator(), gtlAddMachine::testBefore, gtlAddMachine::modifyRecipe, gtlAddMachine.getThread(), gtlAddMachine.limitedDuration)
 
     val getOverclockRecipe: GTRecipe?
-        get() = gtlAddMachine.getOverclockRecipe(::findAndModifyRecipe, ::testBefore, 128, gtlAddMachine.limitedDuration)
+        get() = gtlAddMachine.getOverclockRecipe(::findAndModifyRecipe, gtlAddMachine::testBefore, gtlAddMachine.getThread(), gtlAddMachine.limitedDuration)
 
     private fun lookupRecipeIterator(): MutableSet<GTRecipe> {
         if (this.isLock) {
@@ -84,8 +84,6 @@ open class GTLAddMultipleRecipesLogic(private val gtlAddMachine: GTLAddWorkableE
     }
 
     open fun getLookup(): GTRecipeLookup = machine.recipeType.lookup
-
-    open fun testBefore(obj: Object) = true
 
     override fun onRecipeFinish() {
         lastRecipe?.let { handleRecipeOutput(machine, it) }
