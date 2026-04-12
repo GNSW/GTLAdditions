@@ -22,8 +22,8 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.material.Fluid
 
 import com.gtladd.gtladditions.api.recipe.ContentList
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.Resource.cellSet
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.Resource.itemSet
+import com.gtladd.gtladditions.common.machine.multiblock.controller.Resource.cellSet
+import com.gtladd.gtladditions.common.machine.multiblock.controller.Resource.itemSet
 import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes
 import com.gtladd.gtladditions.utils.GTRecipeUtils.amount
 import com.gtladd.gtladditions.utils.GTRecipeUtils.stack

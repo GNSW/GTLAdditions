@@ -21,7 +21,7 @@ import com.gtladd.gtladditions.api.registry.GTLAddRegistration.Companion.REGISTR
 import com.gtladd.gtladditions.common.data.GTLAddCreativeModeTabs
 import com.gtladd.gtladditions.common.data.MultiBlockModify
 import com.gtladd.gtladditions.common.machine.hatch.*
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine
 import com.gtladd.gtladditions.utils.ComponentUtil.literal
 import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import com.gtladd.gtladditions.utils.ComponentUtil.translatable

@@ -21,9 +21,9 @@ import com.gregtechceu.gtceu.common.machine.multiblock.electric.ActiveTransforme
 import com.gregtechceu.gtceu.utils.SupplierMemoizer
 
 import com.gtladd.gtladditions.common.machine.GTLAddMachines
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.CreateAggregationMachine
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.CreateDoorMachine
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.OreProcessorMachine
+import com.gtladd.gtladditions.common.machine.multiblock.controller.CreateAggregationMachine
+import com.gtladd.gtladditions.common.machine.multiblock.controller.CreateDoorMachine
+import com.gtladd.gtladditions.common.machine.multiblock.controller.OreProcessorMachine
 import com.gtladd.gtladditions.utils.Registries.getBlock
 
 import java.util.function.Function

@@ -16,14 +16,14 @@ object AE2 {
     @JvmStatic
     fun init(provider: Consumer<FinishedRecipe>) {
         MATTER_FABRICATOR_RECIPES.recipeBuilder(GTLAdditions.id("singularity_1"))
-            .inputItems("kubejs:scrap".getItemStack(4320))
+            .inputItems("kubejs:scrap".getItemStack(1080))
             .circuitMeta(3)
             .outputItems(AEItems.SINGULARITY.stack())
-            .EUt(GTValues.VA[9].toLong()).duration(1).save(provider)
+            .EUt(GTValues.VA[9].toLong()).duration(4).save(provider)
         MATTER_FABRICATOR_RECIPES.recipeBuilder(GTLAdditions.id("singularity_2"))
-            .inputItems("kubejs:scrap_box".getItemStack(480))
+            .inputItems("kubejs:scrap_box".getItemStack(120))
             .circuitMeta(3)
             .outputItems(AEItems.SINGULARITY.stack(9))
-            .EUt(GTValues.VA[10].toLong()).duration(1).save(provider)
+            .EUt(GTValues.VA[10].toLong()).duration(4).save(provider)
     }
 }

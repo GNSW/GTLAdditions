@@ -2,28 +2,38 @@ package com.gtladd.gtladditions.data.recipes
 
 import org.gtlcore.gtlcore.api.data.tag.GTLTagPrefix.nanoswarm
 import org.gtlcore.gtlcore.common.data.GTLBlocks.CREATE_CASING
+import org.gtlcore.gtlcore.common.data.GTLBlocks.POWER_MODULE_5
 import org.gtlcore.gtlcore.common.data.GTLBlocks.SPS_CASING
 import org.gtlcore.gtlcore.common.data.GTLItems
+import org.gtlcore.gtlcore.common.data.GTLItems.EXTREMELY_ULTIMATE_BATTERY
 import org.gtlcore.gtlcore.common.data.GTLMachines
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES
+import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.ASSEMBLER_MODULE
 import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.CREATE_COMPUTATION
+import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.RESOURCE_COLLECTION
+import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.SPACE_ELEVATOR
+import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.SPACE_PROBE_SURFACE_RECEPTION
+import org.gtlcore.gtlcore.common.data.machines.GeneratorMachine.DYSON_SPHERE
 import org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineA.*
 
 import com.gregtechceu.gtceu.api.GTValues.MAX
 import com.gregtechceu.gtceu.api.GTValues.UIV
+import com.gregtechceu.gtceu.api.GTValues.UXV
 import com.gregtechceu.gtceu.api.GTValues.VA
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTItems
+import com.gregtechceu.gtceu.common.data.GTItems.COVER_SOLAR_PANEL_EV
 import com.gregtechceu.gtceu.common.data.GTItems.FIELD_GENERATOR_UEV
 import com.gregtechceu.gtceu.common.data.GTItems.TOOL_DATA_MODULE
 import com.gregtechceu.gtceu.common.data.GTMachines
 import com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium
 import com.gregtechceu.gtceu.common.data.GTMaterials.Promethium
 import com.gregtechceu.gtceu.common.data.GTMaterials.Rhenium
+import com.gregtechceu.gtceu.common.data.GTMaterials.UUMatter
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
 import com.gregtechceu.gtceu.data.recipe.CustomTags
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
@@ -36,15 +46,16 @@ import net.minecraft.world.level.block.Blocks
 import com.gtladd.gtladditions.GTLAdditions.id
 import com.gtladd.gtladditions.common.machine.GTLAddMachines
 import com.gtladd.gtladditions.common.machine.GTLAddMachines.VIENTIANE_TRANSCEIPTION_NODE
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.CATALYTIC_CASCADE_ARRAY
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.FRACTAL_MANIPULATOR
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.FUXI_BAGUA_HEAVEN_FORGING_FURNACE
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.HYPERDIMENSIONAL_ENERGY_CONCETRATOR
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.MAGNETORHEOLOGICAL_CONVERGENCE_CORE
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.PLANETARY_IONISATION_CONVERGENCE_TOWER
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.RECURSIVE_REVERSE_FORGE
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.REVERSE_TIME_BOOSTING_ENGINE
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine.SKELETON_SHIFT_RIFT_ENGINE
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.CATALYTIC_CASCADE_ARRAY
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FRACTAL_MANIPULATOR
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FUXI_BAGUA_HEAVEN_FORGING_FURNACE
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.HYPERDIMENSIONAL_ENERGY_CONCETRATOR
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.MAGNETORHEOLOGICAL_CONVERGENCE_CORE
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.PLANETARY_IONISATION_CONVERGENCE_TOWER
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.RECURSIVE_REVERSE_FORGE
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.REVERSE_TIME_BOOSTING_ENGINE
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.SKELETON_SHIFT_RIFT_ENGINE
 import com.gtladd.gtladditions.common.register.GTLAddItems
 import com.gtladd.gtladditions.utils.Registries.getFluid
 import com.gtladd.gtladditions.utils.Registries.getItemStack
@@ -286,6 +297,38 @@ object NewMachineRecipe2 {
                 it.researchStack(GTLMachines.LIGHTNING_ROD[6].asStack())
                     .dataStack(TOOL_DATA_MODULE.asStack()).dataStack(TOOL_DATA_MODULE.asStack())
                     .EUt(VA[UIV]).CWUt(256)
+            }
+            .save(provider)
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("floating_light_deep_space_industrial_vessel"))
+            .inputItems(DYSON_SPHERE, 16)
+            .inputItems(SPACE_ELEVATOR, 16)
+            .inputItems(SPACE_PROBE_SURFACE_RECEPTION, 16)
+            .inputItems(ASSEMBLER_MODULE, 32)
+            .inputItems(RESOURCE_COLLECTION, 32)
+            .inputItems(POWER_MODULE_5, 48)
+            .inputItems(CustomTags.UXV_CIRCUITS, 64)
+            .inputItems(EXTREMELY_ULTIMATE_BATTERY, 8)
+            .inputItems(
+                "kubejs:space_drone_mk5".getItemStack(56),
+                "kubejs:space_probe_mk1".getItemStack(56),
+                "kubejs:precision_circuit_assembly_robot_mk4".getItemStack(56),
+                "kubejs:dyson_swarm_module".getItemStack(64),
+                "kubejs:dyson_swarm_module".getItemStack(64),
+            )
+            .inputItems(COVER_SOLAR_PANEL_EV, 64)
+            .inputItems(plateDouble, SuperheavyLAlloy, 64)
+            .inputItems(plateDouble, SuperheavyHAlloy, 64)
+            .inputFluids(SuperMutatedLivingSolder.getFluid(480000))
+            .inputFluids(UUMatter.getFluid(560000))
+            .inputFluids(Ytterbium178.getFluid(8192))
+            .inputFluids(CosmicComputingMixture.getFluid(320000))
+            .outputItems(FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL)
+            .EUt(VA[UXV].toLong()).duration(7200)
+            .stationResearch {
+                it.researchStack(DYSON_SPHERE.asStack())
+                    .dataStack(TOOL_DATA_MODULE.asStack())
+                    .EUt(VA[UXV]).CWUt(2048)
             }
             .save(provider)
     }

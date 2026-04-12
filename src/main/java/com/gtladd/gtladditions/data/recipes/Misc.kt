@@ -24,7 +24,7 @@ import net.minecraft.world.item.Items
 
 import appeng.core.definitions.AEItems
 import com.gtladd.gtladditions.GTLAdditions.id
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine
 import com.gtladd.gtladditions.common.register.GTLAddItems
 import com.gtladd.gtladditions.utils.Registries.getItemStack
 import dev.latvian.mods.kubejs.KubeJS

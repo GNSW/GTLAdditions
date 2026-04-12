@@ -12,10 +12,10 @@ import com.gtladd.gtladditions.GTLAdditions.id
 import com.gtladd.gtladditions.api.machine.ConversationMachine.Companion.MagmatterBlock
 import com.gtladd.gtladditions.api.machine.ConversationMachine.Companion.MagmatterIngot
 import com.gtladd.gtladditions.api.machine.ConversationMachine.Companion.MagnetohydrodynamicallyConstrainedStarMatterBlock
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.CreateAggregationMachine.Companion.ChainCommandBlockBroken
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.CreateAggregationMachine.Companion.ChainCommandBlockCore
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.CreateAggregationMachine.Companion.CommandBlockBroken
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.CreateAggregationMachine.Companion.RepeatingCommandBlockCore
+import com.gtladd.gtladditions.common.machine.multiblock.controller.CreateAggregationMachine.Companion.ChainCommandBlockBroken
+import com.gtladd.gtladditions.common.machine.multiblock.controller.CreateAggregationMachine.Companion.ChainCommandBlockCore
+import com.gtladd.gtladditions.common.machine.multiblock.controller.CreateAggregationMachine.Companion.CommandBlockBroken
+import com.gtladd.gtladditions.common.machine.multiblock.controller.CreateAggregationMachine.Companion.RepeatingCommandBlockCore
 import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes.TRANSMUTATION_BLOCK_CONVERSION
 import com.gtladd.gtladditions.utils.Registries.getBlock
 

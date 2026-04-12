@@ -31,7 +31,7 @@ import net.minecraft.world.item.Items
 import appeng.core.definitions.AEBlocks
 import com.gtladd.gtladditions.GTLAdditions.id
 import com.gtladd.gtladditions.common.machine.GTLAddMachines
-import com.gtladd.gtladditions.common.machine.muiltblock.MultiBlockMachine
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine
 import com.gtladd.gtladditions.common.register.GTLAddItems
 import com.gtladd.gtladditions.utils.Registries.getItemStack
 import com.hepdd.gtmthings.data.CustomMachines.HUGE_INPUT_DUAL_HATCH
@@ -57,7 +57,7 @@ object NewMachineRecipe1 {
             .inputFluids(SuperMutatedLivingSolder.getFluid(16000))
             .inputFluids(UUMatter.getFluid(16000))
             .inputFluids(RAREEARTH.getFluid(16000))
-            .outputItems(MultiBlockMachine.SUPER_FACTORY_MKI)
+            .outputItems(MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1)
             .EUt(VA[UXV].toLong()).duration(1200)
             .stationResearch {
                 it.researchStack(PROCESSING_PLANT.asStack())
@@ -81,7 +81,7 @@ object NewMachineRecipe1 {
             .inputFluids(SuperMutatedLivingSolder.getFluid(16000))
             .inputFluids(UUMatter.getFluid(16000))
             .inputFluids(SuperheavyLAlloy.getFluid(16000))
-            .outputItems(MultiBlockMachine.SUPER_FACTORY_MKII)
+            .outputItems(MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2)
             .EUt(VA[UXV].toLong()).duration(1200)
             .stationResearch {
                 it.researchStack(SEPARATED_PLANT.asStack())
@@ -105,7 +105,7 @@ object NewMachineRecipe1 {
             .inputFluids(SuperMutatedLivingSolder.getFluid(16000))
             .inputFluids(UUMatter.getFluid(16000))
             .inputFluids(SuperheavyHAlloy.getFluid(16000))
-            .outputItems(MultiBlockMachine.SUPER_FACTORY_MKIII)
+            .outputItems(MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3)
             .EUt(VA[UXV].toLong()).duration(1200)
             .stationResearch {
                 it.researchStack(MIXED_PLANT.asStack())
@@ -129,7 +129,7 @@ object NewMachineRecipe1 {
             .inputFluids(SuperMutatedLivingSolder.getFluid(16000))
             .inputFluids(UUMatter.getFluid(16000))
             .inputFluids(Transition.getFluid(16000))
-            .outputItems(MultiBlockMachine.SUPER_FACTORY_MKIV)
+            .outputItems(MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4)
             .EUt(VA[UXV].toLong()).duration(1200)
             .stationResearch {
                 it.researchStack(ASSEMBLE_PLANT.asStack())

@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 
-import com.gtladd.gtladditions.common.machine.muiltblock.controller.ArcanicAstrograph
+import com.gtladd.gtladditions.common.machine.multiblock.controller.ArcanicAstrograph
 import it.unimi.dsi.fastutil.ints.IntIntPair
 import it.unimi.dsi.fastutil.longs.LongArraySet
 
