@@ -389,11 +389,15 @@ class FloatingLightController(holder: IMachineBlockEntity) :
                 ecList.removeEnergy(flMachine.maxVoltage)
                 this.status = Status.WORKING
                 ++this.progress
-                if (progress == 3 && flMachine.getCircuit() == 2) {
-                    val fluid = flMachine.fluidHatch?.tank?.getFluidInTank(0) ?: FluidStack.empty()
-                    if (!fluid.isEmpty && fluid.fluid == RAWSTARMATTER && fluid.amount >= 1000) {
-                        flMachine.fluidHatch?.tank?.drainInternal(1000, false)
-                        flMachine.isDouble = true
+                if (progress == 3) {
+                    if (flMachine.getCircuit() == 2) {
+                        val fluid = flMachine.fluidHatch?.tank?.getFluidInTank(0) ?: FluidStack.empty()
+                        if (!fluid.isEmpty && fluid.fluid == RAWSTARMATTER && fluid.amount >= 1000) {
+                            flMachine.fluidHatch?.tank?.drainInternal(1000, false)
+                            flMachine.isDouble = true
+                        } else {
+                            flMachine.isDouble = false
+                        }
                     } else {
                         flMachine.isDouble = false
                     }

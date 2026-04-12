@@ -35,6 +35,7 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.properties.SlabType
 
 import appeng.core.definitions.AEBlocks
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility
 import com.gtladd.gtladditions.api.machine.*
 import com.gtladd.gtladditions.api.recipe.FastRecipeModify
 import com.gtladd.gtladditions.api.registry.GTLAddRegistration.Companion.REGISTRATE
@@ -56,6 +57,7 @@ import com.gtladd.gtladditions.utils.MathUtil.pow
 import com.gtladd.gtladditions.utils.Registries.getBlock
 import com.gtladd.gtladditions.utils.Registries.getFluid
 import com.hepdd.gtmthings.data.CustomMachines
+import org.gtlcore.gtlcore.api.pattern.GTLPredicates.diffAbilities
 
 import java.util.function.Function
 
@@ -79,13 +81,13 @@ object MultiBlockMachine {
         }
     )
         .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
         .tooltipTextMultiRecipeTypes()
         .tooltipTextRecipeTypes(LATHE_RECIPES, BENDER_RECIPES, COMPRESSOR_RECIPES, FORGE_HAMMER_RECIPES, WIREMILL_RECIPES, POLARIZER_RECIPES)
         .tooltipTextMultiRecipeType(EXTRUDER_RECIPES, CUTTER_RECIPES, MIXER_RECIPES, FORMING_PRESS_RECIPES)
-        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .recipeType(LATHE_RECIPES)
         .recipeType(BENDER_RECIPES)
@@ -142,6 +144,7 @@ object MultiBlockMachine {
         }
     )
         .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -150,7 +153,6 @@ object MultiBlockMachine {
         .tooltipTextMultiRecipeType(CENTRIFUGE_RECIPES, THERMAL_CENTRIFUGE_RECIPES)
         .tooltipTextMultiRecipeType(ELECTROLYZER_RECIPES, ELECTROMAGNETIC_SEPARATOR_RECIPES)
         .tooltipTextMultiRecipeType(SIFTER_RECIPES, DEHYDRATOR_RECIPES)
-        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .recipeType(ROCK_BREAKER_RECIPES)
         .recipeType(ORE_WASHER_RECIPES)
@@ -202,6 +204,7 @@ object MultiBlockMachine {
         }
     )
         .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -217,7 +220,6 @@ object MultiBlockMachine {
             CHEMICAL_BATH_RECIPES
         )
         .tooltipTextMultiRecipeType(FLUID_SOLIDFICATION_RECIPES, EXTRACTOR_RECIPES)
-        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .recipeType(EVAPORATION_RECIPES)
         .recipeType(AUTOCLAVE_RECIPES)
@@ -267,6 +269,7 @@ object MultiBlockMachine {
         }
     )
         .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -274,7 +277,6 @@ object MultiBlockMachine {
         .tooltipTextRecipeTypes(ASSEMBLER_RECIPES)
         .tooltipTextMultiRecipeType(PRECISION_ASSEMBLER_RECIPES, CIRCUIT_ASSEMBLER_RECIPES)
         .tooltipTextMultiRecipeType(ARC_FURNACE_RECIPES, CANNER_RECIPES, LIGHTNING_PROCESSOR_RECIPES)
-        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .recipeType(CANNER_RECIPES)
         .recipeType(ARC_FURNACE_RECIPES)
@@ -1216,6 +1218,7 @@ object MultiBlockMachine {
         ::CatalyticCascadeArray
     )
         .nonYAxisRotation()
+        .tooltipTextKey("tooltip.gtladditions.recursive_reverse_forge_module_0".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .appearanceBlock(DIMENSION_INJECTION_CASING)
         .pattern {
@@ -1244,6 +1247,7 @@ object MultiBlockMachine {
         ::HyperdimensionalEnergyConcentrator
     )
         .nonYAxisRotation()
+        .tooltipTextKey("tooltip.gtladditions.recursive_reverse_forge_module_0".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .recipeType(DUMMY_RECIPES)
         .appearanceBlock(DIMENSION_INJECTION_CASING)
@@ -1274,6 +1278,7 @@ object MultiBlockMachine {
         ::MagnetorheologicalConvergenceCore
     )
         .nonYAxisRotation()
+        .tooltipTextKey("tooltip.gtladditions.recursive_reverse_forge_module_0".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .appearanceBlock(DIMENSION_INJECTION_CASING)
         .pattern {
@@ -1303,6 +1308,7 @@ object MultiBlockMachine {
         ::ReverseTimeBoostingEngine
     )
         .nonYAxisRotation()
+        .tooltipTextKey("tooltip.gtladditions.recursive_reverse_forge_module_0".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .appearanceBlock(DIMENSION_INJECTION_CASING)
         .pattern {
@@ -1329,6 +1335,7 @@ object MultiBlockMachine {
 
     val FRACTAL_MANIPULATOR: MultiblockMachineDefinition = REGISTRATE.multiblock("fractal_manipulator", ::FractalManipulator)
         .noneRotation()
+        .tooltipTextKey("tooltip.gtladditions.recursive_reverse_forge_module_1".toComponent)
         .tooltipOnlyTextLaser()
         .tooltipTextRecipeTypes(GTLAddRecipesTypes.FRACTAL_RECONSTRUCTION)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
@@ -1413,6 +1420,7 @@ object MultiBlockMachine {
 
     val FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL: MultiblockMachineDefinition = REGISTRATE.multiblock("floating_light_deep_space_industrial_vessel", ::FloatingLightController)
         .nonYAxisRotation()
+        .tooltipTextKey("gtceu.machine.hold_g.tooltip.1".toComponent)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .appearanceBlock(DIMENSIONALLY_TRANSCENDENT_CASING)
         .pattern {
@@ -1482,6 +1490,7 @@ object MultiBlockMachine {
         }
     )
         .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.floating_light_deep_space_industrial_vessel_module".toComponent)
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -1538,6 +1547,7 @@ object MultiBlockMachine {
         }
     )
         .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.floating_light_deep_space_industrial_vessel_module".toComponent)
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -1591,6 +1601,7 @@ object MultiBlockMachine {
         }
     )
         .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.floating_light_deep_space_industrial_vessel_module".toComponent)
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()
@@ -1652,6 +1663,7 @@ object MultiBlockMachine {
         }
     )
         .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.floating_light_deep_space_industrial_vessel_module".toComponent)
         .tooltipTextMaxParallels(Int.MAX_VALUE)
         .tooltipTextLaser()
         .tooltipTextMultiRecipes()

@@ -30,6 +30,20 @@ abstract class FloatingLightModule(holder: IMachineBlockEntity) :
         val MANAGED_FIELD_HOLDER = ManagedFieldHolder(FloatingLightModule::class.java, GTLAddWorkableElectricMultipleRecipesMachine.MANAGED_FIELD_HOLDER)
     }
 
+    override fun onStructureFormed() {
+        super.onStructureFormed()
+        if (!findAndConnectToHost()) removeFromHost(this.host)
+    }
+
+    override fun onStructureInvalid() {
+        super.onStructureInvalid()
+        removeFromHost(this.host)
+    }
+
+    override fun onPartUnload() {
+        super.onPartUnload()
+        removeFromHost(this.host)
+    }
     override fun getFieldHolder() = MANAGED_FIELD_HOLDER
 
     @Persisted
