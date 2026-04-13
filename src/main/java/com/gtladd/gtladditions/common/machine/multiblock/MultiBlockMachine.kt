@@ -1654,10 +1654,7 @@ object MultiBlockMachine {
         Function {
             return@Function object : FloatingLightModule(it) {
                 override val multiRecipeTypes: Array<GTRecipeType> =
-                    arrayOf(
-                        EVAPORATION_RECIPES, AUTOCLAVE_RECIPES, BREWING_RECIPES, FERMENTING_RECIPES, DISTILLERY_RECIPES, DISTILLATION_RECIPES,
-                        FLUID_HEATER_RECIPES, CHEMICAL_BATH_RECIPES, GTLAddRecipesTypes.SuperFactoryMk3Type_1
-                    )
+                    arrayOf(ASSEMBLER_RECIPES, GTLAddRecipesTypes.SuperFactoryMk4Type_1, GTLAddRecipesTypes.SuperFactoryMk4Type_2)
             }
         }
     )
