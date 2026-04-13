@@ -186,7 +186,7 @@ open class ConversationMachine(holder: IMachineBlockEntity) :
                 this.lastRecipe = recipe
                 this.status = Status.WORKING
                 this.progress = 0
-                this.duration = if (cMachine.cardId == 3) 20 else 100
+                this.duration = if (cMachine.cardId == 3) 20 else recipe.duration
             }
         }
 
