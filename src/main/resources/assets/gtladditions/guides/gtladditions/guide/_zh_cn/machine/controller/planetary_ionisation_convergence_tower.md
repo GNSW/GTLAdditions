@@ -27,7 +27,7 @@ item_ids:
 > 超能硅岩-塔兰至星辉：<FluidLink id="gtceu:promethium" /> 36864mB，<FluidLink id="gtceu:liquid_helium" /> 4KB，<ItemLink id="kubejs:space_drone_mk4" /> 1x10^(-4)个 \
 > 瞬时-524288A MAX 放电-256A MAX\
 > 无尽至永恒：<FluidLink id="gtceu:crystalmatrix" /> 9216mB，<FluidLink id="kubejs:gelid_cryotheum" /> 1KB，<ItemLink id="kubejs:space_drone_mk6" /> 2.5x10^(-5)个 \
-> 瞬时-268435456A MAX 放电-16384A MAX
+> 瞬时-268435456A MAX 放电-131072A MAX
 * 通过手持<ItemLink id="gtmthings:creative_laser_hatch"/>右键塞入一个到机器中, 开启特殊超频模式
 > 工作周期缩短至1s，所有能量均直接输出至无线电网且最大单次输出电流提升到64A MAX+16，无视线圈等级和内部缓存
 * 此时的材料消耗量和种类为
