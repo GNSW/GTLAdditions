@@ -28,7 +28,7 @@ item_ids:
 > Super-Silicon Rock – Talon to Starlight: <FluidLink id="gtceu:promethium" /> 36,864 MB, <FluidLink id="gtceu:liquid_helium" /> 4 KB, <ItemLink id="kubejs:space_drone_mk4" /> 1×10⁻⁴ units \
 > Instantaneous - 524,288A MAX Discharge - 256A MAX\
 > Endless to Eternity: <FluidLink id="gtceu:crystalmatrix" /> 9216 MB, <FluidLink id="kubejs:gelid_cryotheum" /> 1 KB, <ItemLink id="kubejs:space_drone_mk6" /> 2.5×10⁻⁵ units \
-> Instantaneous -268435456A MAX Discharge -16384A MAX
+> Instantaneous -268435456A MAX Discharge -131072A MAX
 * Right-click to insert one into the machine via the handheld <ItemLink id="gtmthings:creative_laser_hatch"/> to activate special overclocking mode:
 > The operating cycle is reduced to 1s; all energy is output directly to the wireless grid, and the maximum single-shot output current is increased to 64A MAX+16, regardless of coil level and internal buffer
 * Material consumption and types at this time are:
