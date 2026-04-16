@@ -9,6 +9,7 @@ import org.gtlcore.gtlcore.common.machine.multiblock.electric.StorageMachine
 
 import com.gregtechceu.gtceu.api.block.ICoilType
 import com.gregtechceu.gtceu.api.data.chemical.material.Material
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton
@@ -112,7 +113,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
         this.stellarTier = context.get("SCTier")
         this.coilEnergy = findCoil(coilType.material)
         this.maxStorageEUt = when (this.stellarTier) {
-            1 -> 0x4ec14566800
+            1 -> 0x3138cb601000
             2 -> 0xc587e7c983000
             3 -> 0x101925daa3740000
             else -> 0
@@ -360,7 +361,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
         val RHENIUM: FluidStack = Rhenium.getFluid(73728)
         val ICE: FluidStack = Ice.getFluid(8000000)
         val PROMETHIUM: FluidStack = Promethium.getFluid(36864)
-        val HELIUM: FluidStack = Helium.getFluid(4000000)
+        val HELIUM: FluidStack = Helium.getFluid(FluidStorageKeys.LIQUID, 4000000)
         val CRYSTALMATRIX: FluidStack = Crystalmatrix.getFluid(9216)
         val CRYOTHEUM: FluidStack = FluidStack.create(Cryotheum, 1000000)
         fun findCoil(material: Material?) = enumValues<CoilToEnergy>().find { it.material == material }
