@@ -70,6 +70,7 @@ object Ontokinetic {
             .inputItems(Items.CHICKEN)
             .inputItems(Items.EGG)
             .inputItems(Items.SPIDER_EYE)
+            .inputItems(Items.ROTTEN_FLESH)
             .inputItems(ingot, CosmicNeutronium)
             .outputItems("avaritia:cosmic_meatballs".getItemStack())
             .duration(3600).EUt(16L * VA[MAX].toLong())
