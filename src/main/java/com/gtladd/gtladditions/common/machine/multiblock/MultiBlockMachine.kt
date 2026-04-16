@@ -1432,7 +1432,7 @@ object MultiBlockMachine {
                         .or(abilities(INPUT_ENERGY).setExactLimit(1))
                 )
                 .where("]", blocks("kubejs:neutronium_gearbox".getBlock))
-                .where("D", blocks(BORDERLESS_LAMPS[DyeColor.CYAN]!!.get()))
+                .where("D", blocks(Blocks.SEA_LANTERN))
                 .where("F", blocks(HEAT_VENT.get()))
                 .where("R", fluids("kubejs:gelid_cryotheum".getFluid))
                 .where("K", blocks(ChemicalHelper.getBlock(frameGt, Vibranium)))
@@ -1442,7 +1442,7 @@ object MultiBlockMachine {
                 .where("U", GTLAddPredicates.slabBlock(SlabType.BOTTOM, Blocks.POLISHED_DEEPSLATE_SLAB))
                 .where("H", blocks("kubejs:dimensional_bridge_casing".getBlock))
                 .where("Z", blocks(Blocks.LODESTONE))
-                .where("b", blocks(BORDERLESS_LAMPS[DyeColor.BLUE]!!.get()))
+                .where("b", blocks(SUPER_COOLER_COMPONENT.get()))
                 .where("E", blocks(FUSION_GLASS.get()))
                 .where("M", blocks("kubejs:accelerated_pipeline".getBlock))
                 .where("^", blocks(BATTERY_ULTIMATE_UHV.get()))
@@ -1674,6 +1674,45 @@ object MultiBlockMachine {
         .recipeType(ASSEMBLER_RECIPES)
         .recipeType(PRECISION_ASSEMBLER_RECIPES)
         .recipeType(CIRCUIT_ASSEMBLER_RECIPES)
+        .appearanceBlock(DIMENSIONALLY_TRANSCENDENT_CASING)
+        .pattern {
+            MultiBlockStructureB.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_STRUCTURE
+                .where("D", controller(blocks(it.get())))
+                .where(
+                    "E",
+                    blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get())
+                        .or(abilities(MAINTENANCE).setExactLimit(1))
+                        .or(autoAbilities(*it.recipeTypes))
+                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
+                )
+                .where("C", blocks(ChemicalHelper.getBlock(frameGt, Vibranium)))
+                .where("B", blocks(MOLECULAR_CASING.get()))
+                .where("A", blocks(DIMENSIONALLY_TRANSCENDENT_CASING.get()))
+                .build()
+        }
+        .workableCasingRenderer(
+            GTLCore.id("block/casings/dimensionally_transcendent_casing"),
+            GTCEu.id("block/multiblock/fusion_reactor")
+        )
+        .register()
+
+    val FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_5: MultiblockMachineDefinition = REGISTRATE.multiblock(
+        "floating_light_deep_space_industrial_vessel_module_5",
+        Function {
+            return@Function object : FloatingLightModule(it) {
+                override val multiRecipeTypes: Array<GTRecipeType> =
+                    arrayOf(GTLAddRecipesTypes.ONTOKINETIC)
+            }
+        }
+    )
+        .allRotation()
+        .tooltipTextKey("tooltip.gtladditions.floating_light_deep_space_industrial_vessel_module".toComponent)
+        .tooltipTextMaxParallels(Int.MAX_VALUE)
+        .tooltipTextLaser()
+        .tooltipTextMultiRecipes()
+        .tooltipTextRecipeTypes(GTLAddRecipesTypes.ONTOKINETIC)
+        .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
+        .recipeType(GTLAddRecipesTypes.ONTOKINETIC)
         .appearanceBlock(DIMENSIONALLY_TRANSCENDENT_CASING)
         .pattern {
             MultiBlockStructureB.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_STRUCTURE
