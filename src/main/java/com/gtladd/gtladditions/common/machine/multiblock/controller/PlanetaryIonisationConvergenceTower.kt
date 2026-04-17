@@ -137,6 +137,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
         super.onStructureInvalid()
         this.coilEnergy = null
         this.stellarTier = 0
+        this.cycleAmount = 0
         this.maxStorageEUt = 0
         this.particlePos = null
     }
