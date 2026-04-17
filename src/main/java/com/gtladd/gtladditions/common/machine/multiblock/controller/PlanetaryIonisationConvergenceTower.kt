@@ -141,6 +141,15 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
         this.particlePos = null
     }
 
+    override fun onPartUnload() {
+        super.onPartUnload()
+        this.coilEnergy = null
+        this.stellarTier = 0
+        this.cycleAmount = 0
+        this.maxStorageEUt = 0
+        this.particlePos = null
+    }
+
     override fun onUse(state: BlockState, world: Level, pos: BlockPos, player: Player, hand: InteractionHand, hit: BlockHitResult): InteractionResult {
         if (!world.isClientSide && !this.isSuper) {
             val stack = player.`kjs$getMainHandItem`()
