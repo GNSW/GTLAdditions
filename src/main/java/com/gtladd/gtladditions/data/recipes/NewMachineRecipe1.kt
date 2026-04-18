@@ -41,7 +41,7 @@ import java.util.function.Consumer
 object NewMachineRecipe1 {
     @JvmStatic
     fun init(provider: Consumer<FinishedRecipe>) {
-        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("super_factory_mk1"))
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("floating_light_deep_space_industrial_vessel_module_1"))
             .inputItems(MEGA_PRESSER, 16)
             .inputItems(MEGA_WIREMILL, 16)
             .inputItems(HOLY_SEPARATOR, 16)
@@ -65,7 +65,7 @@ object NewMachineRecipe1 {
                     .EUt(VA[UXV]).CWUt(1024)
             }
             .save(provider)
-        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("super_factory_mk2"))
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("floating_light_deep_space_industrial_vessel_module_2"))
             .inputItems(LARGE_CHEMICAL_BATH, 64)
             .inputItems(LARGE_SIFTING_FUNNEL, 64)
             .inputItems(LARGE_CENTRIFUGE, 64)
@@ -89,7 +89,7 @@ object NewMachineRecipe1 {
                     .EUt(VA[UXV]).CWUt(1024)
             }
             .save(provider)
-        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("super_factory_mk3"))
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("floating_light_deep_space_industrial_vessel_module_3"))
             .inputItems(CRYSTALLINE_INFINITY, 16)
             .inputItems(MEGA_EXTRACTOR, 16)
             .inputItems(MEGA_DISTILLERY, 16)
@@ -113,7 +113,7 @@ object NewMachineRecipe1 {
                     .EUt(VA[UXV]).CWUt(1024)
             }
             .save(provider)
-        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("super_factory_mk4"))
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("floating_light_deep_space_industrial_vessel_module_4"))
             .inputItems(MEGA_CANNER, 16)
             .inputItems(SUPERCONDUCTING_ELECTROMAGNETISM, 16)
             .inputItems(MAGE_ASSEMBLER, 16)

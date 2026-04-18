@@ -6,6 +6,7 @@ import org.gtlcore.gtlcore.common.data.GTLBlocks.POWER_MODULE_5
 import org.gtlcore.gtlcore.common.data.GTLBlocks.SPS_CASING
 import org.gtlcore.gtlcore.common.data.GTLItems
 import org.gtlcore.gtlcore.common.data.GTLItems.EXTREMELY_ULTIMATE_BATTERY
+import org.gtlcore.gtlcore.common.data.GTLItems.MEGA_ULTIMATE_BATTERY
 import org.gtlcore.gtlcore.common.data.GTLMachines
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES
@@ -48,6 +49,11 @@ import com.gtladd.gtladditions.common.machine.GTLAddMachines
 import com.gtladd.gtladditions.common.machine.GTLAddMachines.VIENTIANE_TRANSCEIPTION_NODE
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.CATALYTIC_CASCADE_ARRAY
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_5
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FRACTAL_MANIPULATOR
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FUXI_BAGUA_HEAVEN_FORGING_FURNACE
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.HYPERDIMENSIONAL_ENERGY_CONCETRATOR
@@ -329,6 +335,31 @@ object NewMachineRecipe2 {
                 it.researchStack(DYSON_SPHERE.asStack())
                     .dataStack(TOOL_DATA_MODULE.asStack())
                     .EUt(VA[UXV]).CWUt(2048)
+            }
+            .save(provider)
+
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(id("floating_light_deep_space_industrial_vessel_module_5"))
+            .inputItems("avaritia:extreme_crafting_table".getItemStack(64))
+            .inputItems(FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1, 4)
+            .inputItems(FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_2, 4)
+            .inputItems(FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_3, 4)
+            .inputItems(FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_4, 4)
+            .inputItems(CustomTags.MAX_CIRCUITS, 64)
+            .inputItems(MEGA_ULTIMATE_BATTERY)
+            .inputItems("kubejs:hypercube".getItemStack(64))
+            .inputItems(plateDouble, DraconiumAwakened, 32)
+            .inputItems(plateDouble, CosmicNeutronium, 32)
+            .inputItems(plateDouble, Crystalmatrix, 32)
+            .inputItems(plateDouble, Starmetal, 32)
+            .inputFluids(SpatialFluid.getFluid(3200))
+            .inputFluids(TemporalFluid.getFluid(3200))
+            .inputFluids(TranscendentMetal.getFluid(3200))
+            .outputItems(FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_5)
+            .EUt(4L * VA[MAX].toLong()).duration(7200)
+            .stationResearch {
+                it.researchStack("avaritia:extreme_crafting_table".getItemStack())
+                    .dataStack(TOOL_DATA_MODULE.asStack())
+                    .EUt(VA[MAX]).CWUt(4096)
             }
             .save(provider)
     }

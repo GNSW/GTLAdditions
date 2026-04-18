@@ -3,8 +3,10 @@ package com.gtladd.gtladditions.data.recipes
 import org.gtlcore.gtlcore.common.data.GTLItems
 import org.gtlcore.gtlcore.common.data.GTLItems.WORLD_FRAGMENTS_BARNARDA
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
-import org.gtlcore.gtlcore.common.data.GTLRecipeTypes
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.DECAY_HASTENER_RECIPES
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.GREENHOUSE_RECIPES
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.INCUBATOR_RECIPES
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.WORLD_DATA_SCANNER_RECIPES
 import org.gtlcore.gtlcore.common.recipe.condition.GravityCondition
 import org.gtlcore.gtlcore.config.ConfigHolder
@@ -13,10 +15,14 @@ import com.gregtechceu.gtceu.api.GTValues.*
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.common.data.GTItems.*
+import com.gregtechceu.gtceu.common.data.GTMaterials
+import com.gregtechceu.gtceu.common.data.GTMaterials.Milk
 import com.gregtechceu.gtceu.common.data.GTMaterials.PCBCoolant
 import com.gregtechceu.gtceu.common.data.GTMaterials.Titanium
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ALLOY_SMELTER_RECIPES
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.CANNER_RECIPES
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.FORMING_PRESS_RECIPES
 import com.gregtechceu.gtceu.data.recipe.CustomTags
 
 import net.minecraft.data.recipes.FinishedRecipe
@@ -34,13 +40,15 @@ import java.util.function.Consumer
 object Misc {
     @JvmStatic
     fun init(provider: Consumer<FinishedRecipe>) {
-        DECAY_HASTENER_RECIPES.recipeBuilder(id("tiranium50"))
+        DECAY_HASTENER_RECIPES.recipeBuilder(id("titanium50"))
             .inputFluids(Titanium.getFluid(144))
             .outputFluids(Titanium50.getFluid(144))
             .EUt(VA[MAX].toLong()).duration(10).save(provider)
-        GTRecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(id("guide"))
+
+        FORMING_PRESS_RECIPES.recipeBuilder(id("guide"))
             .inputItems(AEItems.TABLET.stack()).outputItems(GTLAddItems.GUIDE_BOOK.asStack())
             .EUt(VA[LV].toLong()).duration(20).save(provider)
+
         ASSEMBLY_LINE_RECIPES.recipeBuilder(id("extreme_conversion_simulate_card"))
             .inputItems(GTLItems.FAST_CONVERSION_SIMULATE_CARD.asStack())
             .inputItems(EMITTER_OpV, 4)
@@ -60,6 +68,7 @@ object Misc {
                     .EUt(VA[OpV]).CWUt(1024)
             }
             .save(provider)
+
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder(id("barnarda_data"))
             .circuitMeta(1)
             .inputItems(TOOL_DATA_STICK.asStack(8))
@@ -70,6 +79,7 @@ object Misc {
             .EUt(2048).duration(4000)
             .dimension(KubeJS.id("barnarda"))
             .save(provider)
+
         if (ConfigHolder.INSTANCE.enableSkyBlokeMode) {
             WORLD_DATA_SCANNER_RECIPES.recipeBuilder(id("barnarda_data_sky"))
                 .notConsumable(WORLD_FRAGMENTS_BARNARDA.asStack(1))
@@ -81,13 +91,15 @@ object Misc {
                 .EUt(2048).duration(4000)
                 .dimension(KubeJS.id("barnarda"))
                 .save(provider)
-            GTRecipeTypes.ALLOY_SMELTER_RECIPES.recipeBuilder(id("magmatter_nugget"))
+
+            ALLOY_SMELTER_RECIPES.recipeBuilder(id("magmatter_nugget"))
                 .inputItems(ingot, Magmatter)
                 .notConsumable(SHAPE_MOLD_NUGGET)
                 .outputItems(nugget, Magmatter, 9)
                 .duration(2000).EUt(VA[MAX].toLong())
                 .save(provider)
-            GTLRecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(id("miracle_adhesive"))
+
+            DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(id("miracle_adhesive"))
                 .chancedInput(GTLItems.SUPER_GLUE.asStack(), 100, 0)
                 .inputItems("kubejs:hyper_stable_self_healing_adhesive".getItemStack(100))
                 .inputFluids(Miracle.getFluid(100))
@@ -96,6 +108,7 @@ object Misc {
                 .addCondition(GravityCondition(false))
                 .save(provider)
         }
+
         ASSEMBLY_LINE_RECIPES.recipeBuilder(id("harmonizing_core"))
             .inputItems(MultiBlockMachine.DRACONIC_COLLAPSE_CORE)
             .inputItems(CustomTags.MAX_CIRCUITS, 4)
@@ -124,6 +137,53 @@ object Misc {
                     .dataStack(TOOL_DATA_MODULE.asStack())
                     .EUt(VA[MAX]).CWUt(8192)
             }
+            .save(provider)
+
+        GREENHOUSE_RECIPES.recipeBuilder(id("apple"))
+            .notConsumable(Items.OAK_SAPLING)
+            .circuitMeta(3)
+            .inputFluids(GTMaterials.Water.getFluid(1000))
+            .outputItems(Items.OAK_LOG, 32)
+            .outputItems(Items.APPLE, 4)
+            .outputItems(Items.OAK_SAPLING, 3)
+            .duration(900).EUt(VA[LV].toLong())
+            .save(provider)
+
+        GREENHOUSE_RECIPES.recipeBuilder(id("apple_fertiliser"))
+            .notConsumable(Items.OAK_SAPLING)
+            .inputItems(FERTILIZER.asStack(4))
+            .circuitMeta(4)
+            .inputFluids(GTMaterials.Water.getFluid(1000))
+            .outputItems(Items.OAK_LOG, 64)
+            .outputItems(Items.APPLE, 8)
+            .outputItems(Items.OAK_SAPLING, 6)
+            .duration(300).EUt(VA[MV].toLong())
+            .save(provider)
+
+        CANNER_RECIPES.recipeBuilder(id("milk"))
+            .inputItems(Items.BUCKET)
+            .inputFluids(Milk.getFluid(1000))
+            .outputItems(Items.MILK_BUCKET)
+            .duration(200).EUt(VA[LV].toLong())
+            .save(provider)
+
+        INCUBATOR_RECIPES.recipeBuilder(id("bee_spawn_egg"))
+            .inputItems(Items.BONE, 4)
+            .inputItems(Items.HONEYCOMB, 4)
+            .inputItems(Items.HONEY_BOTTLE, 4)
+            .inputFluids(GTMaterials.Biomass.getFluid(1000))
+            .inputFluids(Milk.getFluid(1000))
+            .outputItems(Items.BEE_SPAWN_EGG)
+            .duration(1200).EUt(VA[HV].toLong())
+            .save(provider)
+
+        INCUBATOR_RECIPES.recipeBuilder(id("honey_bottle"))
+            .notConsumable(Items.BEE_SPAWN_EGG)
+            .notConsumable(Items.BEEHIVE)
+            .inputItems(Items.GLASS_BOTTLE)
+            .inputFluids(GTMaterials.Biomass.getFluid(1000))
+            .outputItems(Items.HONEY_BOTTLE)
+            .duration(600).EUt(VA[EV].toLong())
             .save(provider)
     }
 }

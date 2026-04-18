@@ -22,6 +22,7 @@ import static com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachin
 import static com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.TITAN_CRIP_EARTHBORE;
 import static com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes.*;
 import static org.gtlcore.gtlcore.common.data.GTLRecipeTypes.*;
+import static org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.GREENHOUSE;
 import static org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineA.*;
 
 public class RecipeTypeContributions implements RecipeTypeMappingSupplier {
@@ -51,5 +52,8 @@ public class RecipeTypeContributions implements RecipeTypeMappingSupplier {
         TYPE_MAP.put(DISTORT_RECIPES, CHEMICAL_DISTORT.asStack());
         TYPE_MAP.put(QFT_RECIPES, QFT.asStack());
         TYPE_MAP.put(ALLOY_BLAST_RECIPES, GCyMMachines.BLAST_ALLOY_SMELTER.asStack());
+        TYPE_MAP.put(GREENHOUSE_RECIPES, GREENHOUSE.asStack());
+        TYPE_MAP.put(CANNER_RECIPES, GCyMMachines.LARGE_EXTRACTOR.asStack());
+        TYPE_MAP.put(INCUBATOR_RECIPES, INCUBATOR.asStack());
     }
 }

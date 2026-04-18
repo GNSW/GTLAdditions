@@ -15,4 +15,5 @@ item_ids:
 * You can make it in the <Color color="#AA00AA">**EV**</Color> ~~(the end of the EV is also the EV)~~
 * The **Huge Steam Input Hatch** can only be installed on multiblock steam structures, replacing **Steam Input Hatches** or **Large Steam Input Hatches**
 * It can upgrade the processing recipe voltage tier of multiblock steam structures to <Color color="#FFAA00">**HV**</Color> level (**You can install it on a Large Steam Macerator to get byproducts**)
-* It can reduce all processing recipe times to 1t, but will consume more steam (**Please pay attention to your steam reserves!!!**)
+* It can reduce all processing recipe times to 1t, The conversion rate for Steam to EU is 125 mB/t = 1 EU/t (**Please pay attention to your steam reserves!!!**)
+~~As with large steam input chambers, do not use this on dimensional transdimensional steam oven~~

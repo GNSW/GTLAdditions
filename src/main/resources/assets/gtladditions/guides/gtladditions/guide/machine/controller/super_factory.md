@@ -10,6 +10,7 @@ item_ids:
   - floating_light_deep_space_industrial_vessel_module_2
   - floating_light_deep_space_industrial_vessel_module_3
   - floating_light_deep_space_industrial_vessel_module_4
+  - floating_light_deep_space_industrial_vessel_module_5
 ---
 
 # The Floating Light Deep Space Industrial Vessel
@@ -24,6 +25,8 @@ item_ids:
     <BlockImage id = "floating_light_deep_space_industrial_vessel_module_3" scale = "3"/>
 
     <BlockImage id = "floating_light_deep_space_industrial_vessel_module_4" scale = "3"/>
+
+    <BlockImage id = "floating_light_deep_space_industrial_vessel_module_5" scale = "3"/>
 </Row>
 
 * The four highly integrated industrial modules on board The Floating Light Deep Space Industrial Vessel are capable of processing recipes with exceptional efficiency

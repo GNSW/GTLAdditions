@@ -204,6 +204,13 @@ object GTLAddRecipesTypes {
         register("recursive_reverse_forge", MULTIBLOCK).setXEIVisible(false)
             .setEUIO(IO.IN).setMaxIOSize(3, 2, 9, 2)
 
+    @JvmField
+    val ONTOKINETIC: GTRecipeType =
+        register("ontokinetic", MULTIBLOCK)
+            .setEUIO(IO.IN).setMaxIOSize(15, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ARC)
+
     val InfernoCleftSmeltingVaultType =
         registry(
             id("inferno_cleft_smelting_vault_type"),

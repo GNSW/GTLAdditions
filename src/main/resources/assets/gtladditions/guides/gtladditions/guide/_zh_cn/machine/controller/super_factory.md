@@ -10,6 +10,7 @@ item_ids:
   - floating_light_deep_space_industrial_vessel_module_2
   - floating_light_deep_space_industrial_vessel_module_3
   - floating_light_deep_space_industrial_vessel_module_4
+  - floating_light_deep_space_industrial_vessel_module_5
 ---
 
 # 浮光号深空工业舰
@@ -24,6 +25,8 @@ item_ids:
     <BlockImage id = "floating_light_deep_space_industrial_vessel_module_3" scale = "3"/>
 
     <BlockImage id = "floating_light_deep_space_industrial_vessel_module_4" scale = "3"/>
+
+    <BlockImage id = "floating_light_deep_space_industrial_vessel_module_5" scale = "3"/>
 </Row>
 
 * 浮光号深空工业舰下辖的四种高度集成化的工业模块能以极其高效的方式处理配方

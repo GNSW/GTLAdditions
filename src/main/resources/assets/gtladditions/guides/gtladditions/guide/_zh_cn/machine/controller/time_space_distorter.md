@@ -24,7 +24,7 @@ item_ids:
 > 均分模式**不受**超频次数调整**影响** \
 > 开启后, 每个处理的配方都需要消耗配方并行数/53的<ItemLink id="kubejs:quantum_anomaly" />和配方并行数/873的<ItemLink id="kubejs:hypercube" /> \
 > 将配方输出概率变成百分百, 同时配方输出变成1.7倍 \
-> 由于奇迹内禀的不可预测, 下面的配方概率无法被修改
+> 由于奇迹内禀的不可预测性, 下面的配方概率无法被修改
 
 <Recipe id="gtceu:qft/make_miracle_crystal" />
 

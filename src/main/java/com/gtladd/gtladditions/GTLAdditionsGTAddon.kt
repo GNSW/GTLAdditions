@@ -48,5 +48,6 @@ class GTLAdditionsGTAddon : IGTAddon {
         SocProcess.init(provider)
         Misc.init(provider)
         RuriditExtend.init(provider)
+        Ontokinetic.init(provider)
     }
 }
