@@ -54,5 +54,6 @@ public class RecipeTypeContributions implements RecipeTypeMappingSupplier {
         TYPE_MAP.put(ALLOY_BLAST_RECIPES, GCyMMachines.BLAST_ALLOY_SMELTER.asStack());
         TYPE_MAP.put(GREENHOUSE_RECIPES, GREENHOUSE.asStack());
         TYPE_MAP.put(INCUBATOR_RECIPES, INCUBATOR.asStack());
+        TYPE_MAP.put(MIXER_RECIPES, GTMachines.MIXER[2].asStack());
     }
 }

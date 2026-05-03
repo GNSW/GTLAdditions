@@ -14,6 +14,7 @@ item_ids:
   - gtceu:titanium_50_nugget
   - gtceu:tiny_titanium_50_dust
   - gtceu:small_titanium_50_dust
+  - kubejs:warped_ender_pearl
 ---
 
 # Other Recipe
@@ -31,3 +32,5 @@ item_ids:
 <Recipe id="gtladditions:incubator/bee_spawn_egg" />
 
 <Recipe id="gtladditions:incubator/honey_bottle" />
+
+<Recipe id="gtladditions:mixer/warped_ender_pearl" />
