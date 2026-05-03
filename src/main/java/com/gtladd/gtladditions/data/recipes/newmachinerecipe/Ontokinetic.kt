@@ -87,7 +87,7 @@ object Ontokinetic {
             .duration(1200).EUt(4L * VA[MAX].toLong())
             .save(provider)
 
-        ONTOKINETIC.recipeBuilder("")
+        ONTOKINETIC.recipeBuilder("spacetime_singularity")
             .notConsumable("kubejs:cosmic_singularity".getItemStack(64))
             .notConsumable("kubejs:spacetime_compression_field_generator".getItemStack(16))
             .inputItems(ingot, SpaceTime, 1000)
