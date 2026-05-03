@@ -16,7 +16,7 @@ item_ids:
 
 > <Latex math = "凛冰粉消耗量 = \frac{5 * (\frac{对应配方并行}{2^{19}} + 51 * ln对应配方并行)}{机器电压等级 - 9}" />
 
-* 可以手持 <ItemLink id="kubejs:create_ultimate_battery" /> , 右键塞入一个到机器中, 获得额外的加成
+* 可以手持 <ItemLink id="kubejs:create_ultimate_battery" /> , 右键塞入一个到机器中, 获得额外的加成：
 * 耗时倍数: 0.7; 耗能倍数: 0.5
-* **注意**: 若将主机拆除后加成效果会重置
+* **注意**: 若将主机拆除后加成效果会重置且不会返还创造电池
 

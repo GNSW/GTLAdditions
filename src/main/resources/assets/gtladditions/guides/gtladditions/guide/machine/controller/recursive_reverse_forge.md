@@ -15,7 +15,7 @@ item_ids:
 
 # Recursive Reverse Forge
 
-<BlockImage id = "recursive_reverse_forge" scale = "4"/>
+<BlockImage id = "recursive_reverse_forge" scale = "8"/>
 
 * Energy consumption factor: 0.8
 * Maximum parallel number: 2,147,483,647

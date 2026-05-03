@@ -19,9 +19,9 @@ import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.common.data.GTMaterials.Milk
 import com.gregtechceu.gtceu.common.data.GTMaterials.PCBCoolant
 import com.gregtechceu.gtceu.common.data.GTMaterials.Titanium
+import com.gregtechceu.gtceu.common.data.GTMaterials.Wheat
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ALLOY_SMELTER_RECIPES
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes.CANNER_RECIPES
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.FORMING_PRESS_RECIPES
 import com.gregtechceu.gtceu.data.recipe.CustomTags
 
@@ -160,11 +160,13 @@ object Misc {
             .duration(300).EUt(VA[MV].toLong())
             .save(provider)
 
-        CANNER_RECIPES.recipeBuilder(id("milk"))
-            .inputItems(Items.BUCKET)
-            .inputFluids(Milk.getFluid(1000))
-            .outputItems(Items.MILK_BUCKET)
-            .duration(200).EUt(VA[LV].toLong())
+        INCUBATOR_RECIPES.recipeBuilder(id("cake"))
+            .inputItems(dust, Wheat, 3)
+            .inputItems(Items.SUGAR, 2)
+            .inputItems(Items.EGG)
+            .inputFluids(Milk.getFluid(3000))
+            .outputItems(Items.CAKE)
+            .duration(100).EUt(VA[MV].toLong())
             .save(provider)
 
         INCUBATOR_RECIPES.recipeBuilder(id("bee_spawn_egg"))

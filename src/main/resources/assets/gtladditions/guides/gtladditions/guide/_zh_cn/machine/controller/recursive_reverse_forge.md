@@ -15,7 +15,7 @@ item_ids:
 
 # 递归反演锻炉
 
-<BlockImage id = "recursive_reverse_forge" scale = "4"/>
+<BlockImage id = "recursive_reverse_forge" scale = "8"/>
 
 * 耗能倍数: 0.8
 * 最大并行数: 2,147,483,647

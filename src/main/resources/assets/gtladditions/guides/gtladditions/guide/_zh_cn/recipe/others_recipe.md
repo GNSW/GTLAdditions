@@ -6,7 +6,7 @@ navigation:
 item_ids:
   - minecraft:bee_spawn_egg
   - minecraft:apple
-  - minecraft:milk_bucket
+  - minecraft:cake
   - minecraft:honey_bottle
   - gtceu:magnesium_chloride_dust
   - gtceu:titanium_50_dust
@@ -26,7 +26,7 @@ item_ids:
 
 <Recipe id="gtladditions:greenhouse/apple_fertiliser" />
 
-<Recipe id="gtladditions:canner/milk" />
+<Recipe id="gtladditions:incubator/cake" />
 
 <Recipe id="gtladditions:incubator/bee_spawn_egg" />
 
