@@ -32,3 +32,4 @@ item_ids:
 > 工作周期缩短至1s，所有能量均直接输出至无线电网且最大单次输出电流提升到64A MAX+16，无视线圈等级和内部缓存
 * 此时的材料消耗量和种类为
 > <FluidLink id="gtceu:miracle" /> 10mB，<ItemLink id="kubejs:hyperdimensional_drone" /> 1x10^(-6)个
+* **注意**: 若将主机拆除后特殊超频模式会重置且不会返还创造模式激光靶仓

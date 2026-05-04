@@ -16,13 +16,15 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.common.data.GTItems.*
 import com.gregtechceu.gtceu.common.data.GTMaterials
+import com.gregtechceu.gtceu.common.data.GTMaterials.EnderPearl
 import com.gregtechceu.gtceu.common.data.GTMaterials.Milk
 import com.gregtechceu.gtceu.common.data.GTMaterials.PCBCoolant
 import com.gregtechceu.gtceu.common.data.GTMaterials.Titanium
+import com.gregtechceu.gtceu.common.data.GTMaterials.Wheat
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ALLOY_SMELTER_RECIPES
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes.CANNER_RECIPES
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.FORMING_PRESS_RECIPES
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.MIXER_RECIPES
 import com.gregtechceu.gtceu.data.recipe.CustomTags
 
 import net.minecraft.data.recipes.FinishedRecipe
@@ -160,11 +162,13 @@ object Misc {
             .duration(300).EUt(VA[MV].toLong())
             .save(provider)
 
-        CANNER_RECIPES.recipeBuilder(id("milk"))
-            .inputItems(Items.BUCKET)
-            .inputFluids(Milk.getFluid(1000))
-            .outputItems(Items.MILK_BUCKET)
-            .duration(200).EUt(VA[LV].toLong())
+        INCUBATOR_RECIPES.recipeBuilder(id("cake"))
+            .inputItems(dust, Wheat, 3)
+            .inputItems(Items.SUGAR, 2)
+            .inputItems(Items.EGG)
+            .inputFluids(Milk.getFluid(3000))
+            .outputItems(Items.CAKE)
+            .duration(100).EUt(VA[MV].toLong())
             .save(provider)
 
         INCUBATOR_RECIPES.recipeBuilder(id("bee_spawn_egg"))
@@ -184,6 +188,15 @@ object Misc {
             .inputFluids(GTMaterials.Biomass.getFluid(1000))
             .outputItems(Items.HONEY_BOTTLE)
             .duration(600).EUt(VA[EV].toLong())
+            .save(provider)
+
+        MIXER_RECIPES.recipeBuilder(id("warped_ender_pearl"))
+            .circuitMeta(9)
+            .inputItems(Items.BONE_MEAL, 4)
+            .inputItems(Items.BLAZE_POWDER, 4)
+            .inputItems(dust, EnderPearl)
+            .outputItems("kubejs:warped_ender_pearl".getItemStack())
+            .duration(400).EUt(VA[MV].toLong())
             .save(provider)
     }
 }

@@ -4,6 +4,7 @@ import org.gtlcore.gtlcore.api.data.tag.GTLTagPrefix.nanoswarm
 import org.gtlcore.gtlcore.common.data.GTLItems.COMPRESSED_PUFFERFISH
 import org.gtlcore.gtlcore.common.data.GTLItems.SUPER_GLUE
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
+import org.gtlcore.gtlcore.utils.Registries.getItem
 
 import com.gregtechceu.gtceu.api.GTValues.*
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.block
@@ -12,6 +13,7 @@ import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium
 
 import net.minecraft.data.recipes.FinishedRecipe
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 
 import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes.ONTOKINETIC
@@ -83,6 +85,15 @@ object Ontokinetic {
             .inputFluids(CosmicNeutronium.getFluid(41497))
             .outputItems("gtceu:neutronium_credit".getItemStack())
             .duration(1200).EUt(4L * VA[MAX].toLong())
+            .save(provider)
+
+        ONTOKINETIC.recipeBuilder("spacetime_singularity")
+            .notConsumable("kubejs:cosmic_singularity".getItemStack(64))
+            .notConsumable("kubejs:spacetime_compression_field_generator".getItemStack(16))
+            .inputItems(ingot, SpaceTime, 1000)
+            .inputFluids(RawStarMatter.getFluid(1000))
+            .outputItems(ItemStack(getItem("avaritia:singularity")).apply { orCreateTag.putString("Id", "avaritia:spacetime") })
+            .duration(4800).EUt(VA[MAX].toLong())
             .save(provider)
     }
 }

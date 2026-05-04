@@ -25,7 +25,7 @@ categories:
 
 ## <Color color="#00AA00">**UIV**</Color>
 
-* [The Floating Light Deep Space Industrial Vessel](super_factory.md)
+* [The Floating Light Deep Space Industrial Vessel](floating_light_deep_space_industrial_vessel.md)
 * [Nebula Reaper](advanced_space_elevator_module.md)
 * [Atomic Transmutation Core](atomic_transmutation_core.md)
 * [Dimensionally Transcendent Chemical Plant](dimensionally_transcendent_chemical_plant.md)

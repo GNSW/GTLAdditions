@@ -33,3 +33,4 @@ item_ids:
 > The operating cycle is reduced to 1s; all energy is output directly to the wireless grid, and the maximum single-shot output current is increased to 64A MAX+16, regardless of coil level and internal buffer
 * Material consumption and types at this time are:
 > <FluidLink id="gtceu:miracle" /> 10mB, <ItemLink id="kubejs:hyperdimensional_drone" /> 1x10^(-6) units
+* **Note**: If the host is removed, the special overclocking mode will be reset and the Creative Laser Hatch will not be returned.

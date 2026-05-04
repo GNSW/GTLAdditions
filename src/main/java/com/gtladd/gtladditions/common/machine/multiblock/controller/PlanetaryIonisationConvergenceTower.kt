@@ -240,54 +240,87 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
             pictMachine.renderParticles()
             if (progress == 0) {
                 val droneResult = DroneResult(false, "")
+                val nextCycle = pictMachine.cycleAmount + 1
                 if (pictMachine.isSuper) {
-                    pictMachine.startCycle = pictMachine.inputFluidStack(MIRACLE)
-                    if (pictMachine.startCycle && pictMachine.cycleAmount++ % 1000000 == 0) {
-                        pictMachine.startCycle = pictMachine.machineStorageItem.`is`(HyperdimensionalDrone).also { droneResult.isDrone = it }
-                        if (pictMachine.startCycle) {
-                            pictMachine.machineStorage.extractItemInternal(0, 1, false)
-                        } else {
-                            pictMachine.cycleAmount--
+                    when {
+                        (nextCycle % 1000000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(HyperdimensionalDrone) -> {
+                            pictMachine.startCycle = false
+                            droneResult.isDrone = false
+                            droneResult.tier = HyperdimensionalDrone.descriptionId
                         }
-                        droneResult.tier = HyperdimensionalDrone.descriptionId
+                        else -> {
+                            pictMachine.startCycle = pictMachine.inputFluidStack(MIRACLE)
+                            if (pictMachine.startCycle) {
+                                if (nextCycle % 1000000 == 0 || pictMachine.cycleAmount == 0) {
+                                    pictMachine.machineStorage.extractItemInternal(0, 1, false)
+                                    droneResult.isDrone
+                                    droneResult.tier = HyperdimensionalDrone.descriptionId
+                                }
+                                pictMachine.cycleAmount = nextCycle
+                            }
+                        }
                     }
                 } else {
                     pictMachine.coilEnergy?.let {
                         when (it.workTier) {
                             1 -> {
-                                pictMachine.startCycle = pictMachine.inputFluidStack(RHENIUM) && pictMachine.inputFluidStack(ICE)
-                                if (pictMachine.startCycle && pictMachine.cycleAmount++ % 10000 == 0) {
-                                    pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK2).also { value -> droneResult.isDrone = value }
-                                    if (pictMachine.startCycle) {
-                                        pictMachine.machineStorage.extractItemInternal(0, 1, false)
-                                    } else {
-                                        pictMachine.cycleAmount--
+                                when {
+                                    (nextCycle % 10000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(HyperdimensionalDrone) -> {
+                                        pictMachine.startCycle = false
+                                        droneResult.isDrone = false
+                                        droneResult.tier = SpaceDroneMK2.descriptionId
                                     }
-                                    droneResult.tier = SpaceDroneMK2.descriptionId
+                                    else -> {
+                                        pictMachine.startCycle = pictMachine.inputFluidStack(RHENIUM) && pictMachine.inputFluidStack(ICE)
+                                        if (pictMachine.startCycle) {
+                                            if (nextCycle % 10000 == 0 || pictMachine.cycleAmount == 0) {
+                                                pictMachine.machineStorage.extractItemInternal(0, 1, false)
+                                                droneResult.isDrone
+                                                droneResult.tier = SpaceDroneMK2.descriptionId
+                                            }
+                                            pictMachine.cycleAmount = nextCycle
+                                        }
+                                    }
                                 }
                             }
                             2 -> {
-                                pictMachine.startCycle = pictMachine.inputFluidStack(PROMETHIUM) && pictMachine.inputFluidStack(HELIUM)
-                                if (pictMachine.startCycle && pictMachine.cycleAmount++ % 20000 == 0) {
-                                    pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK4).also { value -> droneResult.isDrone = value }
-                                    if (pictMachine.startCycle) {
-                                        pictMachine.machineStorage.extractItemInternal(0, 1, false)
-                                    } else {
-                                        pictMachine.cycleAmount--
+                                when {
+                                    (nextCycle % 20000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(HyperdimensionalDrone) -> {
+                                        pictMachine.startCycle = false
+                                        droneResult.isDrone = false
+                                        droneResult.tier = SpaceDroneMK4.descriptionId
                                     }
-                                    droneResult.tier = SpaceDroneMK4.descriptionId
+                                    else -> {
+                                        pictMachine.startCycle = pictMachine.inputFluidStack(PROMETHIUM) && pictMachine.inputFluidStack(HELIUM)
+                                        if (pictMachine.startCycle) {
+                                            if (nextCycle % 20000 == 0 || pictMachine.cycleAmount == 0) {
+                                                pictMachine.machineStorage.extractItemInternal(0, 1, false)
+                                                droneResult.isDrone
+                                                droneResult.tier = SpaceDroneMK4.descriptionId
+                                            }
+                                            pictMachine.cycleAmount = nextCycle
+                                        }
+                                    }
                                 }
                             }
                             3 -> {
-                                pictMachine.startCycle = pictMachine.inputFluidStack(CRYSTALMATRIX) && pictMachine.inputFluidStack(CRYOTHEUM)
-                                if (pictMachine.startCycle && pictMachine.cycleAmount++ % 100000 == 0) {
-                                    pictMachine.startCycle = pictMachine.machineStorageItem.`is`(SpaceDroneMK6).also { value -> droneResult.isDrone = value }
-                                    if (pictMachine.startCycle) {
-                                        pictMachine.machineStorage.extractItemInternal(0, 1, false)
-                                    } else {
-                                        pictMachine.cycleAmount--
+                                when {
+                                    (nextCycle % 100000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(HyperdimensionalDrone) -> {
+                                        pictMachine.startCycle = false
+                                        droneResult.isDrone = false
+                                        droneResult.tier = SpaceDroneMK6.descriptionId
                                     }
-                                    droneResult.tier = SpaceDroneMK6.descriptionId
+                                    else -> {
+                                        pictMachine.startCycle = pictMachine.inputFluidStack(CRYSTALMATRIX) && pictMachine.inputFluidStack(CRYOTHEUM)
+                                        if (pictMachine.startCycle) {
+                                            if (nextCycle % 100000 == 0 || pictMachine.cycleAmount == 0) {
+                                                pictMachine.machineStorage.extractItemInternal(0, 1, false)
+                                                droneResult.isDrone
+                                                droneResult.tier = SpaceDroneMK6.descriptionId
+                                            }
+                                            pictMachine.cycleAmount = nextCycle
+                                        }
+                                    }
                                 }
                             }
                         }
