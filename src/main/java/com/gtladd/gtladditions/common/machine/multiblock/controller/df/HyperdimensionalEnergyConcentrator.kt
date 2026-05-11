@@ -75,11 +75,9 @@ class HyperdimensionalEnergyConcentrator(holder: IMachineBlockEntity) :
 
     fun getEUt(): BigInteger {
         if (!isWorkingEnabled) return BigInteger.ZERO
-        if (machineStorage.getStackInSlot(0).count == 0) {
-            return BigInteger.valueOf(Int.MAX_VALUE.toLong())
-        }
+        val count = machineStorage.getStackInSlot(0).count
         return WirelessEnergyManager.getUserEU(uuid)
-            .min(bigLong.multiply(BigInteger.valueOf(machineStorage.getStackInSlot(0).count * 16L)))
+            .min(if (count == 0) bigInteger else bigLong.multiply(BigInteger.valueOf(count * 16L)))
     }
 
     fun consumeWirelessEU(eut: BigInteger) = WirelessEnergyManager.addEUToGlobalEnergyMap(uuid, eut, this)
@@ -186,6 +184,7 @@ class HyperdimensionalEnergyConcentrator(holder: IMachineBlockEntity) :
         val recipe: GTRecipe by lazy { GTRecipeBuilder.ofRaw().CWUt(524288).buildRawRecipe() }
         const val EU = 64L * Int.MAX_VALUE
         val bigLong: BigInteger = BigInteger.valueOf(Long.MAX_VALUE)
+        val bigInteger: BigInteger = BigInteger.valueOf(Integer.MAX_VALUE.toLong())
         private val Fluid = FluidStack.create(Cryotheum, 240000)
         val MANAGED_FIELD_HOLDER = ManagedFieldHolder(HyperdimensionalEnergyConcentrator::class.java, StorageMachine.MANAGED_FIELD_HOLDER)
     }
