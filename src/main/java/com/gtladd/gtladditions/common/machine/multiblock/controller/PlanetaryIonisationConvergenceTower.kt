@@ -265,7 +265,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                         when (it.workTier) {
                             1 -> {
                                 when {
-                                    (nextCycle % 10000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(HyperdimensionalDrone) -> {
+                                    (nextCycle % 10000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(SpaceDroneMK2) -> {
                                         pictMachine.startCycle = false
                                         droneResult.isDrone = false
                                         droneResult.tier = SpaceDroneMK2.descriptionId
@@ -285,7 +285,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                             }
                             2 -> {
                                 when {
-                                    (nextCycle % 20000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(HyperdimensionalDrone) -> {
+                                    (nextCycle % 20000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(SpaceDroneMK4) -> {
                                         pictMachine.startCycle = false
                                         droneResult.isDrone = false
                                         droneResult.tier = SpaceDroneMK4.descriptionId
@@ -305,7 +305,7 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
                             }
                             3 -> {
                                 when {
-                                    (nextCycle % 100000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(HyperdimensionalDrone) -> {
+                                    (nextCycle % 100000 == 0 || pictMachine.cycleAmount == 0) && !pictMachine.machineStorageItem.`is`(SpaceDroneMK6) -> {
                                         pictMachine.startCycle = false
                                         droneResult.isDrone = false
                                         droneResult.tier = SpaceDroneMK6.descriptionId

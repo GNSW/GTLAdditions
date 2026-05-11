@@ -75,6 +75,9 @@ class HyperdimensionalEnergyConcentrator(holder: IMachineBlockEntity) :
 
     fun getEUt(): BigInteger {
         if (!isWorkingEnabled) return BigInteger.ZERO
+        if (machineStorage.getStackInSlot(0).count == 0) {
+            return BigInteger.valueOf(Int.MAX_VALUE.toLong())
+        }
         return WirelessEnergyManager.getUserEU(uuid)
             .min(bigLong.multiply(BigInteger.valueOf(machineStorage.getStackInSlot(0).count * 16L)))
     }
