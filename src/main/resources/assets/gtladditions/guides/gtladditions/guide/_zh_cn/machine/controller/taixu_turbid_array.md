@@ -36,16 +36,16 @@ item_ids:
 > <Latex math = "\beta = 3.8 * 1.3^{线圈等级} * (\frac{线圈温度}{36000})^{0.7}" />
 
 * uu增幅液成功概率计算公式:
-> <Latex math = "1/(1 + e^{-0.1 * (\frac{\alpha}{50} + \frac{\beta}{100} + \frac{高度}{9})})" />
+> <Latex math = "1/(1 + e^{-0.1 * (\frac{\alpha}{50} + \frac{\beta}{100} + \frac{高度}{3})})" />
 
 * uu增幅液的基础产出计算公式:
-> <Latex math = "4096 * (1 - e^{-0.015 * (\alpha * \frac{高度}{16} + \beta * \ln{(电压等级 + 2)})})" />
+> <Latex math = "40960 * \tanh{(0.007 * (\alpha * \frac{高度}{9} + \sqrt{\beta} * \ln{(电压等级 + 2)}))}" />
 
 * uu物质成功概率计算公式:
-> <Latex math = "1/(1 - e^{-0.02 * (\frac{\alpha + \beta}{20} + \sqrt[3]{高度} * \frac{电压等级}{7})})" />
+> <Latex math = "1/(1 - e^{-0.02 * (\frac{\alpha + \beta}{20} + \sqrt[3]{高度} * \frac{电压等级}{3})})" />
 
 * uu物质的基础产出计算公式:
-> <Latex math = "2250 * \tanh{(\sqrt{\alpha * \beta} * \frac{(高度 + 电压等级) * 0.06}{200})}" />
+> <Latex math = "22500 * \tanh{(\sqrt{\alpha * \beta} * \frac{(高度 + 电压等级) * 0.045}{200})}" />
 
 * 机器并行计算公式:
 > <Latex math = "4096 * 1.621^{\min(\frac{线圈温度}{6400},12)}" />

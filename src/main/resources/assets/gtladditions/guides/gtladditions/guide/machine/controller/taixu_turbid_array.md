@@ -36,16 +36,16 @@ item_ids:
 > <Latex math = "\beta = 3.8 * 1.3^{Coil Level} * (\frac{Coil Temperature}{36000})^{0.7}" />
 
 * UU Amplifier success probability calculation formula:
-> <Latex math = "1/(1 + e^{-0.1 * (\frac{\alpha}{50} + \frac{\beta}{100} + \frac{height}{9})})" />
+> <Latex math = "1/(1 + e^{-0.1 * (\frac{\alpha}{50} + \frac{\beta}{100} + \frac{height}{3})})" />
 
 * UU Amplifier base output calculation formula:
-> <Latex math = "4096 * (1 - e^{-0.015 * (\alpha * \frac{height}{16} + \beta * \ln{(Voltage Tier + 2)})})" />
+> <Latex math = "40960 * \tanh{(0.007 * (\alpha * \frac{height}{9} + \sqrt{\beta} * \ln{(Voltage Tier + 2)}))}" />
 
 * UU Matter success probability calculation formula:
-> <Latex math = "1/(1 - e^{-0.02 * (\frac{\alpha + \beta}{20} + \sqrt[3]{height} * \frac{Voltage Tier}{7})})" />
+> <Latex math = "1/(1 - e^{-0.02 * (\frac{\alpha + \beta}{20} + \sqrt[3]{height} * \frac{Voltage Tier}{3})})" />
 
 * UU Matter base output calculation formula:
-> <Latex math = "2250 * \tanh{(\sqrt{\alpha * \beta} * \frac{(height + Voltage Tier) * 0.06}{200})}" />
+> <Latex math = "22500 * \tanh{(\sqrt{\alpha * \beta} * \frac{(height + Voltage Tier) * 0.045}{200})}" />
 
 * Machine parallel calculation formula:
 > <Latex math = "4096 * 1.621^{\min(\frac{Coil Temperature}{6400},12)}" />
