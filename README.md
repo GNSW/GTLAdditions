@@ -17,7 +17,7 @@ This mod is developed based on the `GregTech Leisure`. On the basis of this Modp
 
 ## Requirement
 
-- GTLCore  `Version >= 1.2.2.8-fix3`
+- GTLCore  `Version >= 1.2.2.9-fix1`
 
 ## Install
 
