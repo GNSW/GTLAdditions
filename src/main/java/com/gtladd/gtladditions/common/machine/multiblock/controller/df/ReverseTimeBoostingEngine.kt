@@ -82,8 +82,8 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
     private fun findDiv(recipe: GTRecipe): Double {
         returnHatch?.inventory?.let {
             RecipesModify.RTBERecipeItemMap[recipe.id.hashCode()]?.let { t ->
-                for (i in 0..<it.storage.slots) {
-                    val item = it.storage.getStackInSlot(i)
+                for (i in 0..<it.slots) {
+                    val item = it.getStackInSlot(i)
                     if (!item.isEmpty) {
                         for (il in t) if (il.first() == item.item) {
                             val ma = temperature * il.rightInt()
@@ -97,8 +97,8 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
         }
         returnHatch?.tank?.let {
             RecipesModify.RTBERecipeFluidMap[recipe.id.hashCode()]?.let { t ->
-                for (i in 0..<it.storages.size) {
-                    val fluid = it.storages[i].fluid
+                for (i in 0..<it.tanks) {
+                    val fluid = it.getFluidInTank(i)
                     if (!fluid.isEmpty) {
                         for (fl in t) if (fl.first() == fluid.fluid) {
                             val ma = temperature * fl.rightInt()
@@ -127,8 +127,9 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
         if (offsetTimer % 20 == 0L) {
             if (host?.recipeLogic?.isWorking != true) safeMinusTemperature(900)
             fluidHatch?.tank?.let {
-                it.contents.forEach { f ->
-                    val fluidStack = f as FluidStack
+                for (i in 0..<it.tanks) {
+                    val fluidStack = it.getFluidInTank(i)
+                    if (fluidStack.isEmpty) continue
                     if (fluidStack.amount >= 100000) {
                         when (fluidStack.fluid) {
                             LAVA.fluid -> if (!superHeat) {
