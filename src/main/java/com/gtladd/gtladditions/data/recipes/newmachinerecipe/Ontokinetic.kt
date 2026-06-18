@@ -1,16 +1,19 @@
 package com.gtladd.gtladditions.data.recipes.newmachinerecipe
 
 import org.gtlcore.gtlcore.api.data.tag.GTLTagPrefix.nanoswarm
+import org.gtlcore.gtlcore.api.machine.multiblock.GTLCleanroomType.LAW_CLEANROOM
 import org.gtlcore.gtlcore.common.data.GTLItems.COMPRESSED_PUFFERFISH
 import org.gtlcore.gtlcore.common.data.GTLItems.SUPER_GLUE
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
+import org.gtlcore.gtlcore.common.recipe.condition.GravityCondition
 import org.gtlcore.gtlcore.utils.Registries.getItem
 
 import com.gregtechceu.gtceu.api.GTValues.*
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.block
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot
 import com.gregtechceu.gtceu.common.data.GTItems
-import com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium
+import com.gregtechceu.gtceu.common.data.GTMaterials.*
 
 import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.world.item.ItemStack
@@ -94,6 +97,22 @@ object Ontokinetic {
             .inputFluids(RawStarMatter.getFluid(1000))
             .outputItems(ItemStack(getItem("avaritia:singularity")).apply { orCreateTag.putString("Id", "avaritia:spacetime") })
             .duration(4800).EUt(VA[MAX].toLong())
+            .save(provider)
+
+        ONTOKINETIC.recipeBuilder("nan_certificate")
+            .inputItems(block, Periodicium, 64)
+            .inputItems(block, SuperheavyLAlloy, 64)
+            .inputItems(block, SuperheavyHAlloy, 64)
+            .inputItems(block, Titanium50, 64)
+            .inputItems(block, Uranium235, 64)
+            .inputItems(block, Plutonium241, 64)
+            .inputItems(dust, Copper76, 576)
+            .inputFluids(Ytterbium178.getFluid(82944))
+            .inputFluids(Helium3.getFluid(82944))
+            .inputFluids(Deuterium.getFluid(82944))
+            .inputFluids(Tritium.getFluid(82944))
+            .outputItems(GTItems.NAN_CERTIFICATE.asItem())
+            .duration(3600).EUt(VA[MAX].toLong()).cleanroom(LAW_CLEANROOM).addCondition(GravityCondition())
             .save(provider)
     }
 }

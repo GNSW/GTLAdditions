@@ -77,6 +77,6 @@ object Qft {
             .inputFluids(Biomass.getFluid(1000000))
             .inputFluids(SterileGrowthMedium.getFluid(1000000))
             .outputFluids(SuperMutatedLivingSolder.getFluid(100000))
-            .EUt(VA[MAX] * 3072L).duration(7200).save(provider)
+            .EUt(VA[MAX] * 512L).duration(7200).save(provider)
     }
 }

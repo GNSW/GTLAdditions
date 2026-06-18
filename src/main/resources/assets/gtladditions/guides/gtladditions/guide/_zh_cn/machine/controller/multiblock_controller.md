@@ -22,6 +22,8 @@ categories:
 
 * [量子虹吸矩阵](quantum_syphon_matrix.md)
 * [太虚浊化阵](taixu_turbid_array.md)
+* [太素衍化枢纽](primordial_evolution_nexus.md)
+* [生态圈3号](biosphere_iii.md)
 
 ## <Color color="#00AA00">**UIV**</Color>
 

@@ -36,6 +36,12 @@ item_ids:
   - gtceu:germanium_block
   - gtceu:germanium_dust
   - gtceu:germanium_nugget
+  - gtceu:neptunium_block
+  - gtceu:neptunium_dust
+  - gtceu:neptunium_nugget
+  - gtceu:neptunium_rod
+  - gtceu:neptunium_block
+  - gtceu:long_neptunium_rod
 ---
 
 # 更多流体相关配方
@@ -49,3 +55,5 @@ item_ids:
 同时还有一系列提取机和流体固化器配方以及对应的分子解构和混沌炼金配方
 
 >在GTLAdditions中，为锗、铼、锝添加了对应的流体形式
+> 
+>同时镎也获得了锭形式以及一些衍生形式

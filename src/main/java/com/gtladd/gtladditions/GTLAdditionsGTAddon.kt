@@ -49,5 +49,6 @@ class GTLAdditionsGTAddon : IGTAddon {
         Misc.init(provider)
         RuriditExtend.init(provider)
         Ontokinetic.init(provider)
+        EvolutionOfPrimordial.init(provider)
     }
 }

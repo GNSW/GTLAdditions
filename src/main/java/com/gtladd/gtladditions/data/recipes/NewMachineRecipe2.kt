@@ -1,40 +1,26 @@
 package com.gtladd.gtladditions.data.recipes
 
 import org.gtlcore.gtlcore.api.data.tag.GTLTagPrefix.nanoswarm
-import org.gtlcore.gtlcore.common.data.GTLBlocks.CREATE_CASING
-import org.gtlcore.gtlcore.common.data.GTLBlocks.POWER_MODULE_5
-import org.gtlcore.gtlcore.common.data.GTLBlocks.SPS_CASING
-import org.gtlcore.gtlcore.common.data.GTLItems
-import org.gtlcore.gtlcore.common.data.GTLItems.EXTREMELY_ULTIMATE_BATTERY
-import org.gtlcore.gtlcore.common.data.GTLItems.MEGA_ULTIMATE_BATTERY
+import org.gtlcore.gtlcore.common.data.GTLBlocks.*
+import org.gtlcore.gtlcore.common.data.GTLItems.*
+import org.gtlcore.gtlcore.common.data.GTLItems.REALLY_ULTIMATE_BATTERY
 import org.gtlcore.gtlcore.common.data.GTLMachines
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES
-import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.ASSEMBLER_MODULE
-import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.CREATE_COMPUTATION
-import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.RESOURCE_COLLECTION
-import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.SPACE_ELEVATOR
-import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.SPACE_PROBE_SURFACE_RECEPTION
+import org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.*
 import org.gtlcore.gtlcore.common.data.machines.GeneratorMachine.DYSON_SPHERE
 import org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineA.*
+import org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineB.WOOD_DISTILLATION
 
-import com.gregtechceu.gtceu.api.GTValues.MAX
-import com.gregtechceu.gtceu.api.GTValues.UIV
-import com.gregtechceu.gtceu.api.GTValues.UXV
-import com.gregtechceu.gtceu.api.GTValues.VA
+import com.gregtechceu.gtceu.api.GTValues.*
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.PLASMA
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
-import com.gregtechceu.gtceu.common.data.GTItems
-import com.gregtechceu.gtceu.common.data.GTItems.COVER_SOLAR_PANEL_EV
-import com.gregtechceu.gtceu.common.data.GTItems.FIELD_GENERATOR_UEV
-import com.gregtechceu.gtceu.common.data.GTItems.TOOL_DATA_MODULE
+import com.gregtechceu.gtceu.common.data.GTItems.*
 import com.gregtechceu.gtceu.common.data.GTMachines
-import com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium
-import com.gregtechceu.gtceu.common.data.GTMaterials.Promethium
-import com.gregtechceu.gtceu.common.data.GTMaterials.Rhenium
-import com.gregtechceu.gtceu.common.data.GTMaterials.UUMatter
+import com.gregtechceu.gtceu.common.data.GTMaterials.*
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
 import com.gregtechceu.gtceu.data.recipe.CustomTags
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
@@ -47,6 +33,7 @@ import net.minecraft.world.level.block.Blocks
 import com.gtladd.gtladditions.GTLAdditions.id
 import com.gtladd.gtladditions.common.machine.GTLAddMachines
 import com.gtladd.gtladditions.common.machine.GTLAddMachines.VIENTIANE_TRANSCEIPTION_NODE
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.BIOSPHERE_III
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.CATALYTIC_CASCADE_ARRAY
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FLOATING_LIGHT_DEEP_SPACE_INDUSTRIAL_VESSEL_MODULE_1
@@ -59,6 +46,7 @@ import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.FUXI_
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.HYPERDIMENSIONAL_ENERGY_CONCETRATOR
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.MAGNETORHEOLOGICAL_CONVERGENCE_CORE
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.PLANETARY_IONISATION_CONVERGENCE_TOWER
+import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.PRIMORDIAL_EVOLUTION_NEXUS
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.RECURSIVE_REVERSE_FORGE
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.REVERSE_TIME_BOOSTING_ENGINE
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.SKELETON_SHIFT_RIFT_ENGINE
@@ -80,7 +68,7 @@ object NewMachineRecipe2 {
             'B', "gtceu:advanced_fluid_detector_cover".getItemStack(),
             'C', ChemicalHelper.get(wireFine, Enderite),
             'D', GTMachines.HULL[14].asStack(),
-            'E', GTItems.EMITTER_UV.asStack(),
+            'E', EMITTER_UV.asStack(),
             'F', GTLMachines.HEAT_SENSOR.asStack()
         )
         SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(id("recursive_reverse_forge"))
@@ -130,7 +118,7 @@ object NewMachineRecipe2 {
             .inputItems(GTLMachines.NEUTRON_ACCELERATOR[14], 16)
             .inputItems(
                 "kubejs:spacetime_catalyst".getItemStack(64),
-                GTLItems.FIELD_GENERATOR_MAX.asStack(32),
+                FIELD_GENERATOR_MAX.asStack(32),
                 CREATE_CASING.asStack(56)
             )
             .inputItems(wireGtHex, SpaceTime, 32)
@@ -160,7 +148,7 @@ object NewMachineRecipe2 {
             .inputItems(GTLAddItems.SPACETIME_LENS, 64)
             .inputItems(GTLAddItems.PRIMARY_SOC, 24)
             .inputItems(
-                GTLItems.FIELD_GENERATOR_MAX.asStack(32),
+                FIELD_GENERATOR_MAX.asStack(32),
                 CREATE_CASING.asStack(56)
             )
             .inputItems(wireGtHex, SpaceTime, 32)
@@ -192,7 +180,7 @@ object NewMachineRecipe2 {
             .inputItems(plateDouble, MagnetohydrodynamicallyConstrainedStarMatter, 48)
             .inputItems(
                 "kubejs:nuclear_star".getItemStack(48),
-                GTLItems.FIELD_GENERATOR_MAX.asStack(32),
+                FIELD_GENERATOR_MAX.asStack(32),
                 CREATE_CASING.asStack(56)
             )
             .inputItems(wireGtHex, SpaceTime, 32)
@@ -360,6 +348,60 @@ object NewMachineRecipe2 {
                 it.researchStack("avaritia:extreme_crafting_table".getItemStack())
                     .dataStack(TOOL_DATA_MODULE.asStack())
                     .EUt(VA[MAX]).CWUt(4096)
+            }
+            .save(provider)
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("primordial_evolution_nexus"))
+            .inputItems(PETROCHEMICAL_PLANT, 16)
+            .inputItems(WOOD_DISTILLATION, 16)
+            .inputItems(CustomTags.UIV_CIRCUITS, 8)
+            .inputItems(REALLY_ULTIMATE_BATTERY)
+            .inputItems(FIELD_GENERATOR_UEV, 16)
+            .inputItems("kubejs:x_ray_laser".getItemStack(4))
+            .inputItems(nanoswarm, Iridium, 64)
+            .inputItems(nanoswarm, Osmium, 64)
+            .inputItems(plateDouble, Enderite, 8)
+            .inputItems(plateDouble, HastelloyX78, 8)
+            .inputItems("kubejs:hui_circuit_5".getItemStack(32))
+            .inputItems("kubejs:special_ceramics".getItemStack(32))
+            .inputFluids(Zylon.getFluid(5760))
+            .inputFluids(DegenerateRhenium.getFluid(PLASMA, 20000))
+            .inputFluids(Dubnium.getFluid(3200))
+            .inputFluids(Seaborgium.getFluid(3200))
+            .outputItems(PRIMORDIAL_EVOLUTION_NEXUS)
+            .EUt(VA[UEV].toLong()).duration(7200)
+            .stationResearch {
+                it.researchStack(WOOD_DISTILLATION.asStack())
+                    .dataStack(TOOL_DATA_MODULE.asStack())
+                    .EUt(VA[UIV]).CWUt(512)
+            }
+            .save(provider)
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(id("biosphere_iii"))
+            .inputItems(PETROCHEMICAL_PLANT, 16)
+            .inputItems(COVER_SOLAR_PANEL_HV, 4)
+            .inputItems(FIELD_GENERATOR_UEV, 8)
+            .inputItems(CustomTags.UIV_CIRCUITS, 16)
+            .inputItems("kubejs:biological_cells".getItemStack(64))
+            .inputItems("kubejs:biological_cells".getItemStack(64))
+            .inputItems("kubejs:essence_seed".getItemStack(64))
+            .inputItems("kubejs:essence_seed".getItemStack(64))
+            .inputItems(plateDouble, Seaborgium, 16)
+            .inputItems(plateDouble, Dubnium, 16)
+            .inputItems(rodLong, Neptunium, 8)
+            .inputItems(rodLong, Neptunium, 8)
+            .inputItems(wireFine, RutheniumTriniumAmericiumNeutronate, 48)
+            .inputItems(wireFine, RutheniumTriniumAmericiumNeutronate, 48)
+            .inputFluids(RawRadox.getFluid(1000))
+            .inputFluids(AbsoluteEthanol.getFluid(10000))
+            .inputFluids(MutatedLivingSolder.getFluid(5760))
+            .inputFluids(Polyetheretherketone.getFluid(7776))
+            .outputItems(BIOSPHERE_III)
+            .EUt(VA[UHV].toLong()).duration(7200)
+            .stationResearch {
+                it.researchStack(LARGE_GREENHOUSE.asStack())
+                    .dataStack(TOOL_DATA_MODULE.asStack())
+                    .EUt(VA[UV]).CWUt(512)
             }
             .save(provider)
     }

@@ -13,6 +13,7 @@ item_ids:
 <BlockImage id = "skeleton_shift_rift_engine" scale = "8"/>
 
 > Has two modes: Decay Hastener Recipe Type mode and Multi Recipe Types mode (Fusion Reactor and Particle Collider) ([Multi Recipe Types](../multi_type.md)) \
+> Recipes for operating Fusion Reactor of any class
 > Time multiplier: 1 / Stellar Containment Tier \
 > For every 1200K above coil temperature, machine's maximum parallelism x2
 

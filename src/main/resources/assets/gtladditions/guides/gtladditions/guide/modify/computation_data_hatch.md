@@ -23,4 +23,5 @@ item_ids:
 </Row>
 
 * These four hatches can now be shared by multiblock structures
+* ~~However, sharing a wireless computation transmitter hatch does not mean that all computing power is output from that source pool~~
 

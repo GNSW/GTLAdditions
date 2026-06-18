@@ -12,6 +12,7 @@ import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.*
 
 import com.gregtechceu.gtceu.GTCEu
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix.block
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.frameGt
 import com.gregtechceu.gtceu.api.machine.MachineDefinition
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition
@@ -21,7 +22,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern
 import com.gregtechceu.gtceu.api.pattern.Predicates.*
 import com.gregtechceu.gtceu.api.recipe.GTRecipe
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType
-import com.gregtechceu.gtceu.common.data.GCyMBlocks
+import com.gregtechceu.gtceu.common.data.GCyMBlocks.*
 import com.gregtechceu.gtceu.common.data.GCyMBlocks.HEAT_VENT
 import com.gregtechceu.gtceu.common.data.GTBlocks.*
 import com.gregtechceu.gtceu.common.data.GTMachines
@@ -40,7 +41,6 @@ import com.gtladd.gtladditions.api.machine.*
 import com.gtladd.gtladditions.api.recipe.FastRecipeModify
 import com.gtladd.gtladditions.api.registry.GTLAddRegistration.Companion.REGISTRATE
 import com.gtladd.gtladditions.client.render.machine.ArcanicAstrographRender
-import com.gtladd.gtladditions.client.render.machine.SuperFactoryRender
 import com.gtladd.gtladditions.common.machine.GTLAddMachines
 import com.gtladd.gtladditions.common.machine.GTLAddPredicates
 import com.gtladd.gtladditions.common.machine.multiblock.controller.*
@@ -52,7 +52,6 @@ import com.gtladd.gtladditions.common.machine.multiblock.structure.MultiBlockStr
 import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes
 import com.gtladd.gtladditions.utils.ComponentUtil.literal
 import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
-import com.gtladd.gtladditions.utils.MathUtil.format
 import com.gtladd.gtladditions.utils.MathUtil.pow
 import com.gtladd.gtladditions.utils.Registries.getBlock
 import com.gtladd.gtladditions.utils.Registries.getFluid
@@ -61,255 +60,6 @@ import com.hepdd.gtmthings.data.CustomMachines
 import java.util.function.Function
 
 object MultiBlockMachine {
-    @JvmField
-    val SUPER_FACTORY_MKI: MultiblockMachineDefinition = REGISTRATE.multiblock(
-        "super_factory_mk1",
-        Function {
-            return@Function object : GTLAddWorkableElectricMultipleRecipesTypesMachine(it) {
-                override val multiRecipeTypes: Array<GTRecipeType> =
-                    arrayOf(
-                        LATHE_RECIPES,
-                        BENDER_RECIPES,
-                        COMPRESSOR_RECIPES,
-                        FORGE_HAMMER_RECIPES,
-                        WIREMILL_RECIPES,
-                        POLARIZER_RECIPES,
-                        GTLAddRecipesTypes.SuperFactoryMk1Type_1
-                    )
-            }
-        }
-    )
-        .allRotation()
-        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
-        .tooltipTextMaxParallels(Int.MAX_VALUE)
-        .tooltipTextLaser()
-        .tooltipTextMultiRecipes()
-        .tooltipTextMultiRecipeTypes()
-        .tooltipTextRecipeTypes(LATHE_RECIPES, BENDER_RECIPES, COMPRESSOR_RECIPES, FORGE_HAMMER_RECIPES, WIREMILL_RECIPES, POLARIZER_RECIPES)
-        .tooltipTextMultiRecipeType(EXTRUDER_RECIPES, CUTTER_RECIPES, MIXER_RECIPES, FORMING_PRESS_RECIPES)
-        .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
-        .recipeType(LATHE_RECIPES)
-        .recipeType(BENDER_RECIPES)
-        .recipeType(COMPRESSOR_RECIPES)
-        .recipeType(FORGE_HAMMER_RECIPES)
-        .recipeType(CUTTER_RECIPES)
-        .recipeType(EXTRUDER_RECIPES)
-        .recipeType(MIXER_RECIPES)
-        .recipeType(WIREMILL_RECIPES)
-        .recipeType(FORMING_PRESS_RECIPES)
-        .recipeType(POLARIZER_RECIPES)
-        .appearanceBlock(MULTI_FUNCTIONAL_CASING)
-        .pattern { definition ->
-            MultiBlockStructureA.EYE_OF_HARMONY_STRUCTURE
-                .where("~", controller(blocks(definition.get())))
-                .where("A", blocks(MULTI_FUNCTIONAL_CASING.get()))
-                .where(
-                    "B",
-                    blocks(MULTI_FUNCTIONAL_CASING.get())
-                        .or(autoAbilities(*definition.recipeTypes))
-                        .or(abilities(MAINTENANCE).setExactLimit(1))
-                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
-                )
-                .where("D", blocks(MULTI_FUNCTIONAL_CASING.get()))
-                .where("E", blocks("kubejs:neutronium_pipe_casing".getBlock))
-                .where("F", blocks("gtceu:bronze_pipe_casing".getBlock))
-                .where("G", blocks("gtceu:ptfe_pipe_casing".getBlock))
-                .where(" ", any())
-                .build()
-        }
-        .workableCasingRenderer(
-            GTLCore.id("block/multi_functional_casing"),
-            GTCEu.id("block/multiblock/gcym/large_assembler")
-        )
-        .renderer(::SuperFactoryRender)
-        .hasTESR(true)
-        .register()
-
-    @JvmField
-    val SUPER_FACTORY_MKII: MultiblockMachineDefinition = REGISTRATE.multiblock(
-        "super_factory_mk2",
-        Function {
-            return@Function object : GTLAddWorkableElectricMultipleRecipesTypesMachine(it) {
-                override val multiRecipeTypes: Array<GTRecipeType> =
-                    arrayOf(
-                        ROCK_BREAKER_RECIPES,
-                        ORE_WASHER_RECIPES,
-                        MACERATOR_RECIPES,
-                        GTLAddRecipesTypes.SuperFactoryMk2Type_1,
-                        GTLAddRecipesTypes.SuperFactoryMk2Type_2,
-                        GTLAddRecipesTypes.SuperFactoryMk2Type_3
-                    )
-            }
-        }
-    )
-        .allRotation()
-        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
-        .tooltipTextMaxParallels(Int.MAX_VALUE)
-        .tooltipTextLaser()
-        .tooltipTextMultiRecipes()
-        .tooltipTextMultiRecipeTypes()
-        .tooltipTextRecipeTypes(ROCK_BREAKER_RECIPES, ORE_WASHER_RECIPES, MACERATOR_RECIPES)
-        .tooltipTextMultiRecipeType(CENTRIFUGE_RECIPES, THERMAL_CENTRIFUGE_RECIPES)
-        .tooltipTextMultiRecipeType(ELECTROLYZER_RECIPES, ELECTROMAGNETIC_SEPARATOR_RECIPES)
-        .tooltipTextMultiRecipeType(SIFTER_RECIPES, DEHYDRATOR_RECIPES)
-        .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
-        .recipeType(ROCK_BREAKER_RECIPES)
-        .recipeType(ORE_WASHER_RECIPES)
-        .recipeType(CENTRIFUGE_RECIPES)
-        .recipeType(ELECTROLYZER_RECIPES)
-        .recipeType(SIFTER_RECIPES)
-        .recipeType(MACERATOR_RECIPES)
-        .recipeType(DEHYDRATOR_RECIPES)
-        .recipeType(THERMAL_CENTRIFUGE_RECIPES)
-        .recipeType(ELECTROMAGNETIC_SEPARATOR_RECIPES)
-        .appearanceBlock(MULTI_FUNCTIONAL_CASING)
-        .pattern {
-            MultiBlockStructureA.EYE_OF_HARMONY_STRUCTURE
-                .where("~", controller(blocks(it.get())))
-                .where(
-                    "B",
-                    blocks(MULTI_FUNCTIONAL_CASING.get())
-                        .or(autoAbilities(*it.recipeTypes))
-                        .or(abilities(MAINTENANCE).setExactLimit(1))
-                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
-                )
-                .where("A", blocks(MULTI_FUNCTIONAL_CASING.get()))
-                .where("D", blocks(MULTI_FUNCTIONAL_CASING.get()))
-                .where("E", blocks("kubejs:neutronium_pipe_casing".getBlock))
-                .where("F", blocks("gtceu:bronze_pipe_casing".getBlock))
-                .where("G", blocks("gtceu:ptfe_pipe_casing".getBlock))
-                .where(" ", any())
-                .build()
-        }
-        .workableCasingRenderer(
-            GTLCore.id("block/multi_functional_casing"),
-            GTCEu.id("block/multiblock/gcym/large_assembler")
-        )
-        .renderer(::SuperFactoryRender)
-        .hasTESR(true)
-        .register()
-
-    @JvmField
-    val SUPER_FACTORY_MKIII: MultiblockMachineDefinition = REGISTRATE.multiblock(
-        "super_factory_mk3",
-        Function {
-            return@Function object : GTLAddWorkableElectricMultipleRecipesTypesMachine(it) {
-                override val multiRecipeTypes: Array<GTRecipeType> =
-                    arrayOf(
-                        EVAPORATION_RECIPES, AUTOCLAVE_RECIPES, BREWING_RECIPES, FERMENTING_RECIPES, DISTILLERY_RECIPES, DISTILLATION_RECIPES,
-                        FLUID_HEATER_RECIPES, CHEMICAL_BATH_RECIPES, GTLAddRecipesTypes.SuperFactoryMk3Type_1
-                    )
-            }
-        }
-    )
-        .allRotation()
-        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
-        .tooltipTextMaxParallels(Int.MAX_VALUE)
-        .tooltipTextLaser()
-        .tooltipTextMultiRecipes()
-        .tooltipTextMultiRecipeTypes()
-        .tooltipTextRecipeTypes(
-            EVAPORATION_RECIPES,
-            AUTOCLAVE_RECIPES,
-            BREWING_RECIPES,
-            FERMENTING_RECIPES,
-            DISTILLERY_RECIPES,
-            DISTILLATION_RECIPES,
-            FLUID_HEATER_RECIPES,
-            CHEMICAL_BATH_RECIPES
-        )
-        .tooltipTextMultiRecipeType(FLUID_SOLIDFICATION_RECIPES, EXTRACTOR_RECIPES)
-        .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
-        .recipeType(EVAPORATION_RECIPES)
-        .recipeType(AUTOCLAVE_RECIPES)
-        .recipeType(EXTRACTOR_RECIPES)
-        .recipeType(BREWING_RECIPES)
-        .recipeType(FERMENTING_RECIPES)
-        .recipeType(DISTILLERY_RECIPES)
-        .recipeType(DISTILLATION_RECIPES)
-        .recipeType(FLUID_HEATER_RECIPES)
-        .recipeType(FLUID_SOLIDFICATION_RECIPES)
-        .recipeType(CHEMICAL_BATH_RECIPES)
-        .appearanceBlock(MULTI_FUNCTIONAL_CASING)
-        .pattern {
-            MultiBlockStructureA.EYE_OF_HARMONY_STRUCTURE
-                .where("~", controller(blocks(it.get())))
-                .where(
-                    "B",
-                    blocks(MULTI_FUNCTIONAL_CASING.get())
-                        .or(autoAbilities(*it.recipeTypes))
-                        .or(abilities(MAINTENANCE).setExactLimit(1))
-                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
-                )
-                .where("A", blocks(MULTI_FUNCTIONAL_CASING.get()))
-                .where("D", blocks(MULTI_FUNCTIONAL_CASING.get()))
-                .where("E", blocks("kubejs:neutronium_pipe_casing".getBlock))
-                .where("F", blocks("gtceu:bronze_pipe_casing".getBlock))
-                .where("G", blocks("gtceu:ptfe_pipe_casing".getBlock))
-                .where(" ", any())
-                .build()
-        }
-        .workableCasingRenderer(
-            GTLCore.id("block/multi_functional_casing"),
-            GTCEu.id("block/multiblock/gcym/large_assembler")
-        )
-        .renderer(::SuperFactoryRender)
-        .hasTESR(true)
-        .register()
-
-    @JvmField
-    val SUPER_FACTORY_MKIV: MultiblockMachineDefinition = REGISTRATE.multiblock(
-        "super_factory_mk4",
-        Function {
-            return@Function object : GTLAddWorkableElectricMultipleRecipesTypesMachine(it) {
-                override val multiRecipeTypes: Array<GTRecipeType> =
-                    arrayOf(ASSEMBLER_RECIPES, GTLAddRecipesTypes.SuperFactoryMk4Type_1, GTLAddRecipesTypes.SuperFactoryMk4Type_2)
-            }
-        }
-    )
-        .allRotation()
-        .tooltipTextKey("tooltip.gtladditions.discontinued".toComponent)
-        .tooltipTextMaxParallels(Int.MAX_VALUE)
-        .tooltipTextLaser()
-        .tooltipTextMultiRecipes()
-        .tooltipTextMultiRecipeTypes()
-        .tooltipTextRecipeTypes(ASSEMBLER_RECIPES)
-        .tooltipTextMultiRecipeType(PRECISION_ASSEMBLER_RECIPES, CIRCUIT_ASSEMBLER_RECIPES)
-        .tooltipTextMultiRecipeType(ARC_FURNACE_RECIPES, CANNER_RECIPES, LIGHTNING_PROCESSOR_RECIPES)
-        .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
-        .recipeType(CANNER_RECIPES)
-        .recipeType(ARC_FURNACE_RECIPES)
-        .recipeType(LIGHTNING_PROCESSOR_RECIPES)
-        .recipeType(ASSEMBLER_RECIPES)
-        .recipeType(PRECISION_ASSEMBLER_RECIPES)
-        .recipeType(CIRCUIT_ASSEMBLER_RECIPES)
-        .appearanceBlock(MULTI_FUNCTIONAL_CASING)
-        .pattern {
-            MultiBlockStructureA.EYE_OF_HARMONY_STRUCTURE
-                .where("~", controller(blocks(it.get())))
-                .where(
-                    "B",
-                    blocks(MULTI_FUNCTIONAL_CASING.get())
-                        .or(autoAbilities(*it.recipeTypes))
-                        .or(abilities(MAINTENANCE).setExactLimit(1))
-                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
-                )
-                .where("A", blocks(MULTI_FUNCTIONAL_CASING.get()))
-                .where("D", blocks(MULTI_FUNCTIONAL_CASING.get()))
-                .where("E", blocks("kubejs:neutronium_pipe_casing".getBlock))
-                .where("F", blocks("gtceu:bronze_pipe_casing".getBlock))
-                .where("G", blocks("gtceu:ptfe_pipe_casing".getBlock))
-                .where(" ", any())
-                .build()
-        }
-        .workableCasingRenderer(
-            GTLCore.id("block/multi_functional_casing"),
-            GTCEu.id("block/multiblock/gcym/large_assembler")
-        )
-        .renderer(::SuperFactoryRender)
-        .hasTESR(true)
-        .register()
-
     @JvmField
     val LUCID_ETCHDREAMER: MultiblockMachineDefinition = REGISTRATE.multiblock(
         "lucid_etchdreamer",
@@ -546,7 +296,7 @@ object MultiBlockMachine {
                 .where("B", blocks(IRIDIUM_CASING.get()))
                 .where("P", blocks("kubejs:neutronium_gearbox".getBlock))
                 .where("L", blocks(FILTER_CASING_STERILE.get()))
-                .where("H", blocks(GCyMBlocks.CASING_ATOMIC.get()))
+                .where("H", blocks(CASING_ATOMIC.get()))
                 .where("Q", blocks(ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))
                 .where("J", blocks(HERMETIC_CASING_UHV.get()))
                 .where("I", blocks(MOLECULAR_CASING.get()))
@@ -770,15 +520,6 @@ object MultiBlockMachine {
                 .where(" ", any())
                 .build()
         }
-        .additionalDisplay { controller, components ->
-            {
-                (controller as GTLAddCoilWorkableElectricMultipleRecipesMultiblockMachine).takeIf { it.isFormed }?.let {
-                    val reduce = 1 - it.getCoilTier() * 0.05
-                    components.add(Component.translatable("gtceu.machine.eut_multiplier.tooltip", (0.8 * reduce).format(2)))
-                    components.add(Component.translatable("gtceu.machine.duration_multiplier.tooltip", (0.6 * reduce).format(2)))
-                }
-            }
-        }
         .workableCasingRenderer(
             GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"),
             GTCEu.id("block/machines/chemical_reactor")
@@ -831,7 +572,7 @@ object MultiBlockMachine {
         "fuxi_bagua_heaven_forging_furnace",
         ::GTLAddCoilWorkableElectricParallelHatchMultipleRecipesMachine
     )
-        .nonYAxisRotation()
+        .allRotation()
         .tooltipTextKey("gtceu.multiblock.fuxi_bagua_heaven_forging_furnace.tooltip.0".toComponent)
         .tooltipTextParallelHatch()
         .tooltipOnlyTextLaser()
@@ -1385,7 +1126,7 @@ object MultiBlockMachine {
                         .or(abilities(OUTPUT_LASER).setExactLimit(1))
                 )
                 .where("U", blocks(PLASTCRETE.get()))
-                .where("G", blocks(GCyMBlocks.ELECTROLYTIC_CELL.get()))
+                .where("G", blocks(ELECTROLYTIC_CELL.get()))
                 .where("N", blocks(RHENIUM_REINFORCED_ENERGY_GLASS.get()))
                 .where("H", GTLAddPredicates.slabBlock(SlabType.BOTTOM, Blocks.POLISHED_DEEPSLATE_SLAB))
                 .where("O", blocks(Blocks.POLISHED_DEEPSLATE_WALL))
@@ -1732,6 +1473,113 @@ object MultiBlockMachine {
         .workableCasingRenderer(
             GTLCore.id("block/casings/dimensionally_transcendent_casing"),
             GTCEu.id("block/multiblock/fusion_reactor")
+        )
+        .register()
+
+    val PRIMORDIAL_EVOLUTION_NEXUS: MultiblockMachineDefinition = REGISTRATE.multiblock(
+        "primordial_evolution_nexus",
+        Function {
+            return@Function object : GTLAddCoilWorkableElectricMultipleRecipesTypesMultiblockMachine(it) {
+                override val multiRecipeTypes = arrayOf(GTLAddRecipesTypes.EvolutionOfPrimordial)
+            }
+        }
+    )
+        .nonYAxisRotation()
+        .tooltipTextCoilParallel()
+        .tooltipTextLaser()
+        .tooltipTextMultiRecipes()
+        .tooltipTextRecipeTypes(GTLAddRecipesTypes.EvolutionOfPrimordial)
+        .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
+        .recipeType(GTLAddRecipesTypes.EvolutionOfPrimordial)
+        .appearanceBlock(HIGH_POWER_CASING)
+        .pattern {
+            MultiBlockStructureB.PRIMORDIAL_EVOLUTION_NEXUS_STRUCTURE
+                .where("H", controller(blocks(it.get())))
+                .where("J", blocks(CASING_ALUMINIUM_FROSTPROOF.get()))
+                .where("M", blocks("kubejs:laser_cooling_casing".getBlock))
+                .where("P", blocks(CLEANROOM_GLASS.get()))
+                .where("[", blocks(ChemicalHelper.getBlock(frameGt, StainlessSteel)))
+                .where(
+                    "F",
+                    blocks(HIGH_POWER_CASING.get()).or(abilities(EXPORT_ITEMS).setPreviewCount(1))
+                        .or(abilities(IMPORT_ITEMS).setPreviewCount(1))
+                        .or(abilities(EXPORT_FLUIDS).setPreviewCount(1))
+                        .or(abilities(IMPORT_FLUIDS).setPreviewCount(1))
+                        .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
+                )
+                .where("A", blocks("kubejs:high_strength_concrete".getBlock))
+                .where("G", blocks(CASING_STAINLESS_CLEAN.get()))
+                .where("`", blocks(CASING_ALUMINIUM_FROSTPROOF.get()))
+                .where("L", blocks("kubejs:gelid_cryotheum".getBlock))
+                .where("+", blocks(CRUSHING_WHEELS.get()))
+                .where("_", blocks(ChemicalHelper.getBlock(frameGt, Tungsten)))
+                .where("B", blocks(MOLECULAR_CASING.get()))
+                .where("W", blocks("gtceu:ptfe_pipe_casing".getBlock))
+                .where("Q", blocks(ChemicalHelper.getBlock(block, RedAlloy)))
+                .where("U", blocks(FUSION_GLASS.get()))
+                .where("V", heatingCoils())
+                .where("T", blocks("kubejs:red_steel_casing".getBlock))
+                .where("R", blocks(ChemicalHelper.getBlock(block, BlueAlloy)))
+                .where("]", blocks(CASING_WATERTIGHT.get()))
+                .where("S", blocks(CASING_TUNGSTENSTEEL_PIPE.get()))
+                .where("K", blocks(HEAT_VENT.get()))
+                .where("I", blocks("kubejs:neutronium_pipe_casing".getBlock))
+                .where("Z", blocks(CASING_SECURE_MACERATION.get()))
+                .where("D", blocks(CASING_HIGH_TEMPERATURE_SMELTING.get()))
+                .where("^", blocks(CASING_CORROSION_PROOF.get()))
+                .where("N", blocks(GTMachines.MUFFLER_HATCH[10].get()))
+                .where("O", blocks(CASING_VIBRATION_SAFE.get()))
+                .where("Y", blocks(FILTER_CASING_STERILE.get()))
+                .where("C", blocks(ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))
+                .where("a", blocks(CASING_INVAR_HEATPROOF.get()))
+                .where("E", blocks(CASING_EXTREME_ENGINE_INTAKE.get()))
+                .where("c", blocks(CASING_STAINLESS_EVAPORATION.get()))
+                .where("X", blocks(CASING_PTFE_INERT.get()))
+                .where("b", blocks(ChemicalHelper.getBlock(frameGt, Ruridit)))
+                .build()
+        }
+        .workableCasingRenderer(
+            GTCEu.id("block/casings/hpca/high_power_casing"),
+            GTCEu.id("block/multiblock/gcym/large_assembler")
+        )
+        .register()
+
+    val BIOSPHERE_III: MultiblockMachineDefinition = REGISTRATE.multiblock(
+        "biosphere_iii",
+        Function {
+            return@Function object : GTLAddCoilWorkableElectricMultipleRecipesTypesMultiblockMachine(it) {
+                override val multiRecipeTypes = arrayOf(GREENHOUSE_RECIPES)
+            }
+        }
+    )
+        .nonYAxisRotation()
+        .tooltipTextCoilParallel()
+        .tooltipTextLaser()
+        .tooltipTextMultiRecipes()
+        .tooltipTextRecipeTypes(GREENHOUSE_RECIPES)
+        .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
+        .recipeType(GREENHOUSE_RECIPES)
+        .appearanceBlock(ANTIFREEZE_HEATPROOF_MACHINE_CASING)
+        .pattern {
+            MultiBlockStructureB.BIOSPHERE_III_STRUCTURE
+                .where("A", controller(blocks(it.get())))
+                .where(
+                    "B",
+                    blocks(ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()).or(abilities(EXPORT_ITEMS).setPreviewCount(1))
+                        .or(abilities(IMPORT_ITEMS).setPreviewCount(1))
+                        .or(abilities(EXPORT_FLUIDS).setPreviewCount(1))
+                        .or(abilities(IMPORT_FLUIDS).setPreviewCount(1))
+                        .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
+                        .or(abilities(MAINTENANCE).setExactLimit(1))
+                )
+                .where("C", heatingCoils())
+                .build()
+        }
+        .workableCasingRenderer(
+            GTLCore.id("block/casings/antifreeze_heatproof_machine_casing"),
+            GTCEu.id("block/multiblock/implosion_compressor")
         )
         .register()
 

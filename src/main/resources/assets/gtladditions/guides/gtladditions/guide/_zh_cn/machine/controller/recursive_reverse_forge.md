@@ -31,7 +31,7 @@ item_ids:
 * **只能安装在递归反演锻炉结构上, 且每个递归反演锻炉只能安装一个该模块**
 
 > 安装该模块后, 可以减少配方耗时, 具体倍数为: \
-> <Latex math = "\min{(0.8, 0.05+0.7932*e^{-0.8473*投入比例^{2.326}})}" /> \
+> <Latex math = "\min{(0.8, 0.05+0.8*e^{-3.2*投入比例^{1.9}})}" /> \
 > 投入比例为: 投入量/(初始配方输出量*当前温度), 投入比例不会大于1, 投入比例小于10%时不会激活耗时减免功能 \
 > 只需投入一种输出物品或流体即可, 不能使用<FluidLink id="gtceu:dimensionallytranscendentresidue" />,<ItemLink id="kubejs:extremely_durable_plasma_cell" />,<ItemLink id="kubejs:time_dilation_containment_unit" />, <ItemLink id="kubejs:plasma_containment_cell" /> \
 > 初始温度为48000K, 若机器处于工作状态则温度会以65K/t的速度增长, 处于非工作状态则温度会以900K/s的速度减少(不低于48000K) \
@@ -56,7 +56,7 @@ item_ids:
 > 安装该模块后, 可以使配方耗能再乘以0.15, 且可以让配方双倍产出 \
 > 拥有30秒的催化剂**循环周期**. 在每次催化剂循环周期开始时, 模块将会随机输出1-15的红石信号 \
 > 需要通过<ItemLink id="gtladditions:vientiane_transcription_node" />来接收输出红石信号 \
-> **只能**使用lv巨型输入仓来接收输入的催化剂 \
+> **只能**使用LV巨型输入仓来接收输入的催化剂 \
 > 若红石信号为1-3则代表本次周期使用催化剂为<FluidLink id="gtceu:dimensionallytranscendentcrudecatalyst" />, 以此类推, 往后顺序为<FluidLink id="gtceu:dimensionallytranscendentprosaiccatalyst" />,<FluidLink id="gtceu:dimensionallytranscendentresplendentcatalyst" />, <FluidLink id="gtceu:dimensionallytranscendentexoticcatalyst" />, <FluidLink id="gtceu:dimensionallytranscendentstellarcatalyst" /> \
 > 在循环开始0-5s内模块不会工作, 5s后模块将按照输出的红石信号消耗催化剂, 催化剂消耗速度为40B/1s, 效果将生效至下次循环第五秒 \
 > 若输入错误的催化剂则本次循环剩余时间不会有增产效果且后续输入的任何催化剂都将被消耗, 能耗减免效果保留 \

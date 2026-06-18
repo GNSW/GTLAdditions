@@ -1,12 +1,12 @@
 package com.gtladd.gtladditions.data.recipes
 
-import org.gtlcore.gtlcore.common.data.GTLItems
-import org.gtlcore.gtlcore.common.data.GTLItems.WORLD_FRAGMENTS_BARNARDA
+import org.gtlcore.gtlcore.common.data.GTLItems.*
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.DECAY_HASTENER_RECIPES
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.GREENHOUSE_RECIPES
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.INCUBATOR_RECIPES
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.MAGIC_MANUFACTURER_RECIPES
 import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.WORLD_DATA_SCANNER_RECIPES
 import org.gtlcore.gtlcore.common.recipe.condition.GravityCondition
 import org.gtlcore.gtlcore.config.ConfigHolder
@@ -14,18 +14,18 @@ import org.gtlcore.gtlcore.config.ConfigHolder
 import com.gregtechceu.gtceu.api.GTValues.*
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTItems.*
-import com.gregtechceu.gtceu.common.data.GTMaterials
-import com.gregtechceu.gtceu.common.data.GTMaterials.EnderPearl
-import com.gregtechceu.gtceu.common.data.GTMaterials.Milk
-import com.gregtechceu.gtceu.common.data.GTMaterials.PCBCoolant
-import com.gregtechceu.gtceu.common.data.GTMaterials.Titanium
-import com.gregtechceu.gtceu.common.data.GTMaterials.Wheat
+import com.gregtechceu.gtceu.common.data.GTMaterials.*
+import com.gregtechceu.gtceu.common.data.GTMaterials.Oxygen
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ALLOY_SMELTER_RECIPES
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.FORMING_PRESS_RECIPES
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes.LARGE_CHEMICAL_RECIPES
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes.MIXER_RECIPES
 import com.gregtechceu.gtceu.data.recipe.CustomTags
+
+import com.lowdragmc.lowdraglib.side.fluid.FluidStack
 
 import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.world.item.Items
@@ -34,10 +34,13 @@ import appeng.core.definitions.AEItems
 import com.gtladd.gtladditions.GTLAdditions.id
 import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine
 import com.gtladd.gtladditions.common.register.GTLAddItems
+import com.gtladd.gtladditions.common.register.GTLAddItems.PRIMARY_SOC_WAFER
+import com.gtladd.gtladditions.utils.Registries.getFluid
 import com.gtladd.gtladditions.utils.Registries.getItemStack
 import dev.latvian.mods.kubejs.KubeJS
 
 import java.util.function.Consumer
+import kotlin.math.pow
 
 object Misc {
     @JvmStatic
@@ -52,7 +55,7 @@ object Misc {
             .EUt(VA[LV].toLong()).duration(20).save(provider)
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder(id("extreme_conversion_simulate_card"))
-            .inputItems(GTLItems.FAST_CONVERSION_SIMULATE_CARD.asStack())
+            .inputItems(FAST_CONVERSION_SIMULATE_CARD.asStack())
             .inputItems(EMITTER_OpV, 4)
             .inputItems(SENSOR_OpV, 4)
             .inputItems(FIELD_GENERATOR_OpV, 2)
@@ -65,7 +68,7 @@ object Misc {
             .outputItems(GTLAddItems.ULTIMATE_CONVERSATION_CARD.asStack())
             .EUt(VA[OpV].toLong()).duration(300)
             .stationResearch {
-                it.researchStack(GTLItems.FAST_CONVERSION_SIMULATE_CARD.asStack())
+                it.researchStack(FAST_CONVERSION_SIMULATE_CARD.asStack())
                     .dataStack(TOOL_DATA_MODULE.asStack())
                     .EUt(VA[OpV]).CWUt(1024)
             }
@@ -93,16 +96,28 @@ object Misc {
                 .EUt(2048).duration(4000)
                 .dimension(KubeJS.id("barnarda"))
                 .save(provider)
-
-            ALLOY_SMELTER_RECIPES.recipeBuilder(id("magmatter_nugget"))
-                .inputItems(ingot, Magmatter)
-                .notConsumable(SHAPE_MOLD_NUGGET)
-                .outputItems(nugget, Magmatter, 9)
-                .duration(2000).EUt(VA[MAX].toLong())
-                .save(provider)
         }
+
+        WORLD_DATA_SCANNER_RECIPES.recipeBuilder(id("creative_data"))
+            .inputItems(TOOL_DATA_STICK.asStack(64))
+            .inputItems(block, Magmatter, 64)
+            .inputItems(PRIMARY_SOC_WAFER, 64)
+            .inputFluids(FluidIngredient.of(FluidStack.create("kubejs:gelid_cryotheum".getFluid, 800)))
+            .inputFluids(MagnetohydrodynamicallyConstrainedStarMatter.getFluid(64000))
+            .outputItems(GTLAddItems.CREATE_DATA.asStack())
+            .EUt(536870912).duration(4000)
+            .dimension(KubeJS.id("create"))
+            .save(provider)
+
+        ALLOY_SMELTER_RECIPES.recipeBuilder(id("magmatter_nugget"))
+            .inputItems(ingot, Magmatter)
+            .notConsumable(SHAPE_MOLD_NUGGET)
+            .outputItems(nugget, Magmatter, 9)
+            .duration(2000).EUt(VA[MAX].toLong())
+            .save(provider)
+
         DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(id("miracle_adhesive"))
-            .chancedInput(GTLItems.SUPER_GLUE.asStack(), 100, 0)
+            .chancedInput(SUPER_GLUE.asStack(), 100, 0)
             .inputItems("kubejs:hyper_stable_self_healing_adhesive".getItemStack(100))
             .inputFluids(Miracle.getFluid(100))
             .outputFluids(MiracleAdhesive.getFluid(1000))
@@ -120,8 +135,8 @@ object Misc {
                 "kubejs:wyvern_core".getItemStack(8),
                 "kubejs:awakened_core".getItemStack(8),
                 "kubejs:chaotic_core".getItemStack(8),
-                GTLItems.EMITTER_MAX.asStack(64),
-                GTLItems.SENSOR_MAX.asStack(64)
+                EMITTER_MAX.asStack(64),
+                SENSOR_MAX.asStack(64)
             )
             .inputItems(dustSmall, Magmatter, 48)
             .inputItems(dustSmall, Magmatter, 48)
@@ -143,7 +158,7 @@ object Misc {
         GREENHOUSE_RECIPES.recipeBuilder(id("apple"))
             .notConsumable(Items.OAK_SAPLING)
             .circuitMeta(3)
-            .inputFluids(GTMaterials.Water.getFluid(1000))
+            .inputFluids(Water.getFluid(1000))
             .outputItems(Items.OAK_LOG, 32)
             .outputItems(Items.APPLE, 4)
             .outputItems(Items.OAK_SAPLING, 3)
@@ -154,7 +169,7 @@ object Misc {
             .notConsumable(Items.OAK_SAPLING)
             .inputItems(FERTILIZER.asStack(4))
             .circuitMeta(4)
-            .inputFluids(GTMaterials.Water.getFluid(1000))
+            .inputFluids(Water.getFluid(1000))
             .outputItems(Items.OAK_LOG, 64)
             .outputItems(Items.APPLE, 8)
             .outputItems(Items.OAK_SAPLING, 6)
@@ -174,7 +189,7 @@ object Misc {
             .inputItems(Items.BONE, 4)
             .inputItems(Items.HONEYCOMB, 4)
             .inputItems(Items.HONEY_BOTTLE, 4)
-            .inputFluids(GTMaterials.Biomass.getFluid(1000))
+            .inputFluids(Biomass.getFluid(1000))
             .inputFluids(Milk.getFluid(1000))
             .outputItems(Items.BEE_SPAWN_EGG)
             .duration(1200).EUt(VA[HV].toLong())
@@ -184,7 +199,7 @@ object Misc {
             .notConsumable(Items.BEE_SPAWN_EGG)
             .notConsumable(Items.BEEHIVE)
             .inputItems(Items.GLASS_BOTTLE)
-            .inputFluids(GTMaterials.Biomass.getFluid(1000))
+            .inputFluids(Biomass.getFluid(1000))
             .outputItems(Items.HONEY_BOTTLE)
             .duration(600).EUt(VA[EV].toLong())
             .save(provider)
@@ -196,6 +211,23 @@ object Misc {
             .inputItems(dust, EnderPearl)
             .outputItems("kubejs:warped_ender_pearl".getItemStack())
             .duration(400).EUt(VA[MV].toLong())
+            .save(provider)
+
+        for (i in 1..<5) {
+            MAGIC_MANUFACTURER_RECIPES.recipeBuilder(id(String.format("mana_%d", i - 1)))
+                .notConsumable(FIELD_GENERATOR_MAX.asStack(4.0.pow(i - 1).toInt()))
+                .circuitMeta(i)
+                .outputFluids(Mana.getFluid(10000000L * 4.0.pow(i - 1).toInt()))
+                .duration(20 * i).EUt(VA[MAX].toLong())
+                .save(provider)
+        }
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(id("isopropyl_alcohol_to_hydrogen_peroxide"))
+            .inputFluids(IsopropylAlcohol.getFluid(2000))
+            .inputFluids(Oxygen.getFluid(1000))
+            .outputFluids(Acetone.getFluid(2000))
+            .outputFluids(HydrogenPeroxide.getFluid(2000))
+            .duration(600).EUt(VA[HV].toLong())
             .save(provider)
     }
 }

@@ -195,6 +195,13 @@ object GTLAddRecipesTypes {
             }.setSound(GTSoundEntries.ARC)
 
     @JvmField
+    val EvolutionOfPrimordial: GTRecipeType =
+        register("evolution_of_primordial", MULTIBLOCK)
+            .setEUIO(IO.IN).setMaxIOSize(1, 1, 2, 16)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL)
+
+    @JvmField
     val TIME_SPACE_DISTORTER: GTRecipeType =
         register("time_space_distorter", MULTIBLOCK).setXEIVisible(false)
             .setEUIO(IO.IN).setMaxIOSize(18, 9, 9, 9)
@@ -207,7 +214,7 @@ object GTLAddRecipesTypes {
     @JvmField
     val ONTOKINETIC: GTRecipeType =
         register("ontokinetic", MULTIBLOCK)
-            .setEUIO(IO.IN).setMaxIOSize(15, 1, 1, 0)
+            .setEUIO(IO.IN).setMaxIOSize(15, 1, 4, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
 

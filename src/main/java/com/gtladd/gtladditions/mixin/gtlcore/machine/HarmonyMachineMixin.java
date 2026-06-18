@@ -1,25 +1,48 @@
 package com.gtladd.gtladditions.mixin.gtlcore.machine;
 
 import org.gtlcore.gtlcore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import org.gtlcore.gtlcore.common.data.GTLMaterials;
 import org.gtlcore.gtlcore.common.machine.multiblock.electric.HarmonyMachine;
 
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 import com.gtladd.gtladditions.common.saved.HarmonySaved;
 import com.gtladd.gtladditions.utils.MachineUtil;
+import com.llamalad7.mixinextras.sugar.Local;
 import dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.Overwrite;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.gtlcore.gtlcore.utils.MachineIO.inputFluid;
@@ -53,6 +76,69 @@ public class HarmonyMachineMixin extends NoEnergyMultiblockMachine implements IM
         }
     }
 
+    @Persisted
+    private final NotifiableItemStackHandler machineStorage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH,
+            slots -> new ItemStackTransfer(1) {
+
+                @Override
+                public int getSlotLimit(int slot) {
+                    return 1;
+                }
+            });
+
+    @Redirect(method = "recipeModifier",
+              at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/recipe/GTRecipe;copy()Lcom/gregtechceu/gtceu/api/recipe/GTRecipe;"),
+              remap = false)
+    private static @NotNull GTRecipe modify(GTRecipe instance, @Local(name = "machine") MetaMachine machine) {
+        val hm = (HarmonyMachineMixin) machine;
+        ItemStack machineStorageItem = hm.machineStorage.storage.getStackInSlot(0);
+        boolean hasUltimateTea = false;
+        if (!machineStorageItem.isEmpty()) {
+            String itemId = BuiltInRegistries.ITEM.getKey(machineStorageItem.getItem()).toString();
+            hasUltimateTea = "gtladditions:create_data".equals(itemId);
+        }
+        if (hasUltimateTea) {
+            GTRecipe modified = new GTRecipe(
+                    instance.recipeType,
+                    instance.id,
+                    instance.inputs,
+                    instance.outputs,
+                    instance.tickInputs,
+                    instance.tickOutputs,
+                    instance.inputChanceLogics,
+                    instance.outputChanceLogics,
+                    instance.tickInputChanceLogics,
+                    instance.tickOutputChanceLogics,
+                    instance.conditions,
+                    instance.ingredientActions,
+                    instance.data,
+                    instance.duration,
+                    instance.isFuel);
+            modified.outputs.clear();
+            RecipeCapability<FluidIngredient> fluidCap = FluidRecipeCapability.CAP;
+            Content fluidContent = new Content(FluidIngredient.of(GTLMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 1310720 * 12)), 10000, 10000, 0, null, null);
+            modified.outputs.put(fluidCap, List.of(fluidContent));
+            return modified;
+        } else {
+            return instance.copy();
+        }
+    }
+
+    @Override
+    public @NotNull Widget createUIWidget() {
+        WidgetGroup group = (WidgetGroup) super.createUIWidget();
+        SlotWidget slot = new SlotWidget(
+                machineStorage,
+                0,
+                group.getSizeWidth() - 30,
+                group.getSizeHeight() - 30,
+                true,
+                true);
+        slot.setBackground(GuiTextures.SLOT);
+        group.addWidget(slot);
+        return group;
+    }
+
     @Override
     public void onMachineRemoved() {
         HarmonySaved.Companion.getINSTANCE().remove(this.getPos().asLong());
@@ -68,11 +154,5 @@ public class HarmonyMachineMixin extends NoEnergyMultiblockMachine implements IM
     public void onLoad() {
         super.onLoad();
         HarmonySaved.Companion.getINSTANCE().update(this.getPos().asLong());
-    }
-
-    @Override
-    public void onUnload() {
-        super.onUnload();
-        HarmonySaved.Companion.getINSTANCE().remove(this.getPos().asLong());
     }
 }

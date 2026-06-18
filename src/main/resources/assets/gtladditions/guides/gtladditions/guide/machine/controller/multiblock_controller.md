@@ -22,6 +22,8 @@ categories:
 
 * [Quantum Syphon Matrix](quantum_syphon_matrix.md)
 * [Taixu Turbid Array](taixu_turbid_array.md)
+* [Primordial Evolution Nexus](primordial_evolution_nexus.md)
+* [Biosphere III](biosphere_iii.md)
 
 ## <Color color="#00AA00">**UIV**</Color>
 

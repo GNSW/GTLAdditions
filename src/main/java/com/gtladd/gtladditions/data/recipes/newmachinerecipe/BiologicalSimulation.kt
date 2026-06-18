@@ -129,7 +129,7 @@ object BiologicalSimulation {
             .inputFluids(Biomass.getFluid(50))
             .inputFluids(BiohmediumSterilized.getFluid(50))
             .outputItems(DRAGON_EGG)
-            .duration(100).addData("infinity", true)
+            .duration(50).addData("infinity", true)
             .EUt(VA[UV].toLong())
             .save(provider)
     }

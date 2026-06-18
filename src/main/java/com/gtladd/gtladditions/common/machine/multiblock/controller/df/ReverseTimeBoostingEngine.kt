@@ -59,7 +59,7 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
         if (superHeat) return null
         if (isWorking) {
             val div = findDiv(recipe)
-            if (div > 0.1) recipe.duration = (recipe.duration * (0.8 minToDouble (0.05 + 0.7932 * exp(-0.8473 * div.pow(2.326))))) maxToInt 1
+            if (div > 0.1) recipe.duration = (recipe.duration * (0.8 minToDouble (0.05 + 0.8 * exp(-3.2 * div.pow(1.9))))) maxToInt 1
         }
         return recipe
     }

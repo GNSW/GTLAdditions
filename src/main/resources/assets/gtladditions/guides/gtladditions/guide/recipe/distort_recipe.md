@@ -33,3 +33,12 @@ item_ids:
 <Recipe id="gtladditions:distort/agar_dust" />
 <Recipe id="gtladditions:distort/tcetieseaweedextract" />
 </Row>
+
+<Row>
+<Recipe id="gtladditions:distort/polycyclic_aromatic_mixture_dust" />
+<Recipe id="gtladditions:distort/iodine_dust" />
+</Row>
+
+<Row>
+<Recipe id="gtladditions:distort/germanium_dust" />
+</Row>

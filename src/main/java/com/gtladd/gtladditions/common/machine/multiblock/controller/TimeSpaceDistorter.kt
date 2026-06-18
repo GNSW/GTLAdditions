@@ -271,8 +271,10 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
 
         private fun beforeConsume(parallels: Long, machine: TimeSpaceDistorter): Boolean {
             if (machine.isMultiple) {
-                return machine.inputItemStack(ItemStack(QuantumAnomaly, (parallels / 53).safeToInt)) &&
-                    machine.inputItemStack(ItemStack(Hypercube, (parallels / 873).safeToInt))
+                return machine.inputItemStack(
+                    ItemStack(QuantumAnomaly, (parallels / 53).safeToInt),
+                    ItemStack(Hypercube, (parallels / 873).safeToInt)
+                )
             }
             if (machine.config >= 1 && !machine.inputFluidStack(Infinity.getFluid(parallels / 7))) return false
             if (machine.config >= 2 && !machine.inputFluidStack(Hypogen.getFluid(parallels / 18))) return false

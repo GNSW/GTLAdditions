@@ -22,6 +22,51 @@ class O2LHashMap<K> : Object2LongOpenHashMap<K> {
         return oldValue
     }
 
+    override fun getLong(k: Any?): Long {
+        var pos: Int
+        if (k == null) {
+            if (containsNullKey) return value[n]
+        } else {
+            var curr: K
+            val key = this.key
+            if (key[(mix(strategy?.hashCode(k as K) ?: k.hashCode()) and mask).also { pos = it }].also { curr = it } != null) {
+                do if (strategy?.equals(curr, k as K) ?: (curr == k)) return value[pos]
+                while (key[((pos + 1) and mask).also { pos = it }].also { curr = it } != null)
+            }
+        }
+        return defRetValue
+    }
+
+    override fun getOrDefault(k: Any?, defaultValue: Long): Long {
+        var pos: Int
+        if (k == null) {
+            if (containsNullKey) return value[n]
+        } else {
+            var curr: K
+            val key = this.key
+            if (key[(mix(strategy?.hashCode(k as K) ?: k.hashCode()) and mask).also { pos = it }].also { curr = it } != null) {
+                do if (strategy?.equals(curr, k as K) ?: (curr == k)) return value[pos]
+                while (key[((pos + 1) and mask).also { pos = it }].also { curr = it } != null)
+            }
+        }
+        return defaultValue
+    }
+
+    override fun containsKey(k: K): Boolean {
+        var pos: Int
+        if (k == null) {
+            return containsNullKey
+        } else {
+            var curr: K
+            val key = this.key
+            if (key[(mix(strategy?.hashCode(k as K) ?: k.hashCode()) and mask).also { pos = it }].also { curr = it } != null) {
+                do if (strategy?.equals(curr, k as K) ?: (curr == k)) return true
+                while (key[((pos + 1) and mask).also { pos = it }].also { curr = it } != null)
+            }
+        }
+        return false
+    }
+
     override fun addTo(k: K, incr: Long): Long {
         var pos: Int
         if (k == null) {

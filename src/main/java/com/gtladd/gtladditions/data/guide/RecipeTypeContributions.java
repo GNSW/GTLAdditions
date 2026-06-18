@@ -17,13 +17,15 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.Map;
 
 import static com.gregtechceu.gtceu.common.data.GCyMRecipeTypes.ALLOY_BLAST_RECIPES;
+import static com.gregtechceu.gtceu.common.data.GTMachines.LARGE_CHEMICAL_REACTOR;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.ATOMIC_TRANSMUTATION_CORE;
 import static com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine.TITAN_CRIP_EARTHBORE;
 import static com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes.*;
 import static org.gtlcore.gtlcore.common.data.GTLRecipeTypes.*;
-import static org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.GREENHOUSE;
+import static org.gtlcore.gtlcore.common.data.machines.AdvancedMultiBlockMachine.*;
 import static org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineA.*;
+import static org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineA.SLAUGHTERHOUSE;
 
 public class RecipeTypeContributions implements RecipeTypeMappingSupplier {
 
@@ -55,5 +57,7 @@ public class RecipeTypeContributions implements RecipeTypeMappingSupplier {
         TYPE_MAP.put(GREENHOUSE_RECIPES, GREENHOUSE.asStack());
         TYPE_MAP.put(INCUBATOR_RECIPES, INCUBATOR.asStack());
         TYPE_MAP.put(MIXER_RECIPES, GTMachines.MIXER[2].asStack());
+        TYPE_MAP.put(MAGIC_MANUFACTURER_RECIPES, SLAUGHTERHOUSE.asStack());
+        TYPE_MAP.put(LARGE_CHEMICAL_RECIPES, LARGE_CHEMICAL_REACTOR.asStack());
     }
 }

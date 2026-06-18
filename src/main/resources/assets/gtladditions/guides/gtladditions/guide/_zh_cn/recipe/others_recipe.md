@@ -15,6 +15,7 @@ item_ids:
   - gtceu:tiny_titanium_50_dust
   - gtceu:small_titanium_50_dust
   - kubejs:warped_ender_pearl
+  - gtceu:magic_manufacturer
 ---
 
 # 其他配方杂项
@@ -35,3 +36,12 @@ item_ids:
 
 <Recipe id="gtladditions:mixer/warped_ender_pearl" />
 
+<Recipe id="gtladditions:magic_manufacturer/mana_0" />
+
+<Recipe id="gtladditions:magic_manufacturer/mana_1" />
+
+<Recipe id="gtladditions:magic_manufacturer/mana_2" />
+
+<Recipe id="gtladditions:magic_manufacturer/mana_3" />
+
+<Recipe id="gtladditions:large_chemical_reactor/isopropyl_alcohol_to_hydrogen_peroxide" />

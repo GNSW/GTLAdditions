@@ -25,7 +25,6 @@ import com.gtladd.gtladditions.common.machine.multiblock.MultiBlockMachine
 import com.gtladd.gtladditions.utils.ComponentUtil.literal
 import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import com.gtladd.gtladditions.utils.ComponentUtil.translatable
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeDualHatchPartMachine
 import com.hepdd.gtmthings.common.registry.GTMTRegistration
 import com.hepdd.gtmthings.data.CreativeModeTabs
 import com.hepdd.gtmthings.data.CustomMachines
@@ -46,7 +45,7 @@ object GTLAddMachines {
     @JvmField
     val HUGE_OUTPUT_DUAL_HATCH: Array<MachineDefinition> = CustomMachines.registerTieredMachines(
         "huge_output_dual_hatch",
-        { holder, tier -> HugeDualHatchPartMachine(holder, tier, IO.OUT) },
+        { holder, tier -> HugeOutputDualHatch(holder, tier, IO.OUT) },
         { tier, builder ->
             builder.langValue(GTValues.VNF[tier] + " Huge Output Dual Hatch")
                 .rotationState(RotationState.ALL)
@@ -82,7 +81,7 @@ object GTLAddMachines {
         MultiBlockModify.init()
     }
 
-    val GTLAdd_ADD = BiConsumer { stack: ItemStack, components: MutableList<Component> ->
+    val GTLAdd_ADD = BiConsumer { _: ItemStack, components: MutableList<Component> ->
         components.add(TextUtil.full_color("gui.gtladditions.add".translatable).literal.withStyle { it.withColor(TooltipHelper.RAINBOW.current) })
     }
 
@@ -134,7 +133,7 @@ object GTLAddMachines {
             .overlayTieredHullRenderer("super_input_dual_hatch.import")
             .tooltips(
                 Component.translatable("gtceu.universal.tooltip.item_storage_capacity", 37),
-                Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", 24, Long.Companion.MAX_VALUE shr 12)
+                Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", 24, Long.MAX_VALUE shr 12)
             )
             .tooltipBuilder(GTLAdd_ADD)
             .tier(14)

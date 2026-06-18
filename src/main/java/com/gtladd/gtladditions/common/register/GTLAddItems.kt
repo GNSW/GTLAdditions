@@ -95,6 +95,9 @@ object GTLAddItems {
     val BARNARDA_DATA: ItemEntry<Item>
 
     @JvmField
+    val CREATE_DATA: ItemEntry<Item>
+
+    @JvmField
     val ULTIMATE_CONVERSATION_CARD: ItemEntry<Item>
     val HARMONIZING_CORE: ItemEntry<Item>
 
@@ -137,6 +140,7 @@ object GTLAddItems {
         PRIMARY_SOC_WAFER = register("primary_soc_wafer", "Primary Soc Wafer")
         PRIMARY_SOC = register("primary_soc", "Primary Soc")
         BARNARDA_DATA = register("barnarda_data", "Barnarda Data")
+        CREATE_DATA = register("create_data", "Create Data")
         ULTIMATE_CONVERSATION_CARD = register("ultimate_conversation_card", "Ultimate Conversation Card")
         HARMONIZING_CORE = GTLAddRegistration.Companion.REGISTRATE.item("harmonizing_core") {
             object : Item(it) {

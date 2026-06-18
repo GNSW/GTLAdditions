@@ -36,6 +36,12 @@ item_ids:
   - gtceu:germanium_block
   - gtceu:germanium_dust
   - gtceu:germanium_nugget
+  - gtceu:neptunium_block
+  - gtceu:neptunium_dust
+  - gtceu:neptunium_nugget
+  - gtceu:neptunium_rod
+  - gtceu:neptunium_block
+  - gtceu:long_neptunium_rod
 ---
 
 # Extended Fluids Recipe
@@ -48,4 +54,6 @@ item_ids:
 
 There is also a range of Extractor and Fluid Solidifier recipes, along with the corresponding Molecular Deconstruction and Chaotic Alchemy recipes
 
->In GTLAdditions, fluid forms have been added for germanium, rhenium and technetium
+>In GTLAdditions, fluid forms have been added for germanium, rhenium and technetium 
+> 
+>At the same time, neptunium was also obtained in ingot form and in a number of derivative forms
