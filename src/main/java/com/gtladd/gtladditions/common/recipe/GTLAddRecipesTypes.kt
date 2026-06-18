@@ -317,6 +317,14 @@ object GTLAddRecipesTypes {
             LIGHTNING_PROCESSOR_RECIPES
         )
 
+    val BiosphereIIIType =
+        registry(
+            id("biosphere_iii_type"),
+            MULTIBLOCK,
+            GREENHOUSE_RECIPES,
+            FISHING_GROUND_RECIPES
+        )
+
     @JvmStatic
     fun init() {
         RecipesModify.init()

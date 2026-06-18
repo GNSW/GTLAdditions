@@ -50,6 +50,7 @@ import com.gtladd.gtladditions.common.machine.multiblock.controller.fl.FloatingL
 import com.gtladd.gtladditions.common.machine.multiblock.structure.MultiBlockStructureA
 import com.gtladd.gtladditions.common.machine.multiblock.structure.MultiBlockStructureB
 import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes
+import com.gtladd.gtladditions.common.recipe.GTLAddRecipesTypes.BiosphereIIIType
 import com.gtladd.gtladditions.utils.ComponentUtil.literal
 import com.gtladd.gtladditions.utils.ComponentUtil.toComponent
 import com.gtladd.gtladditions.utils.MathUtil.pow
@@ -383,7 +384,7 @@ object MultiBlockMachine {
         .tooltipTextRecipeTypes(GTLAddRecipesTypes.TECTONIC_FAULT_GENERATOR)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .recipeType(GTLAddRecipesTypes.TECTONIC_FAULT_GENERATOR)
-        .recipeModifier { machine, recipe, params, result ->
+        .recipeModifier { machine, recipe, _, _ ->
             (machine as WorkableElectricMultiblockMachine).let {
                 return@recipeModifier FastRecipeModify.modify(
                     it,
@@ -1548,18 +1549,22 @@ object MultiBlockMachine {
     val BIOSPHERE_III: MultiblockMachineDefinition = REGISTRATE.multiblock(
         "biosphere_iii",
         Function {
-            return@Function object : GTLAddCoilWorkableElectricMultipleRecipesTypesMultiblockMachine(it) {
-                override val multiRecipeTypes = arrayOf(GREENHOUSE_RECIPES)
+            return@Function object : BiosphereIII(it) {
+                override val multiRecipeTypes: Array<GTRecipeType> = arrayOf(BiosphereIIIType)
             }
         }
     )
         .nonYAxisRotation()
-        .tooltipTextCoilParallel()
-        .tooltipTextLaser()
+        .tooltipTextKey(
+            "gtceu.multiblock.skeleton_shift_rift_engine.0".toComponent,
+            "gtceu.multiblock.biosphereiii.0".toComponent
+        )
         .tooltipTextMultiRecipes()
-        .tooltipTextRecipeTypes(GREENHOUSE_RECIPES)
+        .tooltipTextMultiRecipeTypes()
+        .tooltipTextMultiRecipeType(GREENHOUSE_RECIPES, FISHING_GROUND_RECIPES)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
         .recipeType(GREENHOUSE_RECIPES)
+        .recipeType(FISHING_GROUND_RECIPES)
         .appearanceBlock(ANTIFREEZE_HEATPROOF_MACHINE_CASING)
         .pattern {
             MultiBlockStructureB.BIOSPHERE_III_STRUCTURE
@@ -1571,7 +1576,7 @@ object MultiBlockMachine {
                         .or(abilities(EXPORT_FLUIDS).setPreviewCount(1))
                         .or(abilities(IMPORT_FLUIDS).setPreviewCount(1))
                         .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
-                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
+                        .or(ability(INPUT_LASER, 11, 14).setMaxGlobalLimited(1))
                         .or(abilities(MAINTENANCE).setExactLimit(1))
                 )
                 .where("C", heatingCoils())
