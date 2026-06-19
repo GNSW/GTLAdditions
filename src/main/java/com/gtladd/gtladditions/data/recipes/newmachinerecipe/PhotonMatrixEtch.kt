@@ -88,14 +88,14 @@ object PhotonMatrixEtch {
         )
     }
 
-    private fun addRecipe(id: String, input: String, notitem1: String, notitem2: String, duration: Int, EUt: Int, fluid: Material, provider: Consumer<FinishedRecipe>) {
+    private fun addRecipe(id: String, input: String, notitem1: String, notitem2: String, duration: Int, eut: Int, fluid: Material, provider: Consumer<FinishedRecipe>) {
         PHOTON_MATRIX_ETCH.recipeBuilder(GTLAdditions.id(id))
             .inputItems(input.getItemStack())
             .notConsumable(notitem2.getItemStack())
             .notConsumable(notitem1.getItemStack())
             .inputFluids(fluid.getFluid(50))
             .outputItems("kubejs:$id".getItemStack())
-            .EUt(GTValues.VA[EUt].toLong()).duration(duration)
+            .EUt(GTValues.VA[eut].toLong()).duration(duration)
             .cleanroom(CleanroomType.CLEANROOM).save(provider)
     }
 
@@ -223,11 +223,11 @@ object PhotonMatrixEtch {
             )
         }
 
-        fun addRecipe(id: String, input: ItemEntry<Item>, color: MarkerMaterial, output: ItemEntry<Item>, count: Int, duration: Int, EUt: Int, provider: Consumer<FinishedRecipe>) {
+        fun addRecipe(id: String, input: ItemEntry<Item>, color: MarkerMaterial, output: ItemEntry<Item>, count: Int, duration: Int, eut: Int, provider: Consumer<FinishedRecipe>) {
             GTRecipeTypes.LASER_ENGRAVER_RECIPES.recipeBuilder(GTLAdditions.id(id)).inputItems(input)
                 .notConsumable(TagPrefix.lens, color)
                 .outputItems(output, count)
-                .duration(duration).EUt(EUt.toLong())
+                .duration(duration).EUt(eut.toLong())
                 .cleanroom(CleanroomType.CLEANROOM).save(provider)
         }
     }

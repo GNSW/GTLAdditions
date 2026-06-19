@@ -142,14 +142,14 @@ object GTLAddItems {
         BARNARDA_DATA = register("barnarda_data", "Barnarda Data")
         CREATE_DATA = register("create_data", "Create Data")
         ULTIMATE_CONVERSATION_CARD = register("ultimate_conversation_card", "Ultimate Conversation Card")
-        HARMONIZING_CORE = GTLAddRegistration.Companion.REGISTRATE.item("harmonizing_core") {
+        HARMONIZING_CORE = GTLAddRegistration.REGISTRATE.item("harmonizing_core") {
             object : Item(it) {
                 override fun isFoil(stack: ItemStack): Boolean {
                     return true
                 }
             } as Item
         }.lang("Harmonizing Core").register()
-        GUIDE_BOOK = GTLAddRegistration.Companion.REGISTRATE.item("guide", ComponentItem::create)
+        GUIDE_BOOK = GTLAddRegistration.REGISTRATE.item("guide", ComponentItem::create)
             .onRegister(GTItems.attach(GuideBook())).model(NonNullBiConsumer.noop()).register()
     }
 }

@@ -35,7 +35,7 @@ object MultiBlockModify {
         AdvancedMultiBlockMachine.DOOR_OF_CREATE.setMachineSupplier(::CreateDoorMachine)
         AdvancedMultiBlockMachine.DOOR_OF_CREATE.patternFactory = SupplierMemoizer.memoize {
             (
-                Function { definition: MultiblockMachineDefinition ->
+                Function { _: MultiblockMachineDefinition ->
                     FactoryBlockPattern.start()
                         .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "              a              ", "             aaa             ", "            aaaaa            ", "           aaaaaaa           ", "          aaaaaaaaa          ", "         aaaaaaaaaaa         ", "        aaaaaaaaaaaaa        ", "         aaaaaaaaaaa         ", "          aaaaaaaaa          ", "           aaaaaaa           ", "            aaaaa            ", "             aaa             ", "              a              ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
                         .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "              a              ", "             aaa             ", "             aaa             ", "             aaa             ", "             aaa             ", "             aaa             ", "             acaa            ", "       aaaaaacccaaaaaa       ", "      aaaaaacccccaaaaaa      ", "       aaaaaacccaaaaaa       ", "            aacaa            ", "             aaa             ", "             aaa             ", "             aaa             ", "             aaa             ", "             aaa             ", "              a              ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
@@ -85,7 +85,7 @@ object MultiBlockModify {
         AdvancedMultiBlockMachine.CREATE_AGGREGATION.setMachineSupplier(::CreateAggregationMachine)
         AdvancedMultiBlockMachine.CREATE_AGGREGATION.patternFactory = SupplierMemoizer.memoize {
             (
-                Function { definition: MultiblockMachineDefinition ->
+                Function { _: MultiblockMachineDefinition ->
                     FactoryBlockPattern.start()
                         .aisle("          aaaaaaa          ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "          aaaaaaa          ")
                         .aisle("       aaaaaaaaaaaaa       ", "             b             ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "             b             ", "       aaaaaaaaaaaaa       ")
@@ -137,7 +137,7 @@ object MultiBlockModify {
         MultiBlockMachineA.INTEGRATED_ORE_PROCESSOR.setMachineSupplier { OreProcessorMachine(it, false) }
         MultiBlockMachineA.INTEGRATED_ORE_PROCESSOR.patternFactory = SupplierMemoizer.memoize {
             (
-                Function { definition: MultiblockMachineDefinition ->
+                Function { _: MultiblockMachineDefinition ->
                     FactoryBlockPattern.start()
                         .aisle("aaaaaa     ", "abbbba     ", "abbbba     ", "abbbba     ", "abbbba     ", "aaaaaa     ", "           ", "           ", "           ", "           ", "           ", "           ")
                         .aisle("aaaaaaaaaaa", "bd  d accca", "bd  d accca", "bd  d accca", "bd  d accca", "aaaaaaaccca", "       ccc ", "       ccc ", "       ccc ", "       ccc ", "       ccc ", "           ")
@@ -169,7 +169,7 @@ object MultiBlockModify {
         MultiBlockMachineA.ADVANCED_INTEGRATED_ORE_PROCESSOR.setMachineSupplier { OreProcessorMachine(it, true) }
         MultiBlockMachineA.ADVANCED_INTEGRATED_ORE_PROCESSOR.patternFactory = SupplierMemoizer.memoize {
             (
-                Function { definition: MultiblockMachineDefinition ->
+                Function { _: MultiblockMachineDefinition ->
                     FactoryBlockPattern.start()
                         .aisle("    AAAAAAAAAA ", "    AAAGGGGAAA ", "    AAAGHHGAAA ", "    AAAGHHGAAA ", "    AAAGHHGAAA ", "    AAAGHHGAAA ", "    AAAGHHGAAA ", "    AAAGHHGAAA ", "    AAAGHHGAAA ", "   AAAAGHHGAAAA", "     AAGHHGAA  ", "      AGGGGA   ")
                         .aisle("   AAAAAAAAAAAA", "   BADEE  EEDAB", "   BADEE  EEDAB", "   BADEE  EEDAB", "   BADEE  EEDAB", "   BADEE  EEDAB", "   BADEE  EEDAB", "   BADEE  EEDAB", "   BADEE  EEDAB", "   AAAFF  FFAAA", "     AFF  FFA  ", "      AGCCGA   ")
@@ -229,7 +229,7 @@ object MultiBlockModify {
 
         GTMachines.ACTIVE_TRANSFORMER.patternFactory = SupplierMemoizer.memoize {
             (
-                Function { definition: MultiblockMachineDefinition ->
+                Function { _: MultiblockMachineDefinition ->
                     FactoryBlockPattern.start()
                         .aisle("XXX", "XXX", "XXX")
                         .aisle("XXX", "XCX", "XXX")

@@ -17,7 +17,7 @@ item_ids:
     <BlockImage id = "nebula_reaper" scale = "4"/>
 </Row>
 
-* This module's Extreme Mode overclock is no prefect overclock
+* Nebula Reaper's Extreme Mode overclock is no prefect overclock
 * Has time reduction bonus with multiplier of 0.8^(linked space elevator voltage tier - 8)
 * Parallel count: 8^(linked space elevator module tier - 1)
 * Allows parallel processing across recipes

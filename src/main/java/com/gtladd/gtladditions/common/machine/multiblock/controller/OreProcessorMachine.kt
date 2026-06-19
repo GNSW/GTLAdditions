@@ -73,7 +73,7 @@ class OreProcessorMachine(holder: IMachineBlockEntity, private val isAdvanced: B
                 GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.0, 1.0, 0.5),
                 GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.5, 1.0, 0.5),
                 { this.isWorkingEnabled },
-                { clickData, pressed -> this.isWorkingEnabled = pressed }
+                { _, pressed -> this.isWorkingEnabled = pressed }
             )
                 .setTooltipsSupplier { listOf((if (it) "behaviour.soft_hammer.enabled" else "behaviour.soft_hammer.disabled").toComponent) }
         )
@@ -202,7 +202,7 @@ class OreProcessorMachine(holder: IMachineBlockEntity, private val isAdvanced: B
                 } else {
                     recipe.inputs[CAP]?.forEach { (it.content as FluidIngredient).let { ing -> ing.amount = (ing.amount * getRecipeReduceFluid).toLong() } }
                 }
-                recipe.outputs[ItemRecipeCapability.CAP]?.forEach { it.tierChanceBoost = it.tierChanceBoost * getRecipeChance }
+                recipe.outputs[ItemRecipeCapability.CAP]?.forEach { it.tierChanceBoost *= getRecipeChance }
             }
             return recipe
         }

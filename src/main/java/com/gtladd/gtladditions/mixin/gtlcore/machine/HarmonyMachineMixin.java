@@ -39,6 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -50,8 +51,10 @@ import static org.gtlcore.gtlcore.utils.MachineIO.inputFluid;
 @Mixin(HarmonyMachine.class)
 public class HarmonyMachineMixin extends NoEnergyMultiblockMachine implements IMachineLife {
 
-    private static final FluidStack Helium = GTMaterials.Helium.getFluid(100000000L);
-    private static final FluidStack Hydrogen = GTMaterials.Hydrogen.getFluid(100000000L);
+    @Unique
+    private static final FluidStack gTLAdditions$Helium = GTMaterials.Helium.getFluid(100000000L);
+    @Unique
+    private static final FluidStack gTLAdditions$Hydrogen = GTMaterials.Hydrogen.getFluid(100000000L);
 
     @Shadow(remap = false)
     private int oc = 0;
@@ -66,18 +69,20 @@ public class HarmonyMachineMixin extends NoEnergyMultiblockMachine implements IM
         super(holder, args);
     }
 
+    @Unique
     @Overwrite(remap = false)
-    protected void StartupUpdate() {
+    protected void gTLAdditions$StartupUpdate() {
         if (this.getOffsetTimer() % 20L == 0L) {
             this.oc = 0;
-            if (this.hydrogen < 10000000000L && inputFluid(this, Hydrogen)) this.hydrogen += 100000000L;
-            if (this.helium < 10000000000L && inputFluid(this, Helium)) this.helium += 100000000L;
+            if (this.hydrogen < 10000000000L && inputFluid(this, gTLAdditions$Hydrogen)) this.hydrogen += 100000000L;
+            if (this.helium < 10000000000L && inputFluid(this, gTLAdditions$Helium)) this.helium += 100000000L;
             this.oc = Mth.clamp(MachineUtil.INSTANCE.getCircuit(this), 0, 4);
         }
     }
 
+    @Unique
     @Persisted
-    private final NotifiableItemStackHandler machineStorage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH,
+    private final NotifiableItemStackHandler gTLAdditions$machineStorage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH,
             slots -> new ItemStackTransfer(1) {
 
                 @Override
@@ -91,7 +96,7 @@ public class HarmonyMachineMixin extends NoEnergyMultiblockMachine implements IM
               remap = false)
     private static @NotNull GTRecipe modify(GTRecipe instance, @Local(name = "machine") MetaMachine machine) {
         val hm = (HarmonyMachineMixin) machine;
-        ItemStack machineStorageItem = hm.machineStorage.storage.getStackInSlot(0);
+        ItemStack machineStorageItem = hm.gTLAdditions$machineStorage.storage.getStackInSlot(0);
         boolean hasUltimateTea = false;
         if (!machineStorageItem.isEmpty()) {
             String itemId = BuiltInRegistries.ITEM.getKey(machineStorageItem.getItem()).toString();
@@ -128,7 +133,7 @@ public class HarmonyMachineMixin extends NoEnergyMultiblockMachine implements IM
     public @NotNull Widget createUIWidget() {
         WidgetGroup group = (WidgetGroup) super.createUIWidget();
         SlotWidget slot = new SlotWidget(
-                machineStorage,
+                gTLAdditions$machineStorage,
                 0,
                 group.getSizeWidth() - 30,
                 group.getSizeHeight() - 30,

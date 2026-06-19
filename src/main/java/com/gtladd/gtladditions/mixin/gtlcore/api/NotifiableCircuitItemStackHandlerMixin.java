@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.List;
 import java.util.function.Function;
@@ -41,7 +42,7 @@ public class NotifiableCircuitItemStackHandlerMixin extends NotifiableItemStackH
         for (var it = left.iterator(); it.hasNext();) {
             var ingredient = it.next();
 
-            if (getCircuit(ingredient) == IntCircuitBehaviour.getCircuitConfiguration(storage.getStackInSlot(0))) {
+            if (gTLAdditions$getCircuit(ingredient) == IntCircuitBehaviour.getCircuitConfiguration(storage.getStackInSlot(0))) {
                 it.remove();
                 break;
             }
@@ -50,7 +51,8 @@ public class NotifiableCircuitItemStackHandlerMixin extends NotifiableItemStackH
         return left.isEmpty() ? null : left;
     }
 
-    private int getCircuit(Ingredient ingredient) {
+    @Unique
+    private int gTLAdditions$getCircuit(Ingredient ingredient) {
         if (ingredient instanceof IntCircuitIngredient c) return ((IIntCircuitIngredientAccessor) c).getConfiguration();
         else if (ingredient instanceof SizedIngredient s && s.getInner() instanceof IntCircuitIngredient)
             return ((IIntCircuitIngredientAccessor) s.getInner()).getConfiguration();

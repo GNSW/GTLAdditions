@@ -48,7 +48,7 @@ class GTLAddMultiRecipeMachineConfigurator(private val machine: IGTLAddMachine) 
                     ).setMin(5).setMax(200)
                 )
                 .addWidget(
-                    SwitchWidget(4, 35, 20, 20) { cd, p ->
+                    SwitchWidget(4, 35, 20, 20) { _, p ->
                         machine.isMultipleMode = p
                         label.setComponent(Component.translatable("gtceu.machine.multiple_recipe.gui." + if (p) "0" else "1"))
                     }

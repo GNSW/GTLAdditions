@@ -36,22 +36,22 @@ import java.util.Set;
 public class TransformLogicMixin {
 
     @Unique
-    private static final Set<Item> transformItem = Set.of(Items.ENDER_PEARL, Items.SPIDER_EYE, Items.GUNPOWDER,
+    private static final Set<Item> gTLAdditions$transformItem = Set.of(Items.ENDER_PEARL, Items.SPIDER_EYE, Items.GUNPOWDER,
             Items.TOTEM_OF_UNDYING, ChemicalHelper.get(TagPrefix.block, GTMaterials.Steel).getItem(),
             GTLItems.WORLD_FRAGMENTS_OVERWORLD.asItem(), GTLItems.MINING_CRYSTAL.asItem(), GTLItems.TREASURES_CRYSTAL.asItem());
     @Unique
-    private static final Set<Item> recipe1 = Set.of(Items.ENDER_PEARL, Items.SPIDER_EYE, Items.GUNPOWDER);
+    private static final Set<Item> gTLAdditions$recipe1 = Set.of(Items.ENDER_PEARL, Items.SPIDER_EYE, Items.GUNPOWDER);
     @Unique
-    private static final Set<Item> recipe2 = Set.of(GTLItems.WORLD_FRAGMENTS_OVERWORLD.asItem(), Items.TOTEM_OF_UNDYING);
+    private static final Set<Item> gTLAdditions$recipe2 = Set.of(GTLItems.WORLD_FRAGMENTS_OVERWORLD.asItem(), Items.TOTEM_OF_UNDYING);
     @Unique
-    private static final Set<Item> recipe3 = Set.of(GTLItems.WORLD_FRAGMENTS_OVERWORLD.asItem(), ChemicalHelper.get(TagPrefix.block, GTMaterials.Steel).getItem());
+    private static final Set<Item> gTLAdditions$recipe3 = Set.of(GTLItems.WORLD_FRAGMENTS_OVERWORLD.asItem(), ChemicalHelper.get(TagPrefix.block, GTMaterials.Steel).getItem());
 
     @Inject(method = "canTransformInAnyFluid", at = @At("HEAD"), remap = false)
     private static void canTransformInAnyFluid(ItemEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (!ConfigHolder.INSTANCE.enableSkyBlokeMode) return;
         var level = entity.level();
         var item = entity.getItem().getItem();
-        if (!transformItem.contains(item)) return;
+        if (!gTLAdditions$transformItem.contains(item)) return;
         var j = Mth.floor(entity.getX());
         var i = Mth.floor((entity.getBoundingBox().minY + entity.getBoundingBox().maxY) / 2.0D);
         var k = Mth.floor(entity.getZ());
@@ -68,17 +68,18 @@ public class TransformLogicMixin {
             entity.getItem().shrink(1);
             var random = MathUtil.INSTANCE.random(100);
             LevelUtil.INSTANCE.throwItemEntity(entity, new ItemStack(item, random >= 50 ? 2 : 1));
-        } else transformFluid(entity, pos, fluid);
+        } else gTLAdditions$transformFluid(entity, pos, fluid);
     }
 
-    private static void transformFluid(ItemEntity entity, BlockPos pos, Fluid fluid) {
+    @Unique
+    private static void gTLAdditions$transformFluid(ItemEntity entity, BlockPos pos, Fluid fluid) {
         var level = entity.level();
         var region = new AABB(entity.getX() - 1, entity.getY() - 1, entity.getZ() - 1, entity.getX() + 1,
                 entity.getY() + 1, entity.getZ() + 1);
         var itemEntities = level.getEntities(null, region).stream()
                 .filter(e -> e instanceof ItemEntity && !e.isRemoved()).map(e -> (ItemEntity) e).toList();
         if (fluid == Fluids.WATER) {
-            var find = matchItemList(itemEntities, recipe1);
+            var find = gTLAdditions$matchItemList(itemEntities, gTLAdditions$recipe1);
             if (!find.isEmpty()) {
                 find.forEach(e -> {
                     e.getItem().shrink(1);
@@ -87,7 +88,7 @@ public class TransformLogicMixin {
                 level.setBlock(pos, GTLAddMaterial.CRYSTALLINE_PROTOPLASM.getFluid().defaultFluidState().createLegacyBlock(), 3);
             }
         } else if (fluid == GTLAddMaterial.CRYSTALLINE_PROTOPLASM.getFluid()) {
-            var find = matchItemList(itemEntities, recipe2);
+            var find = gTLAdditions$matchItemList(itemEntities, gTLAdditions$recipe2);
             if (!find.isEmpty()) {
                 find.forEach(e -> {
                     e.getItem().shrink(1);
@@ -95,7 +96,7 @@ public class TransformLogicMixin {
                 });
                 level.setBlock(pos, GTLAddMaterial.TREASURES_ESSENCE.getFluid().defaultFluidState().createLegacyBlock(), 3);
             } else {
-                find = matchItemList(itemEntities, recipe3);
+                find = gTLAdditions$matchItemList(itemEntities, gTLAdditions$recipe3);
                 if (!find.isEmpty()) {
                     find.forEach(e -> {
                         e.getItem().shrink(1);
@@ -107,7 +108,8 @@ public class TransformLogicMixin {
         }
     }
 
-    private static List<ItemEntity> matchItemList(List<ItemEntity> entity, Set<Item> itemSet) {
+    @Unique
+    private static List<ItemEntity> gTLAdditions$matchItemList(List<ItemEntity> entity, Set<Item> itemSet) {
         List<ItemEntity> findItemStack = new ObjectArrayList<>(itemSet.size());
         for (var e : entity) {
             var item = e.getItem();

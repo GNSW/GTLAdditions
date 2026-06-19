@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
@@ -27,7 +28,7 @@ public abstract class GTBucketItemMixin extends BucketItem {
      * @reason 可以倒
      */
     @Overwrite(remap = false)
-    public boolean emptyContents(Player pPlayer, Level pLevel, BlockPos pPos,
+    public boolean emptyContents(Player pPlayer, @NotNull Level pLevel, @NotNull BlockPos pPos,
                                  BlockHitResult pResult, ItemStack container) {
         return super.emptyContents(pPlayer, pLevel, pPos, pResult, container);
     }

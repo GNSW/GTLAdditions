@@ -77,7 +77,7 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
                 GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.0, 1.0, 0.5),
                 GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.5, 1.0, 0.5),
                 { this.isWorkingEnabled },
-                { clickData, pressed -> this.isWorkingEnabled = pressed }
+                { _, pressed -> this.isWorkingEnabled = pressed }
             )
                 .setTooltipsSupplier { listOf(if (it) "behaviour.soft_hammer.enabled".toComponent else "behaviour.soft_hammer.disabled".toComponent) }
         )

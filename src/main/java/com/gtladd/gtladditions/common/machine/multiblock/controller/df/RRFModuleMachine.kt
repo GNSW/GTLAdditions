@@ -108,7 +108,7 @@ abstract class RRFModuleMachine(holder: IMachineBlockEntity) :
                 GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.0, 1.0, 0.5),
                 GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.5, 1.0, 0.5),
                 this::isWorking,
-                { clickData, pressed -> this.setWorkable(pressed) }
+                { _, pressed -> this.setWorkable(pressed) }
             )
                 .setTooltipsSupplier { listOf((if (it) "behaviour.soft_hammer.enabled" else "behaviour.soft_hammer.disabled").toComponent) }
         )

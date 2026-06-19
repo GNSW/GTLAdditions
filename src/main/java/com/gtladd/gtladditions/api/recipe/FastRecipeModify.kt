@@ -24,14 +24,12 @@ object FastRecipeModify {
 
     fun rrfModify(machine: WorkableElectricMultiblockMachine, recipe: GTRecipe, maxEU: Double, isWireless: Boolean = false, machineParallel: Long, ocResult: OverClockFactor, mdRecipe: (GTRecipe) -> GTRecipe?): GTRecipe? {
         if (maxEU <= 0) return null
-        val mr = mdRecipe.invoke(recipe.copy)
-        if (mr == null) return null
-        val mov = maxEU
+        val mr = mdRecipe.invoke(recipe.copy) ?: return null
         val eut = mr.getEU
-        val pr = getParallelResult(machine, mr, eut, mov, machineParallel)
+        val pr = getParallelResult(machine, mr, eut, maxEU, machineParallel)
         if (pr.actualParallel <= 0) return null
         val peu = eut.toDouble() * pr.actualParallel
-        val stResult = subDoubleTickParallelOC(mr.duration, peu, mov, ocResult, pr)
+        val stResult = subDoubleTickParallelOC(mr.duration, peu, maxEU, ocResult, pr)
         val t = stResult.parallel / pr.actualParallel
         val modify = mr.modify(machine, stResult.parallel)
         modify.duration = stResult.duration
@@ -115,9 +113,9 @@ object FastRecipeModify {
         recipe.duration = stResult.duration
 
         if (stResult.eut > 0L) {
-            recipe.tickInputs.put(EURecipeCapability.CAP, getEUtList(eut))
+            recipe.tickInputs[EURecipeCapability.CAP] = getEUtList(eut)
         } else if (stResult.eut < 0L) {
-            recipe.tickOutputs.put(EURecipeCapability.CAP, getEUtList(-eut))
+            recipe.tickOutputs[EURecipeCapability.CAP] = getEUtList(-eut)
         }
         return recipe
     }

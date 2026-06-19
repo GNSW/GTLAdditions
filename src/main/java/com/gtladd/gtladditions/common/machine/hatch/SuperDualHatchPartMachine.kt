@@ -33,7 +33,7 @@ import com.hepdd.gtmthings.utils.FormatUtil
 class SuperDualHatchPartMachine(holder: IMachineBlockEntity) : HugeBusPartMachine(holder, 18, IO.IN, 9) {
 
     @Persisted
-    val tank = object : NotifiableFluidTank(this, 24, Long.Companion.MAX_VALUE shr 12, IO.IN) {
+    val tank = object : NotifiableFluidTank(this, 24, Long.MAX_VALUE shr 12, IO.IN) {
         override fun canCapOutput() = true
     }
 

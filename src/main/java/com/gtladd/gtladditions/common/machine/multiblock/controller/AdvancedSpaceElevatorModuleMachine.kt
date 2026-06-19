@@ -2,6 +2,7 @@ package com.gtladd.gtladditions.common.machine.multiblock.controller
 
 import org.gtlcore.gtlcore.api.machine.multiblock.IModularMachineModule
 import org.gtlcore.gtlcore.common.data.GTLBlocks
+import org.gtlcore.gtlcore.common.data.GTLRecipeTypes.ASSEMBLER_MODULE_RECIPES
 import org.gtlcore.gtlcore.common.machine.multiblock.electric.SpaceElevatorMachine
 import org.gtlcore.gtlcore.utils.MachineUtil
 
@@ -134,7 +135,7 @@ class AdvancedSpaceElevatorModuleMachine(holder: IMachineBlockEntity) :
         val value = super.onWorking()
         if (this.offsetTimer % 10L == 0L) {
             this.getSpaceElevatorTier()
-            if (this.spaceElevatorTier < 1) recipeLogic.progress = recipeLogic.progress - 2
+            if (this.spaceElevatorTier < 1) recipeLogic.progress -= 2
         }
         return value
     }
@@ -148,7 +149,13 @@ class AdvancedSpaceElevatorModuleMachine(holder: IMachineBlockEntity) :
         }
     }
 
-    override fun getOverClock(): FastRecipeModify.OverClockFactor = FastRecipeModify.OverClockFactor(0.5, 4.0)
+    override fun getOverClock(): FastRecipeModify.OverClockFactor = if (
+        this.recipeType == ASSEMBLER_MODULE_RECIPES
+    ) {
+        FastRecipeModify.OverClockFactor(0.25, 4.0)
+    } else {
+        FastRecipeModify.OverClockFactor(0.5, 4.0)
+    }
 
     override fun modifyRecipe(recipe: GTRecipe): FastRecipeModify.ReduceResult = FastRecipeModify.ReduceResult(1.0, .8.pow(spaceElevatorTier - 1))
 

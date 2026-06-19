@@ -20,11 +20,14 @@ import com.gtladd.gtladditions.common.register.GTLAddMaterial;
 import com.gtladd.gtladditions.utils.MathUtil;
 import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(BlockState.class)
 public abstract class BlockStateMixin extends BlockBehaviour.BlockStateBase {
 
+    @Unique
     private static final Long2ObjectOpenHashMap<IAsyncLogic> FLUID_TRANSFORM_ASYNC_MAP = new Long2ObjectOpenHashMap<>();
 
     protected BlockStateMixin(Block owner, ImmutableMap<Property<?>, Comparable<?>> values, MapCodec<BlockState> propertiesCodec) {
@@ -32,7 +35,7 @@ public abstract class BlockStateMixin extends BlockBehaviour.BlockStateBase {
     }
 
     @Override
-    public void onPlace(Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+    public void onPlace(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean movedByPiston) {
         super.onPlace(level, pos, oldState, movedByPiston);
         if (!(level instanceof ServerLevel serverLevel)) return;
         if (!this.getFluidState().isEmpty()) {

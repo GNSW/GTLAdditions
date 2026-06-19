@@ -41,14 +41,13 @@ class GTLAddMachineModeFancyConfigurator(private var machine: IMultipleRecipeTyp
     private fun addWidgets(group: WidgetGroup, length: Int) {
         val x = if (length < 7) 2 else 0
         for (i in 0..<length) {
-            val finalI = i
-            val type = machine.multiRecipeTypes[finalI]
-            group.addWidget(ButtonWidget(x, x + i * 20, 136, 20, IGuiTexture.EMPTY) { machine.activeRecipeType = finalI })
+            val type = machine.multiRecipeTypes[i]
+            group.addWidget(ButtonWidget(x, x + i * 20, 136, 20, IGuiTexture.EMPTY) { machine.activeRecipeType = i })
             group.addWidget(
                 ImageWidget(x, x + i * 20, 136, 20) {
                     GuiTextureGroup(
                         ResourceBorderTexture.BUTTON_COMMON.copy()
-                            .setColor(if (machine.activeRecipeType == finalI) ColorPattern.CYAN.color else -1),
+                            .setColor(if (machine.activeRecipeType == i) ColorPattern.CYAN.color else -1),
                         TextTexture((type as? MultiGTRecipeType)?.getTypeList()?.joinToString(", ") { it.registryName.toLanguageKey().translatable } ?: type.registryName.toLanguageKey().translatable)
                             .setWidth(136).setType(TextTexture.TextType.ROLL)
                     )

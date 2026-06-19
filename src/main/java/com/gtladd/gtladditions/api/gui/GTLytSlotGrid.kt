@@ -176,8 +176,7 @@ class GTLytSlotGrid(private val width: Int, private val itemHeight: Int, fluidHe
             val height = bounds.height()
             val font = Minecraft.getInstance().font
 
-            val ing = content.content
-            when (ing) {
+            when (val ing = content.content) {
                 is Ingredient -> {
                     val item = getDisplayedItemStack(ing.items)
                     context.fillIcon(bounds, GuiAssets.SLOT)
@@ -227,8 +226,7 @@ class GTLytSlotGrid(private val width: Int, private val itemHeight: Int, fluidHe
         }
 
         override fun getTooltip(x: Float, y: Float): Optional<GuideTooltip> {
-            val ing = content.content
-            when (ing) {
+            when (val ing = content.content) {
                 is Ingredient -> {
                     val stack = ing.`kjs$getFirst`()
                     return if (stack.isEmpty) Optional.empty() else Optional.of(ItemTooltip(stack))

@@ -48,35 +48,35 @@ class GTLAddMultiBlockMachineBuilder private constructor(
 
     fun tooltipTextKey(vararg key: Component): GTLAddMultiBlockMachineBuilder = super.tooltips(*key) as GTLAddMultiBlockMachineBuilder
 
-    fun tooltipTextMaxParallels(parallel: Any): GTLAddMultiBlockMachineBuilder = super.tooltips(*arrayOf(Component.translatable("gtceu.multiblock.max_parallel", parallel))) as GTLAddMultiBlockMachineBuilder
+    fun tooltipTextMaxParallels(parallel: Any): GTLAddMultiBlockMachineBuilder = super.tooltips(Component.translatable("gtceu.multiblock.max_parallel", parallel)) as GTLAddMultiBlockMachineBuilder
 
     fun tooltipTextRecipeTypes(vararg recipeTypes: GTRecipeType): GTLAddMultiBlockMachineBuilder {
         val size = recipeTypes.size
         val components: Array<Any?> = arrayOfNulls(size)
         for (i in 0..<size) components[i] = recipeTypes[i].registryName.toLanguageKey().toComponent
-        return super.tooltips(*arrayOf(Component.translatable("gtceu.machine.available_recipe_map_$size.tooltip", *components))) as GTLAddMultiBlockMachineBuilder
+        return super.tooltips(Component.translatable("gtceu.machine.available_recipe_map_$size.tooltip", *components)) as GTLAddMultiBlockMachineBuilder
     }
 
     fun tooltipTextMultiRecipeType(vararg recipeTypes: GTRecipeType): GTLAddMultiBlockMachineBuilder {
         val size = recipeTypes.size
         val components: Array<Any?> = arrayOfNulls(size)
         for (i in 0..<size) components[i] = recipeTypes[i].registryName.toLanguageKey().toComponent
-        return super.tooltips(*arrayOf(Component.translatable("gtceu.multi_recipe.types.$size", *components))) as GTLAddMultiBlockMachineBuilder
+        return super.tooltips(Component.translatable("gtceu.multi_recipe.types.$size", *components)) as GTLAddMultiBlockMachineBuilder
     }
 
-    fun tooltipTextCoilParallel(): GTLAddMultiBlockMachineBuilder = super.tooltips(*arrayOf("gtceu.multiblock.coil_parallel".toComponent)) as GTLAddMultiBlockMachineBuilder
+    fun tooltipTextCoilParallel(): GTLAddMultiBlockMachineBuilder = super.tooltips("gtceu.multiblock.coil_parallel".toComponent) as GTLAddMultiBlockMachineBuilder
 
-    fun tooltipTextLaser(): GTLAddMultiBlockMachineBuilder = super.tooltips(*arrayOf("gtceu.multiblock.laser.tooltip".toComponent)) as GTLAddMultiBlockMachineBuilder
+    fun tooltipTextLaser(): GTLAddMultiBlockMachineBuilder = super.tooltips("gtceu.multiblock.laser.tooltip".toComponent) as GTLAddMultiBlockMachineBuilder
 
-    fun tooltipOnlyTextLaser(): GTLAddMultiBlockMachineBuilder = super.tooltips(*arrayOf("gtceu.multiblock.only.laser.tooltip".toComponent)) as GTLAddMultiBlockMachineBuilder
+    fun tooltipOnlyTextLaser(): GTLAddMultiBlockMachineBuilder = super.tooltips("gtceu.multiblock.only.laser.tooltip".toComponent) as GTLAddMultiBlockMachineBuilder
 
-    fun tooltipTextMultiRecipes(): GTLAddMultiBlockMachineBuilder = super.tooltips(*arrayOf("gtceu.machine.multiple_recipes.tooltip".toComponent)) as GTLAddMultiBlockMachineBuilder
+    fun tooltipTextMultiRecipes(): GTLAddMultiBlockMachineBuilder = super.tooltips("gtceu.machine.multiple_recipes.tooltip".toComponent) as GTLAddMultiBlockMachineBuilder
 
-    fun tooltipTextMultiRecipeTypes(): GTLAddMultiBlockMachineBuilder = super.tooltips(*arrayOf("gtceu.machine.multiple.recipe_type.tooltip".toComponent)) as GTLAddMultiBlockMachineBuilder
+    fun tooltipTextMultiRecipeTypes(): GTLAddMultiBlockMachineBuilder = super.tooltips("gtceu.machine.multiple.recipe_type.tooltip".toComponent) as GTLAddMultiBlockMachineBuilder
 
-    fun tooltipTextParallelHatch(): GTLAddMultiBlockMachineBuilder = super.tooltips(*arrayOf("gtceu.multiblock.parallelizable.tooltip".toComponent)) as GTLAddMultiBlockMachineBuilder
+    fun tooltipTextParallelHatch(): GTLAddMultiBlockMachineBuilder = super.tooltips("gtceu.multiblock.parallelizable.tooltip".toComponent) as GTLAddMultiBlockMachineBuilder
 
-    fun tooltipTextPerfectOverclock(): GTLAddMultiBlockMachineBuilder = super.tooltips(*arrayOf("gtceu.machine.perfect_oc".toComponent)) as GTLAddMultiBlockMachineBuilder
+    fun tooltipTextPerfectOverclock(): GTLAddMultiBlockMachineBuilder = super.tooltips("gtceu.machine.perfect_oc".toComponent) as GTLAddMultiBlockMachineBuilder
 
     companion object {
         fun createMulti(name: String, metaMachine: Function<IMachineBlockEntity, out MultiblockControllerMachine>, blockFactory: BiFunction<BlockBehaviour.Properties, MultiblockMachineDefinition, IMachineBlock>, itemFactory: BiFunction<IMachineBlock, Item.Properties, MetaMachineItem>, blockEntityFactory: TriFunction<BlockEntityType<*>, BlockPos, BlockState, IMachineBlockEntity>): GTLAddMultiBlockMachineBuilder = GTLAddMultiBlockMachineBuilder(name, metaMachine, blockFactory, itemFactory, blockEntityFactory)

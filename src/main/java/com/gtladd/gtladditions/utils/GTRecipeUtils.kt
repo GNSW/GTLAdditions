@@ -54,8 +54,7 @@ object GTRecipeUtils {
         val p = (this as ParallelMachine).maxParallel.toLong()
         var totalEu = 0.0
         for (index in 1..maxThread) {
-            val recipe = getRecipe.invoke(p)
-            if (recipe == null) break
+            val recipe = getRecipe.invoke(p) ?: break
             if (testBefore.invoke(recipe as Object)) {
                 if (handleRecipeInput(this, recipe)) {
                     totalEu += recipe.duration * recipe.getEU.toDouble()
@@ -67,12 +66,12 @@ object GTRecipeUtils {
             }
             if (totalEu > maxEUt) break
         }
-        if (il.isEmpty() && fl.isEmpty()) return null
+        if (il.isEmpty && fl.isEmpty) return null
         val d = totalEu / maxEUt
         val o = GTRecipeBuilder.ofRaw().duration(minDuration maxToInt d)
-        o.tickInput.put(EURecipeCapability.CAP, ContentList.getEUtList(if (d > minDuration) maxEUt else (maxEUt * d / minDuration)))
-        if (!il.isEmpty) o.output.put(ItemRecipeCapability.CAP, il)
-        if (!fl.isEmpty) o.output.put(FluidRecipeCapability.CAP, fl)
+        o.tickInput[EURecipeCapability.CAP] = ContentList.getEUtList(if (d > minDuration) maxEUt else (maxEUt * d / minDuration))
+        if (!il.isEmpty) o.output[ItemRecipeCapability.CAP] = il
+        if (!fl.isEmpty) o.output[FluidRecipeCapability.CAP] = fl
         return o.buildRawRecipe()
     }
 
@@ -85,8 +84,7 @@ object GTRecipeUtils {
         var rp = (this as ParallelMachine).maxParallel.toLong() * maxThread
         var totalEu = 0.0
         while (rp > 0) {
-            val recipe = getRecipe.invoke(rp)
-            if (recipe == null) break
+            val recipe = getRecipe.invoke(rp) ?: break
             if (handleRecipeInput(this, recipe)) {
                 rp -= recipe.longParallel
                 totalEu += recipe.duration * recipe.getEU.toDouble()
@@ -95,12 +93,12 @@ object GTRecipeUtils {
             }
             if (totalEu > maxEUt.toDouble() * 20 * 500) break
         }
-        if (il.isEmpty() && fl.isEmpty()) return null
+        if (il.isEmpty && fl.isEmpty) return null
         val d = totalEu / maxEUt
         val o = GTRecipeBuilder.ofRaw().duration(minDuration maxToInt d)
-        o.tickInput.put(EURecipeCapability.CAP, ContentList.getEUtList(if (d > minDuration) maxEUt else (maxEUt * d / minDuration)))
-        if (!il.isEmpty) o.output.put(ItemRecipeCapability.CAP, il)
-        if (!fl.isEmpty) o.output.put(FluidRecipeCapability.CAP, fl)
+        o.tickInput[EURecipeCapability.CAP] = ContentList.getEUtList(if (d > minDuration) maxEUt else (maxEUt * d / minDuration))
+        if (!il.isEmpty) o.output[ItemRecipeCapability.CAP] = il
+        if (!fl.isEmpty) o.output[FluidRecipeCapability.CAP] = fl
         return o.buildRawRecipe()
     }
 
@@ -155,12 +153,12 @@ object GTRecipeUtils {
             }
             if (totalEu / maxEUt > 20 * 500) break
         }
-        if (il.isEmpty() && fl.isEmpty()) return null
+        if (il.isEmpty && fl.isEmpty) return null
         val d = totalEu / maxEUt
         val o = GTRecipeBuilder.ofRaw().duration(minDuration maxToInt d)
-        o.tickInput.put(EURecipeCapability.CAP, ContentList.getEUtList(if (d > minDuration) maxEUt else (maxEUt * d / minDuration)))
-        if (!il.isEmpty) o.output.put(ItemRecipeCapability.CAP, il)
-        if (!fl.isEmpty) o.output.put(FluidRecipeCapability.CAP, fl)
+        o.tickInput[EURecipeCapability.CAP] = ContentList.getEUtList(if (d > minDuration) maxEUt else (maxEUt * d / minDuration))
+        if (!il.isEmpty) o.output[ItemRecipeCapability.CAP] = il
+        if (!fl.isEmpty) o.output[FluidRecipeCapability.CAP] = fl
         return o.buildRawRecipe()
     }
 
@@ -179,7 +177,7 @@ object GTRecipeUtils {
         this.tickInputs.contentModify(parallel)
         this.tickOutputs.contentModify(parallel)
         val o = copyContentChances(holder, this, parallel)
-        this.outputs.replaceAll { t, u -> o[t] }
+        this.outputs.replaceAll { t, _ -> o[t] }
         return this
     }
 
@@ -221,7 +219,7 @@ object GTRecipeUtils {
             if (!l.isEmpty()) {
                 val cl = ContentList()
                 l.forEach { cl.add(it.copy(c, modifier)) }
-                map.put(c, cl)
+                map[c] = cl
             }
         }
         return map

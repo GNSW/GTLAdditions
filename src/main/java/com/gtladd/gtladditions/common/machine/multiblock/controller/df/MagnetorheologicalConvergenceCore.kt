@@ -60,7 +60,7 @@ class MagnetorheologicalConvergenceCore(holder: IMachineBlockEntity) : RRFModule
 
     fun modifyRecipe(recipe: GTRecipe): GTRecipe {
         if (isModify && isWorking) {
-            recipe.outputs.forEach { c, l ->
+            recipe.outputs.forEach { (c, l) ->
                 if (l.size > 1) {
                     val lc = ContentList(1)
                     val amount = l.sumOf { it.amount(c) }
@@ -73,7 +73,7 @@ class MagnetorheologicalConvergenceCore(holder: IMachineBlockEntity) : RRFModule
                     }
                     if (cn != null) {
                         lc.add(cn.setAmount(amount))
-                        recipe.outputs.put(c, lc)
+                        recipe.outputs[c] = lc
                     }
                 }
             }

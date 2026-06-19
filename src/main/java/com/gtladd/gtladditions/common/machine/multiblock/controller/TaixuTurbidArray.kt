@@ -190,7 +190,7 @@ open class TaixuTurbidArray(holder: IMachineBlockEntity) : TierCasingMachine(hol
                 if (100.random() <= it.successRateB().toInt() && it.tier >= GTValues.MAX) {
                     fluidList.addMaxChanceContent(GTMaterials.UUMatter.getFluid(it.baseOutputFluid2().toLong()))
                 }
-                if (!fluidList.isEmpty) recipe.outputs.put(FluidRecipeCapability.CAP, fluidList)
+                if (!fluidList.isEmpty) recipe.outputs[FluidRecipeCapability.CAP] = fluidList
                 val minParallel = IParallelLogic.getMinParallel(it, recipe, maxParallel)
                 val copy = recipe.copy(it, (maxParallel minToLong minParallel), 100)
                 copy.setEU(524288L * GTValues.V[it.tier])

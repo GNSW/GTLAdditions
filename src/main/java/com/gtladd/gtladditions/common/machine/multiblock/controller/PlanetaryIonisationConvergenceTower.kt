@@ -57,6 +57,7 @@ import com.hepdd.gtmthings.data.CreativeMachines
 
 import java.math.BigInteger
 import java.util.*
+import kotlin.enums.enumEntries
 
 class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : StorageMachine(holder, 64), IMachineLife, IExplosionMachine {
 
@@ -450,6 +451,6 @@ class PlanetaryIonisationConvergenceTower(holder: IMachineBlockEntity) : Storage
         val HELIUM: FluidStack = Helium.getFluid(FluidStorageKeys.LIQUID, 4000000)
         val CRYSTALMATRIX: FluidStack = Crystalmatrix.getFluid(9216)
         val CRYOTHEUM: FluidStack = FluidStack.create(Cryotheum, 1000000)
-        fun findCoil(material: Material?) = enumValues<CoilToEnergy>().find { it.material == material }
+        fun findCoil(material: Material?) = enumEntries<CoilToEnergy>().find { it.material == material }
     }
 }

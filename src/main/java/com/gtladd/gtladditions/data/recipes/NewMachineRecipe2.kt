@@ -15,7 +15,6 @@ import org.gtlcore.gtlcore.common.data.machines.MultiBlockMachineB.WOOD_DISTILLA
 import com.gregtechceu.gtceu.api.GTValues.*
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.*
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.PLASMA
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient
 import com.gregtechceu.gtceu.common.data.GTItems.*
@@ -94,7 +93,7 @@ object NewMachineRecipe2 {
             .inputItems("avaritia:singularity".getItemStack(64))
             .inputFluids(
                 Miracle.getFluid(100000),
-                RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 16384000),
+                RawStarMatter.getFluid(PLASMA, 16384000),
                 Shirabon.getFluid(144000),
                 CosmicElement.getFluid(14400000)
             )

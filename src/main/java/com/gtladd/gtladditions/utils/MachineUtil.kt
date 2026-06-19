@@ -48,9 +48,9 @@ object MachineUtil {
             val count = contentMap.getLong(it)
             if (count < it.count) list.add(it.copyWithCount((it.count - count).safeToInt))
         }
-        if (list.isEmpty()) {
+        if (list.isEmpty) {
             val builder = GTRecipeBuilder.ofRaw()
-            builder.input.put(ItemRecipeCapability.CAP, ContentList.getItemStackList(*stack))
+            builder.input[ItemRecipeCapability.CAP] = ContentList.getItemStackList(*stack)
             val recipe = builder.buildRawRecipe()
             return RecipeRunnerHelper.handleRecipeInput(this, recipe)
         } else {
@@ -78,9 +78,9 @@ object MachineUtil {
             val amount = contentMap.getLong(it)
             if (amount < it.amount) list.add(it.copy(it.amount - amount))
         }
-        if (list.isEmpty()) {
+        if (list.isEmpty) {
             val builder = GTRecipeBuilder.ofRaw()
-            builder.input.put(FluidRecipeCapability.CAP, ContentList.getFluidStackList(*stack))
+            builder.input[FluidRecipeCapability.CAP] = ContentList.getFluidStackList(*stack)
             val recipe = builder.buildRawRecipe()
             return RecipeRunnerHelper.handleRecipeInput(this, recipe)
         } else {

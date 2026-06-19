@@ -141,7 +141,7 @@ open class ConversationMachine(holder: IMachineBlockEntity) :
                 GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.0, 1.0, 0.5),
                 GuiTextures.BUTTON_POWER.getSubTexture(0.0, 0.5, 1.0, 0.5),
                 { this.isWorkingEnabled },
-                { clickData, pressed -> this.isWorkingEnabled = pressed }
+                { _, pressed -> this.isWorkingEnabled = pressed }
             )
                 .setTooltipsSupplier { listOf(if (it) "behaviour.soft_hammer.enabled".toComponent else "behaviour.soft_hammer.disabled".toComponent) }
         )
@@ -229,15 +229,15 @@ open class ConversationMachine(holder: IMachineBlockEntity) :
         }
         val blockMap: Object2ObjectOpenCustomHashMap<Item, Item> by lazy {
             val map = Object2ObjectOpenCustomHashMap<Item, Item>(HASH_STRATEGY)
-            map.put(BONE_BLOCK.asItem(), "kubejs:essence_block".getBlock.asItem())
-            map.put(OAK_LOG.asItem(), CRIMSON_STEM.asItem())
-            map.put(BIRCH_LOG.asItem(), WARPED_STEM.asItem())
-            map.put(getBlock(block, GTMaterials.Calcium).asItem(), BONE_BLOCK.asItem())
-            map.put(MOSS_BLOCK.asItem(), SCULK.asItem())
-            map.put(GRASS_BLOCK.asItem(), MOSS_BLOCK.asItem())
-            map.put("kubejs:infused_obsidian".getBlock.asItem(), "kubejs:draconium_block_charged".getBlock.asItem())
-            map.put(MagnetohydrodynamicallyConstrainedStarMatterBlock.asItem(), COMMAND_BLOCK.asItem())
-            map.put(MagmatterIngot, MagmatterBlock)
+            map[BONE_BLOCK.asItem()] = "kubejs:essence_block".getBlock.asItem()
+            map[OAK_LOG.asItem()] = CRIMSON_STEM.asItem()
+            map[BIRCH_LOG.asItem()] = WARPED_STEM.asItem()
+            map[getBlock(block, GTMaterials.Calcium).asItem()] = BONE_BLOCK.asItem()
+            map[MOSS_BLOCK.asItem()] = SCULK.asItem()
+            map[GRASS_BLOCK.asItem()] = MOSS_BLOCK.asItem()
+            map["kubejs:infused_obsidian".getBlock.asItem()] = "kubejs:draconium_block_charged".getBlock.asItem()
+            map[MagnetohydrodynamicallyConstrainedStarMatterBlock.asItem()] = COMMAND_BLOCK.asItem()
+            map[MagmatterIngot] = MagmatterBlock
             return@lazy map
         }
     }

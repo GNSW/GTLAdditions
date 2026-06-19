@@ -44,7 +44,7 @@ public class LargeSteamParallelMultiblockMachineMixin extends WorkableMultiblock
     }
 
     @Unique
-    private static final Map<RecipeCapability<?>, Integer> OutputLimited = Map.of(ItemRecipeCapability.CAP, 4);
+    private static final Map<RecipeCapability<?>, Integer> gTLAdditions$OutputLimited = Map.of(ItemRecipeCapability.CAP, 4);
     @DescSynced
     @Unique
     private boolean gtladditions$isLarge;
@@ -131,7 +131,7 @@ public class LargeSteamParallelMultiblockMachineMixin extends WorkableMultiblock
 
     @Override
     public Map<RecipeCapability<?>, Integer> getOutputLimits() {
-        if (this.gtladditions$isMacerator && this.gtladditions$isHuge) return OutputLimited;
+        if (this.gtladditions$isMacerator && this.gtladditions$isHuge) return gTLAdditions$OutputLimited;
         else return this.self().getDefinition().getRecipeOutputLimits();
     }
 }

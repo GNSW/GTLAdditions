@@ -17,10 +17,10 @@ import java.util.Arrays;
 public class MachineBuilderMixin {
 
     @Unique
-    private static final Component tooltips = Component.translatable("gtceu.universal.enabled").append("(").append(Component.translatable("gui.gtladditions.modify").append(")"));
+    private static final Component gTLAdditions$tooltips = Component.translatable("gtceu.universal.enabled").append("(").append(Component.translatable("gui.gtladditions.modify").append(")"));
 
     @Unique
-    private static final String[] keyWords = {
+    private static final String[] gTLAdditions$keyWords = {
             "auto_configuration_maintenance_hatch",
             "cleaning_configuration_maintenance_hatch",
             "sterile_configuration_cleaning_maintenance_hatch",
@@ -37,7 +37,7 @@ public class MachineBuilderMixin {
 
     @ModifyArg(method = "tooltips", at = @At(value = "INVOKE", target = "Ljava/util/Arrays;stream([Ljava/lang/Object;)Ljava/util/stream/Stream;"), remap = false)
     public <T> T[] tooltips(T[] array) {
-        if (Arrays.stream(keyWords).anyMatch(name::contains)) array[0] = (T) tooltips;
+        if (Arrays.stream(gTLAdditions$keyWords).anyMatch(name::contains)) array[0] = (T) gTLAdditions$tooltips;
         return array;
     }
 }

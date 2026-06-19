@@ -137,13 +137,13 @@ object SocProcess {
                 .save(provider)
         }
 
-        fun addBlastRecipe(input: Material, output: ItemEntry<Item>, EUt: Int, duration: Int, temperature: Int, provider: Consumer<FinishedRecipe>) {
+        fun addBlastRecipe(input: Material, output: ItemEntry<Item>, eut: Int, duration: Int, temperature: Int, provider: Consumer<FinishedRecipe>) {
             BLAST_RECIPES.recipeBuilder(id(output.asItem().toString()))
                 .inputItems(GTItems.SILICON_BOULE, 64)
                 .inputItems(dust, GTLAddMaterial.GALLIUM_OXIDE, 16)
                 .inputItems(dust, input, 16)
                 .inputFluids(Krypton.getFluid(16000))
-                .outputItems(output).EUt(EUt.toLong())
+                .outputItems(output).EUt(eut.toLong())
                 .duration(duration).blastFurnaceTemp(temperature).save(provider)
         }
     }
@@ -162,11 +162,11 @@ object SocProcess {
             addCutterRecipe("primary_soc", GTLAddItems.PRIMARY_SOC_WAFER, 6, GTLAddItems.PRIMARY_SOC, VA[OpV], LAW_CLEANROOM, provider)
         }
 
-        private fun addCutterRecipe(id: String, input: ItemEntry<Item>, output: Int, outputItem: ItemEntry<Item>, EUt: Int, cleanroomType: CleanroomType, provider: Consumer<FinishedRecipe>) {
+        private fun addCutterRecipe(id: String, input: ItemEntry<Item>, output: Int, outputItem: ItemEntry<Item>, eut: Int, cleanroomType: CleanroomType, provider: Consumer<FinishedRecipe>) {
             val builder = CUTTER_RECIPES.recipeBuilder(id(id + "_0"))
-                .inputItems(input).outputItems(outputItem, output).EUt(EUt.toLong()).cleanroom(cleanroomType)
-            if (EUt > VA[UEV]) {
-                builder.inputFluids(GradePurifiedWater16.getFluid((if (EUt > VA[UXV]) 1000 else 500).toLong())).duration(450).save(provider)
+                .inputItems(input).outputItems(outputItem, output).EUt(eut.toLong()).cleanroom(cleanroomType)
+            if (eut > VA[UEV]) {
+                builder.inputFluids(GradePurifiedWater16.getFluid((if (eut > VA[UXV]) 1000 else 500).toLong())).duration(450).save(provider)
                 return
             }
             val recipe = builder.copy(id(id + "_1"))
@@ -184,16 +184,16 @@ object SocProcess {
             addEngravingRecipe(GTLAddItems.PREPARE_PRIMARY_SOC_WAFER, GammaRaysPhotoresist, "gtladditions:spacetime_lens", GTLAddItems.PRIMARY_SOC_WAFER, VA[OpV], 800, LAW_CLEANROOM, provider)
         }
 
-        private fun addEngravingRecipe(input: ItemEntry<Item>, fluid: Material, noinput: String, output: ItemEntry<Item>, EUt: Int, duration: Int, cleanroomType: CleanroomType, provider: Consumer<FinishedRecipe>) {
+        private fun addEngravingRecipe(input: ItemEntry<Item>, fluid: Material, noinput: String, output: ItemEntry<Item>, eut: Int, duration: Int, cleanroomType: CleanroomType, provider: Consumer<FinishedRecipe>) {
             DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(id(output.asItem().toString()))
                 .inputItems(input).notConsumable(noinput.getItemStack())
                 .inputFluids(fluid.getFluid(100))
-                .outputItems(output).EUt(EUt.toLong()).duration(duration)
+                .outputItems(output).EUt(eut.toLong()).duration(duration)
                 .cleanroom(cleanroomType).save(provider)
             GTLAddRecipesTypes.PHOTON_MATRIX_ETCH.recipeBuilder(id(output.asItem().toString()))
                 .inputItems(input).notConsumable(noinput.getItemStack())
                 .inputFluids(fluid.getFluid(75))
-                .outputItems(output).EUt((EUt / 4).toLong()).duration((duration * 0.75).toInt())
+                .outputItems(output).EUt((eut / 4).toLong()).duration((duration * 0.75).toInt())
                 .cleanroom(cleanroomType).save(provider)
         }
     }
@@ -206,17 +206,17 @@ object SocProcess {
             generateCircuitRecipes(provider)
         }
 
-        private fun addCircuitRecipe(id: String, inputs: String, input: ItemEntry<Item>, material1: Material, material2: Material, output: String, EUt: Int, cleanroomType: CleanroomType, provider: Consumer<FinishedRecipe>) {
+        private fun addCircuitRecipe(id: String, inputs: String, input: ItemEntry<Item>, material1: Material, material2: Material, output: String, eut: Int, cleanroomType: CleanroomType, provider: Consumer<FinishedRecipe>) {
             val builder = CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder(id(id + "_0"))
                 .inputItems(inputs.getItemStack()).inputItems(input).inputItems(wireFine, material1, 8).inputItems(bolt, material2, 8)
-                .outputItems(output.getItemStack(4)).EUt(EUt.toLong()).cleanroom(cleanroomType)
-            if (EUt > VA[UEV]) {
-                builder.inputFluids(SuperMutatedLivingSolder.getFluid(144)).duration(if (EUt <= VA[UEV]) 200 else 150).save(provider)
+                .outputItems(output.getItemStack(4)).EUt(eut.toLong()).cleanroom(cleanroomType)
+            if (eut > VA[UEV]) {
+                builder.inputFluids(SuperMutatedLivingSolder.getFluid(144)).duration(if (eut <= VA[UEV]) 200 else 150).save(provider)
                 return
             }
             val recipe = builder.copy(id(id + "_1"))
-            builder.inputFluids(MutatedLivingSolder.getFluid(144)).duration(if (EUt <= VA[UEV]) 200 else 150).save(provider)
-            recipe.inputFluids(SuperMutatedLivingSolder.getFluid(72)).duration(if (EUt <= VA[UEV]) 200 else 150).save(provider)
+            builder.inputFluids(MutatedLivingSolder.getFluid(144)).duration(if (eut <= VA[UEV]) 200 else 150).save(provider)
+            recipe.inputFluids(SuperMutatedLivingSolder.getFluid(72)).duration(if (eut <= VA[UEV]) 200 else 150).save(provider)
         }
 
         private fun generateCircuitRecipes(provider: Consumer<FinishedRecipe>) {

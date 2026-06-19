@@ -72,8 +72,7 @@ object ParallelCalculate {
 
         val ingredientStacks = O2LHashMap(comparingAllButCount())
 
-        val handle = machine.getActiveRecipeHandle(recipe)
-        when (handle) {
+        when (val handle = machine.getActiveRecipeHandle(recipe)) {
             is MEPatternRecipeHandlePart -> fastIterable(handle.getMEContent(ItemRecipeCapability.CAP, recipe)).forEach { (i, l) -> ingredientStacks.addTo(i, l) }
             is RecipeHandlePart -> fastIterable(handle.getSelfContent(ItemRecipeCapability.CAP, confirmMEStock)).forEach { (i, l) -> ingredientStacks.addTo(i, l) }
             else -> machine.sharedRecipeHandlePart?.let { fastIterable(it.getSelfContent(ItemRecipeCapability.CAP, confirmMEStock)).forEach { (i, l) -> ingredientStacks.addTo(i, l) } }
@@ -96,8 +95,7 @@ object ParallelCalculate {
 
         val ingredientStacks = O2LHashMap(comparingAllButAmount())
 
-        val handle = machine.getActiveRecipeHandle(recipe)
-        when (handle) {
+        when (val handle = machine.getActiveRecipeHandle(recipe)) {
             is MEPatternRecipeHandlePart -> fastIterable(handle.getMEContent(FluidRecipeCapability.CAP, recipe)).forEach { (f, l) -> ingredientStacks.addTo(f, l) }
             is RecipeHandlePart -> fastIterable(
                 if (machine.isDistinct) {

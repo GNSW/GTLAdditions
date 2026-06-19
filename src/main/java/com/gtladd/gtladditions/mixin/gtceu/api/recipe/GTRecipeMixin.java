@@ -5,31 +5,34 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.gtladd.gtladditions.api.recipe.IWirelessGTRecipe;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(GTRecipe.class)
 public class GTRecipeMixin implements IWirelessGTRecipe {
 
-    private double wirelessEUt = 0d;
+    @Unique
+    private double gTLAdditions$wirelessEUt = 0d;
 
-    private IO io = IO.NONE;
+    @Unique
+    private IO gTLAdditions$io = IO.NONE;
 
     @Override
     public IO getIO() {
-        return this.io;
+        return this.gTLAdditions$io;
     }
 
     @Override
     public void setIO(IO io) {
-        this.io = io;
+        this.gTLAdditions$io = io;
     }
 
     @Override
     public double getWirelessEUt() {
-        return this.wirelessEUt;
+        return this.gTLAdditions$wirelessEUt;
     }
 
     @Override
     public void setWirelessEUt(double wirelessEUt) {
-        this.wirelessEUt = wirelessEUt;
+        this.gTLAdditions$wirelessEUt = wirelessEUt;
     }
 }
