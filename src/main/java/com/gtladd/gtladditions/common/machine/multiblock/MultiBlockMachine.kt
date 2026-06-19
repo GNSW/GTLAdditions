@@ -1556,7 +1556,7 @@ object MultiBlockMachine {
     )
         .nonYAxisRotation()
         .tooltipTextKey(
-            "gtceu.multiblock.skeleton_shift_rift_engine.0".toComponent,
+            "gtceu.multiblock.biosphereiii.1".toComponent,
             "gtceu.multiblock.biosphereiii.0".toComponent
         )
         .tooltipTextMultiRecipes()
