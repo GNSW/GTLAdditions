@@ -56,6 +56,8 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
     }
 
     fun modifyRecipe(recipe: GTRecipe): GTRecipe? {
+        returnItem = null
+        returnFluid = null
         if (superHeat) return null
         if (isWorking) {
             val div = findDiv(recipe)
@@ -86,7 +88,7 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
                     val item = it.getStackInSlot(i)
                     if (!item.isEmpty) {
                         for (il in t) if (il.first() == item.item) {
-                            val ma = temperature * il.rightInt()
+                            val ma = (temperature * il.rightInt()) / 2
                             val ri = it.extractItemInternal(i, item.count minToInt ma, false)
                             returnItem = item.copyWithCount((getReturnDiv() * ri.count).toInt())
                             return (ri.count / ma) minToDouble 1
@@ -101,7 +103,7 @@ class ReverseTimeBoostingEngine(holder: IMachineBlockEntity) : RRFModuleMachine(
                     val fluid = it.getFluidInTank(i)
                     if (!fluid.isEmpty) {
                         for (fl in t) if (fl.first() == fluid.fluid) {
-                            val ma = temperature * fl.rightInt()
+                            val ma = (temperature * fl.rightInt()) / 2
                             val rf = it.drainInternal(fluid.copy(fluid.amount minToLong ma), false)
                             returnFluid = fluid.copy((getReturnDiv() * rf.amount).toLong())
                             return (rf.amount / ma) minToDouble 1

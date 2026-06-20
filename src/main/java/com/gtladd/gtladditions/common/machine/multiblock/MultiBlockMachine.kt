@@ -571,10 +571,20 @@ object MultiBlockMachine {
     @JvmField
     val FUXI_BAGUA_HEAVEN_FORGING_FURNACE: MultiblockMachineDefinition = REGISTRATE.multiblock(
         "fuxi_bagua_heaven_forging_furnace",
-        ::GTLAddCoilWorkableElectricParallelHatchMultipleRecipesMachine
+        Function {
+            return@Function object : GTLAddCoilWorkableElectricParallelHatchMultipleRecipesMachine(it) {
+                override fun modifyRecipe(recipe: GTRecipe): FastRecipeModify.ReduceResult {
+                    return FastRecipeModify.ReduceResult(0.6, 0.8)
+                }
+            }
+        }
     )
         .allRotation()
-        .tooltipTextKey("gtceu.multiblock.fuxi_bagua_heaven_forging_furnace.tooltip.0".toComponent)
+        .tooltipTextKey(
+            "gtceu.multiblock.fuxi_bagua_heaven_forging_furnace.tooltip.0".toComponent,
+            "gtceu.multiblock.fuxi_bagua_heaven_forging_furnace.tooltip.1".toComponent,
+            "gtceu.multiblock.fuxi_bagua_heaven_forging_furnace.tooltip.2".toComponent
+        )
         .tooltipTextParallelHatch()
         .tooltipOnlyTextLaser()
         .tooltipTextMultiRecipes()

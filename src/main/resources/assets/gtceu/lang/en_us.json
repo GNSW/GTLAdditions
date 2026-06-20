@@ -70,6 +70,8 @@
   "gtceu.multiblock.draconic_collapse_core.tooltip.2": "When not placed in the harmonizing core, n = 8; after being placed, n = 12",
   "gtceu.multiblock.draconic_collapse_core.tooltip.3": "After placing the harmonizing core, the ME Pattern Buffer can be used at the output position",
   "gtceu.multiblock.fuxi_bagua_heaven_forging_furnace.tooltip.0": "§7易有太极,是生两仪,两仪生四象,四象生八卦",
+  "gtceu.multiblock.fuxi_bagua_heaven_forging_furnace.tooltip.1": "Time consumption multiplier：0.8",
+  "gtceu.multiblock.fuxi_bagua_heaven_forging_furnace.tooltip.2": "Energy consumption multiplier：0.6",
   "gtceu.multiblock.time_space_distorter.tooltip.0": "§7它不问起始,亦不囿于终点",
   "gtceu.multiblock.time_space_distorter.tooltip.1": "§7指针拨动,概率的薄纱被轻易刺穿,零与百分之百的疆界在它手中熔为液态",
   "gtceu.multiblock.time_space_distorter.tooltip.2": "§7它以电流为引线,以未名之液为薪柴,将缄默的配方唤醒,赋予其倍数增殖的梦呓",
