@@ -301,17 +301,19 @@ object NewMachineRecipe2 {
             .inputItems(RESOURCE_COLLECTION, 32)
             .inputItems(POWER_MODULE_5, 48)
             .inputItems(CustomTags.UXV_CIRCUITS, 64)
-            .inputItems(EXTREMELY_ULTIMATE_BATTERY, 8)
+            .inputItems(EXTREMELY_ULTIMATE_BATTERY, 64)
             .inputItems(
                 "kubejs:space_drone_mk5".getItemStack(56),
                 "kubejs:space_probe_mk1".getItemStack(56),
                 "kubejs:precision_circuit_assembly_robot_mk4".getItemStack(56),
-                "kubejs:dyson_swarm_module".getItemStack(64),
-                "kubejs:dyson_swarm_module".getItemStack(64),
+                "kubejs:proto_matter".getItemStack(56)
             )
             .inputItems(COVER_SOLAR_PANEL_EV, 64)
-            .inputItems(plateDouble, SuperheavyLAlloy, 64)
-            .inputItems(plateDouble, SuperheavyHAlloy, 64)
+            .inputItems(COVER_SOLAR_PANEL_EV, 64)
+            .inputItems(
+                "kubejs:wyvern_core".getItemStack(64),
+                "kubejs:wyvern_core".getItemStack(64)
+            )
             .inputFluids(SuperMutatedLivingSolder.getFluid(480000))
             .inputFluids(UUMatter.getFluid(560000))
             .inputFluids(Ytterbium178.getFluid(8192))
