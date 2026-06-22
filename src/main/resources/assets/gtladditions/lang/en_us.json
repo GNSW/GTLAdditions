@@ -91,6 +91,8 @@
   "gui.gtladditions.planetary_ionisation_convergence_tower_4": "The following must be placed inside the Machine Gui: ",
   "gui.gtladditions.floating_light_deep_space_industrial_vessel_module_connect": "Connected to Floating Light Deep Space Industrial Vessel",
   "gui.gtladditions.floating_light_deep_space_industrial_vessel_module_disconnect": "Not connected to Floating Light Deep Space Industrial Vessel",
+  "gui.gtladditions.time_space_distorter_amplification_amount": "Amplification Count: %s",
+  "gui.gtladditions.time_space_distorter.modification_amplification": "Modify Amplification Count:",
   "config.gtladditions.option.isMultiple": "GTLAdditions is the default mode of the machine",
   "config.gtladditions.option.limitDuration": "GTLAdditions machine defaults to the minimum recipe duration",
   "tooltip.gtladditions.item.max_stack_size": "Modify the max stack size to 64 by GTLAdditions",

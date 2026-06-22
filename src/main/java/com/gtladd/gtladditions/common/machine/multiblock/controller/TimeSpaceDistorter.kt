@@ -96,8 +96,8 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
             .addProgressLine(recipeLogic.progressPercent)
             .addRecipeStatus(recipeLogic as IRecipeStatus)
             .addComponent(
-                Component.translatable("gtceu.multiblock.oc_amount", this.config),
-                "gtceu.multiblock.steam_parallel_machine.modification_oc".toComponent
+                Component.translatable("gui.gtladditions.time_space_distorter_amplification_amount", this.config),
+                "gui.gtladditions.time_space_distorter.modification_amplification".toComponent
                     .append(withButton("[-] ".literal, "ocSub"))
                     .append(withButton("[+]".literal, "ocAdd")),
                 "gtceu.machine.multiple_recipe.gui.0".toComponent.append(": ")
@@ -242,21 +242,30 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
                 else -> parallel
             }
             (
-                FastRecipeModify.modify(
-                    tsdMachine,
-                    recipe,
-                    parallels,
-                    ocResult = FastRecipeModify.OverClockFactor(.5, 6.0)
-                ) { FastRecipeModify.ReduceResult(.1, tsdMachine.maintenance()) }
+                if (tsdMachine.isMultiple) {
+                    FastRecipeModify.modify(
+                        tsdMachine,
+                        recipe,
+                        parallels,
+                        ocResult = FastRecipeModify.OverClockFactor(.25, 4.0)
+                    ) { FastRecipeModify.ReduceResult(.1, tsdMachine.maintenance()) }
+                } else {
+                    FastRecipeModify.modify(
+                        tsdMachine,
+                        recipe,
+                        parallels,
+                        ocResult = FastRecipeModify.OverClockFactor(.5, 6.0)
+                    ) { FastRecipeModify.ReduceResult(.1, tsdMachine.maintenance()) }
+                }
                 )?.let { recipe ->
                 if (!beforeConsume(recipe.longParallel, tsdMachine)) return null
                 val multiplier = if (tsdMachine.isMultiple) {
-                    1.7
+                    1.0
                 } else {
                     when (this.tsdMachine.config) {
                         1 -> 1.0
                         2 -> 1.5
-                        3 -> 2.3
+                        3 -> 3.0
                         else -> .0
                     }
                 }
@@ -272,8 +281,8 @@ open class TimeSpaceDistorter(holder: IMachineBlockEntity) :
         private fun beforeConsume(parallels: Long, machine: TimeSpaceDistorter): Boolean {
             if (machine.isMultiple) {
                 return machine.inputItemStack(
-                    ItemStack(QuantumAnomaly, (parallels / 53).safeToInt),
-                    ItemStack(Hypercube, (parallels / 873).safeToInt)
+                    ItemStack(QuantumAnomaly, (parallels / 27).safeToInt),
+                    ItemStack(Hypercube, (parallels / 436).safeToInt)
                 )
             }
             if (machine.config >= 1 && !machine.inputFluidStack(Infinity.getFluid(parallels / 7))) return false

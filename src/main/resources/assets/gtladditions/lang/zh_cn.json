@@ -91,6 +91,8 @@
   "gui.gtladditions.planetary_ionisation_convergence_tower_4": "主机内需要放入：",
   "gui.gtladditions.floating_light_deep_space_industrial_vessel_module_connect": "已连接至浮光号深空工业舰",
   "gui.gtladditions.floating_light_deep_space_industrial_vessel_module_disconnect": "未连接至浮光号深空工业舰",
+  "gui.gtladditions.time_space_distorter_amplification_amount": "增幅次数: %s",
+  "gui.gtladditions.time_space_distorter.modification_amplification": "修改增幅次数:",
   "config.gtladditions.option.isMultiple": "GTLAdditions机器默认模式",
   "config.gtladditions.option.limitDuration": "GTLAdditions机器默认最低配方耗时",
   "tooltip.gtladditions.item.max_stack_size": "由GTLAdditions修改堆叠数量为64",

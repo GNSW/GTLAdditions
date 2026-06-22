@@ -865,7 +865,6 @@ object MultiBlockMachine {
         )
         .tooltipTextParallelHatch()
         .tooltipTextLaser()
-        .tooltipTextPerfectOverclock()
         .tooltipTextMultiRecipeTypes()
         .tooltipTextMultiRecipeType(QFT_RECIPES, DISTORT_RECIPES)
         .tooltipBuilder(GTLAddMachines.GTLAdd_ADD)
