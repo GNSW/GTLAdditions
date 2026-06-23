@@ -44,7 +44,7 @@ item_ids:
 > When the temperature exceeds the upper limit of the range, the return ratio is: \
 > <Latex math = "1-0.85*(\frac{current temperature-97000}{13000})^{0.42}" /> \
 > The overheat protection mechanism will be triggered when the temperature exceeds 105000K. By default, the temperature is reduced at a cooling rate of 7125K/s (using coolant can increase the cooling rate additionally; the actual cooling rate is the default rate plus the coolant cooling rate). The Recursive Reverse Forge linked until it drops to 48000K will not handle the recipe \
-> The <ItemLink id="gtladditions:vientiane_transcription_node" /> can be installed to control the temperature \
+> The <ItemLink id="gtladditions:vientiane_transcription_node" /> can be installed to control the temperature, similar to neutron sensor \
 > **Only** use giant input bin to provide temperature control fluid. **Only** use <ItemLink id="super_input_dual_hatch" /> provide input to the recipe product
 
 ### Catalytic Cascade Array
@@ -88,7 +88,7 @@ item_ids:
 > The <ItemLink id="kubejs:hyperdimensional_drone" /> should be placed in the main module. Each time it is placed, the maximum energy obtainable will increase by 16A 
 > <Color color="#FF0000">**M**</Color><Color color="#00FF00">**A**</Color><Color color="#0000FF">**X**</Color><Color color="#FFFF00">**+**</Color><Color color="#FF0000">**16**</Color> \
 > The maximum power that can be obtained by the base is 1A MAX, and it needs to be put into the Hyperdimensional Drone to increase the upper limit of power, and the maximum can be put into 64 \
-> A hyperdimensional drone is launched every hour to maintain connection with the wireless energy network (consumption) \
+> A hyperdimensional drone is launched (consumed) every hour to maintain connection with the wireless energy network \
 > It is necessary to provide 524,288 CWU/t, 64A <Color color="#FF0000">**MAX**</Color> and 240B/s of Gelid Cryotheum to maintain the operation of the module
 
 ### Fractal Manipulator
