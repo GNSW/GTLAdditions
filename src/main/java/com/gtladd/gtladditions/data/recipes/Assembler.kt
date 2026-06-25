@@ -1,5 +1,6 @@
 package com.gtladd.gtladditions.data.recipes
 
+import org.gtlcore.gtlcore.common.data.GTLItems.*
 import org.gtlcore.gtlcore.common.data.GTLMachines
 import org.gtlcore.gtlcore.common.data.GTLMaterials.*
 
@@ -53,6 +54,15 @@ object Assembler {
             .inputFluids(Antimatter.getFluid(100))
             .outputItems("kubejs:quantum_chromodynamic_charge".getItemStack(16))
             .duration(200).EUt(4L * VA[MAX]).save(provider)
+        ASSEMBLER_RECIPES.recipeBuilder(id("fast_infinity_cell"))
+            .notConsumable(FAST_INFINITY_CELL.asStack())
+            .inputItems("kubejs:zero_point_module_fragments".getItemStack(64))
+            .inputItems(ITEM_INFINITY_CELL)
+            .inputItems(FLUID_INFINITY_CELL)
+            .inputItems("kubejs:entangled_singularity".getItemStack(12))
+            .inputFluids(GradePurifiedWater8.getFluid(1000))
+            .outputItems(FAST_INFINITY_CELL.asStack())
+            .duration(400).EUt(VA[UEV].toLong()).save(provider)
     }
 
     private fun addHugeOutput(provider: Consumer<FinishedRecipe>) {
